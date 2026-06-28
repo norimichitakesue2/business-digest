@@ -99,7 +99,8 @@ def build_svg(flow):
         lab=(f'<rect x="{lx-wpx/2:.1f}" y="{ly-11:.1f}" width="{wpx:.1f}" height="17" rx="8" fill="white" stroke="{color}" stroke-width="1" opacity="0.96"/>'
              f'<text x="{lx:.1f}" y="{ly+1:.1f}" font-size="10.5" fill="{color}" text-anchor="middle" font-weight="600">{esc(label)}</text>')
         return p,lab
-    P=['<svg viewBox="0 0 1290 820" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,\'Hiragino Sans\',\'Noto Sans JP\',sans-serif">','<defs>']
+    VH=int(max(v[1] for v in NODES.values())+HH+40)
+    P=[f'<svg viewBox="0 0 1290 {VH}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,\'Hiragino Sans\',\'Noto Sans JP\',sans-serif">','<defs>']
     for k,c in EKIND.items():
         P.append(f'<marker id="ah_{k}" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="{c}"/></marker>')
     P.append('</defs>')
@@ -168,10 +169,16 @@ def render_daily(d):
 
 # ---------- index dashboard ----------
 def render_index(outdir):
-    trends=[]; deeps=[]
-    tp=os.path.join(outdir,"trends.json"); dp=os.path.join(outdir,"deepdives.json")
+    trends=[]; deeps=[]; master=None
+    tp=os.path.join(outdir,"trends.json"); dp=os.path.join(outdir,"deepdives.json"); mp=os.path.join(outdir,"masterflow.json")
     if os.path.exists(tp): trends=json.load(open(tp,encoding="utf-8"))
     if os.path.exists(dp): deeps=json.load(open(dp,encoding="utf-8"))
+    if os.path.exists(mp): master=json.load(open(mp,encoding="utf-8"))
+    master_section=""
+    if master and master.get("nodes"):
+        master_section=f'''<section id="master"><h2><span class="num">0</span>全体連動マップ（全分野・累積アップデート）</h2>
+   <p class="lead">これまでのニュースを踏まえた、全分野横断の構造マップ。日次ニュースで関係が変わるたびに更新します（その日だけの因果図は各日次の冒頭に掲載）。色＝影響の符号、矢印＝波及の向き。</p>
+   <div class="diagram">{build_svg(master)}</div>{LEGEND}</section>'''
     tcards="".join(f'<div class="tcard" style="border-top:3px solid {c}"><div class="tname" style="color:{c}">{esc(n)}</div><div class="tdesc">{esc(t)}</div></div>' for n,c,t in trends)
     # deepdives newest first
     dcards=[]
@@ -191,7 +198,8 @@ def render_index(outdir):
 <title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DASHBOARD</div><h1>ビジネスニュース・ダッシュボード</h1>
    <div class="sub">業界の動き（2026年）・掘り下げライブラリ（累積）・日次ダイジェスト一覧</div>{latest}
-   <nav class="toc"><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a><a href="#list">日次一覧</a></nav></header>
+   <nav class="toc"><a href="#master">全体連動マップ</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a><a href="#list">日次一覧</a></nav></header>
+ {master_section}
  <section id="trend"><h2><span class="num">A</span>業界の動き（2026年）</h2><p class="lead">日次ニュースを読むための、業界別マクロ文脈（随時更新）。</p><div class="tgrid">{tcards}</div></section>
  <section id="deep"><h2><span class="num">B</span>掘り下げ・分析ライブラリ（累積 {len(deeps)}件）</h2><p class="lead">業界構造・投資テーマ・用語の解説を日々蓄積。新しい順。</p>{"".join(dcards)}</section>
  <section id="list"><h2><span class="num">C</span>日次ダイジェスト一覧</h2><p class="lead">毎晩自動生成。新しい順。</p>{"".join(items)}</section>
@@ -200,6 +208,9 @@ def render_index(outdir):
     return len(items),len(deeps),len(trends)
 
 def update_stores(d,outdir):
+    # masterflow.json: 全体連動マップ（毎回上書き更新）
+    if d.get("masterflow") and d["masterflow"].get("nodes"):
+        json.dump(d["masterflow"],open(os.path.join(outdir,"masterflow.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=1)
     # trends.json: overwrite with latest snapshot
     if d.get("trends"):
         json.dump(d["trends"],open(os.path.join(outdir,"trends.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=1)
