@@ -30,7 +30,8 @@ IND_COLOR = {
  "広告・AI":"#db2777","広告":"#db2777","マーケット":"#475569","半導体":"#ea580c","半導体(海外)":"#ea580c",
  "海外金融政策":"#2563eb","地政学":"#b91c1c","海外マクロ":"#b45309","製薬M&A":"#16a34a","製薬/バイオ":"#16a34a",
  "エンタメ":"#7c3aed","ゲーム":"#7c3aed","IT・投資":"#db2777","投資・通信":"#db2777","マクロ":"#475569",
- "半導体装置":"#ea580c","防衛":"#334155","銀行":"#2563eb",
+ "半導体装置":"#ea580c","防衛":"#334155","銀行":"#2563eb","製薬":"#16a34a","商社":"#0d9488",
+ "不動産":"#9333ea","小売・消費":"#e11d48","素材・化学":"#b45309","建設":"#78716c","運輸・物流":"#0891b2",
 }
 def icolor(ind): return IND_COLOR.get(ind, IND_COLOR.get(ind.split("(")[0], "#475569"))
 def esc(s): return html.escape(str(s))
@@ -123,48 +124,61 @@ def deep_terms_html(terms):
 
 # ---------- daily ----------
 def render_daily(d):
-    news=d["news"]; comps=d["companies"]; preds=d["preds"]
-    SVG=build_svg(d["flow"]); DL=d["date_label"]
+    news=d.get("news",[]); comps=d.get("companies",[]); preds=d.get("preds",[]); DL=d["date_label"]
+    has_flow=bool(d.get("flow") and d["flow"].get("nodes"))
+    backfill=d.get("backfill",False)
     nitems=[]
     for n in news:
         c=icolor(n["ind"]); bl="".join(f"<li>{esc(b)}</li>" for b in n.get("points",[]))
         ch="".join(f'<span class="chip">{esc(s)}</span>' for s in n.get("study",[]))
+        pn=""
+        if n.get("pos") or n.get("neg"):
+            pn=f'<span class="pnsmall"><b class="p">＋</b>{esc(n.get("pos",""))}　<b class="n">−</b>{esc(n.get("neg",""))}</span>'
+        blocks=f'<div class="block"><h4>背景</h4><p>{esc(n.get("bg",""))}</p></div>' if n.get("bg") else ""
+        blocks+=f'<div class="block"><h4>サマリ</h4><p>{esc(n.get("summ",""))}</p></div>' if n.get("summ") else ""
+        blocks+=f'<div class="block"><h4>重要ポイント</h4><ul>{bl}</ul></div>' if bl else ""
+        blocks+=f'<div class="block"><h4>今後の予測</h4><p>{esc(n.get("forecast",""))}</p></div>' if n.get("forecast") else ""
+        blocks+=f'<div class="block"><h4>勉強テーマ</h4><div class="chips">{ch}</div></div>' if ch else ""
+        src=f'<a class="src" href="{esc(n["url"])}" target="_blank" rel="noopener">出典リンク ↗</a>' if n.get("url") else ''
         nitems.append(f'''<details class="news"><summary>
    <span class="ind" style="background:{c}1a;color:{c};border:1px solid {c}55">{esc(n["ind"])}</span>
-   <span class="nhead">{esc(n["head"])}</span>
-   <span class="pnsmall"><b class="p">＋</b>{esc(n.get("pos",""))}　<b class="n">−</b>{esc(n.get("neg",""))}</span></summary>
- <div class="ndetail">
-   <div class="block"><h4>背景</h4><p>{esc(n.get("bg",""))}</p></div>
-   <div class="block"><h4>サマリ</h4><p>{esc(n.get("summ",""))}</p></div>
-   <div class="block"><h4>重要ポイント</h4><ul>{bl}</ul></div>
-   <div class="block"><h4>今後の予測</h4><p>{esc(n.get("forecast",""))}</p></div>
-   <div class="block"><h4>勉強テーマ</h4><div class="chips">{ch}</div></div>
-   {f'<a class="src" href="{esc(n["url"])}" target="_blank" rel="noopener">出典リンク ↗</a>' if n.get("url") else ''}
- </div></details>''')
-    ccards=[]
-    for name,code,ind,cap,summ,pos,neg in comps:
-        pc="".join(f'<span class="pc">{esc(x.strip())}</span>' for x in pos.split("/") if x.strip())
-        nc="".join(f'<span class="nc">{esc(x.strip())}</span>' for x in neg.split("/") if x.strip())
-        ccards.append(f'''<div class="ccard"><div class="chead"><span class="cname">{esc(name)}</span><span class="ccode">{esc(code)}</span></div>
+   <span class="nhead">{esc(n["head"])}</span>{pn}</summary>
+ <div class="ndetail">{blocks}{src}</div></details>''')
+    # optional sections
+    secs=[]; toc=[]; num=1
+    if has_flow:
+        toc.append('<a href="#map">① 連動マップ</a>')
+        secs.append(f'''<section id="map"><h2><span class="num">{num}</span>業界連動マップ（因果フロー）</h2>
+   <p class="lead">きょうの主要トピックの因果連鎖。色＝影響の符号、矢印＝波及の向き。業界横断のマクロ文脈は<a href="./index.html#trend">ダッシュボードの「業界の動き(2026)」</a>を参照。</p>
+   <div class="diagram">{build_svg(d["flow"])}</div>{LEGEND}</section>'''); num+=1
+    toc.append(f'<a href="#news">時事ニュース</a>')
+    secs.append(f'''<section id="news"><h2><span class="num">{num}</span>時事ニュース（全項目）</h2><p class="lead">見出しをクリックで、背景・サマリ・重要ポイント・今後の予測・勉強テーマを表示。{'（過去データのバックフィル版。フロー図・ポジ/ネガは当時未記録のため省略）' if backfill else ''}</p>{"".join(nitems)}</section>'''); num+=1
+    if comps:
+        ccards=[]
+        for name,code,ind,cap,summ,pos,neg in comps:
+            pc="".join(f'<span class="pc">{esc(x.strip())}</span>' for x in pos.split("/") if x.strip())
+            nc="".join(f'<span class="nc">{esc(x.strip())}</span>' for x in neg.split("/") if x.strip())
+            ccards.append(f'''<div class="ccard"><div class="chead"><span class="cname">{esc(name)}</span><span class="ccode">{esc(code)}</span></div>
   <div class="cmeta"><span class="cind">{esc(ind)}</span><span class="ccap">時価総額 {esc(cap)}</span></div>
   <p class="csumm">{esc(summ)}</p>
   <div class="cpn"><span class="lab pl">ポジ</span>{pc}</div>
   <div class="cpn"><span class="lab nl">ネガ</span>{nc}</div></div>''')
-    cc={"高":"#dc2626","中":"#d97706","低":"#64748b"}
-    prows="".join(f'''<div class="pred"><span class="conf" style="background:{cc.get(cf.strip(),"#64748b")}1a;color:{cc.get(cf.strip(),"#64748b")};border:1px solid {cc.get(cf.strip(),"#64748b")}66">確度 {esc(cf)}</span>
+        toc.append('<a href="#company">企業分析</a>')
+        secs.append(f'''<section id="company"><h2><span class="num">{num}</span>企業分析（本日動いた企業）</h2><p class="lead">その日の主役企業の財務スナップショット＋ポジ/ネガ＋直近の動き。</p><div class="cgrid">{"".join(ccards)}</div></section>'''); num+=1
+    if preds:
+        cc={"高":"#dc2626","中":"#d97706","低":"#64748b"}
+        prows="".join(f'''<div class="pred"><span class="conf" style="background:{cc.get(cf.strip(),"#64748b")}1a;color:{cc.get(cf.strip(),"#64748b")};border:1px solid {cc.get(cf.strip(),"#64748b")}66">確度 {esc(cf)}</span>
   <div class="pwhat">{esc(w)}</div><div class="pcomp">関連: {esc(cm)}</div></div>''' for w,cf,cm in preds)
+        toc.append('<a href="#pred">今後起きそうなこと</a>')
+        secs.append(f'''<section id="pred"><h2><span class="num">{num}</span>今後起きそうなこと</h2><p class="lead">その日のニュースから論理的に予測できる中短期の展開（確度つき）。</p>{prows}</section>'''); num+=1
+    cnt=f'全{len(news)}トピック'+(f'・企業{len(comps)}社' if comps else '')+(f'・予測{len(preds)}件' if preds else '')
     return f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ビジネスニュース・デイリーダイジェスト {esc(DL)}</title><style>{CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DAILY DIGEST</div><h1>ビジネスニュース・デイリーダイジェスト</h1>
-   <div class="sub">{esc(DL)} ／ 国内中心＋主要海外　|　全{len(news)}トピック・企業{len(comps)}社・予測{len(preds)}件</div>
+   <div class="sub">{esc(DL)} ／ 国内中心＋主要海外　|　{cnt}</div>
    <div class="home"><a href="./index.html">← ダッシュボード（業界の動き・掘り下げライブラリ・過去一覧）へ</a></div>
-   <nav class="toc"><a href="#map">① 連動マップ</a><a href="#news">② 時事ニュース</a><a href="#company">③ 企業分析</a><a href="#pred">④ 今後起きそうなこと</a></nav></header>
- <section id="map"><h2><span class="num">1</span>業界連動マップ（因果フロー）</h2>
-   <p class="lead">きょうの主要トピックの因果連鎖。色＝影響の符号、矢印＝波及の向き。業界横断のマクロ文脈は<a href="./index.html#trend">ダッシュボードの「業界の動き(2026)」</a>を参照。</p>
-   <div class="diagram">{SVG}</div>{LEGEND}</section>
- <section id="news"><h2><span class="num">2</span>時事ニュース（全項目）</h2><p class="lead">見出しをクリックで、背景・サマリ・重要ポイント・今後の予測・勉強テーマを表示。</p>{"".join(nitems)}</section>
- <section id="company"><h2><span class="num">3</span>企業分析（本日動いた企業）</h2><p class="lead">その日の主役企業の財務スナップショット＋ポジ/ネガ＋直近の動き。</p><div class="cgrid">{"".join(ccards)}</div></section>
- <section id="pred"><h2><span class="num">4</span>今後起きそうなこと</h2><p class="lead">その日のニュースから論理的に予測できる中短期の展開（確度つき）。</p>{prows}</section>
+   <nav class="toc">{"".join(toc)}</nav></header>
+ {"".join(secs)}
  <footer>生成: Cowork デイリーダイジェスト ／ {esc(DL)}　|　深掘りトピックは<a href="./index.html#deep">ライブラリ</a>に蓄積</footer></div></body></html>'''
 
 # ---------- index dashboard ----------
@@ -194,15 +208,24 @@ def render_index(outdir):
         if not m: continue
         items.append(f'<a class="item" href="./{b}"><span class="d">{m.group(1)}</span><span class="arw">日次ダイジェストを開く →</span></a>')
     latest=f'<div class="home"><a href="./{os.path.basename(files[0])}">→ 最新の日次ダイジェストを開く</a></div>' if files else ''
+    # 月次まとめ
+    mfiles=sorted(glob.glob(os.path.join(outdir,"month-*.html")), reverse=True)
+    mitems=[]
+    for f in mfiles:
+        b=os.path.basename(f); mm=re.search(r'month-(\d{4})-(\d{2})\.html',b)
+        if not mm: continue
+        mitems.append(f'<a class="item" href="./{b}"><span class="d">{mm.group(1)}年{int(mm.group(2))}月まとめ</span><span class="arw">月次まとめを開く →</span></a>')
+    month_block=(f'<section id="month"><h2><span class="num">C</span>月次まとめ</h2><p class="lead">その月の主要ストーリーを集約。</p>{"".join(mitems)}</section>') if mitems else ''
     body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DASHBOARD</div><h1>ビジネスニュース・ダッシュボード</h1>
    <div class="sub">業界の動き（2026年）・掘り下げライブラリ（累積）・日次ダイジェスト一覧</div>{latest}
-   <nav class="toc"><a href="#master">全体連動マップ</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a><a href="#list">日次一覧</a></nav></header>
+   <nav class="toc"><a href="#master">全体連動マップ</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
  {master_section}
  <section id="trend"><h2><span class="num">A</span>業界の動き（2026年）</h2><p class="lead">日次ニュースを読むための、業界別マクロ文脈（随時更新）。</p><div class="tgrid">{tcards}</div></section>
  <section id="deep"><h2><span class="num">B</span>掘り下げ・分析ライブラリ（累積 {len(deeps)}件）</h2><p class="lead">業界構造・投資テーマ・用語の解説を日々蓄積。新しい順。</p>{"".join(dcards)}</section>
- <section id="list"><h2><span class="num">C</span>日次ダイジェスト一覧</h2><p class="lead">毎晩自動生成。新しい順。</p>{"".join(items)}</section>
+ {month_block}
+ <section id="list"><h2><span class="num">D</span>日次ダイジェスト一覧（全{len(items)}日）</h2><p class="lead">毎晩自動生成。新しい順。</p>{"".join(items)}</section>
  <footer>Cowork ビジネスニュース・ダッシュボード</footer></div></body></html>'''
     open(os.path.join(outdir,"index.html"),"w",encoding="utf-8").write(body)
     return len(items),len(deeps),len(trends)
