@@ -79,8 +79,32 @@ COLW={1:215,2:230,3:200,4:215}; COLX={1:24,2:362,3:728,4:1052}; HH=64
 SENT={'pos':{'bar':'#16a34a','tag':'ポジ','bg':'#f0fdf4'},'neg':{'bar':'#dc2626','tag':'ネガ','bg':'#fef2f2'},
  'mix':{'bar':'#d97706','tag':'混在','bg':'#fffbeb'},'drv':{'bar':'#475569','tag':'起点','bg':'#f8fafc'}}
 EKIND={'pos':'#16a34a','neg':'#dc2626','mix':'#94a3b8','ease':'#0891b2'}
-def build_svg(flow):
-    NODES=flow["nodes"]; EDGES=flow["edges"]
+# ノード⇄ニュースの業界タグ辞書（部分一致でタグ付け→共通タグがあれば関連付け）
+TAGMAP={
+ 'semi':['半導体','SOX','キオクシア','メモリ'],'ai':['AI','LLM','データセンター','ソブリン'],
+ 'fin':['銀行','メガバンク','金融','日銀','利上げ','利ざや','為替介入'],
+ 'energy':['エネルギー','原油','石油','ガス','Brent','ホルムズ'],'power':['電力','重電','再エネ','核融合','送配電'],
+ 'auto':['自動車','ＥＶ','EV','トヨタ','VW','電池','HEV'],'retail':['小売','消費','百貨店','インバウンド','資産効果'],
+ 'food':['食品','値上げ','外食','ナフサ'],'reit':['不動産','REIT','ＲＥＩＴ'],
+ 'pharma':['製薬','薬品','ヘルスケア','武田','第一三共','創薬'],'defense':['防衛','宇宙','護衛艦','SpaceX'],
+ 'telecom':['通信','携帯','楽天','京浜急行','京急','ARPU'],'trading':['商社','素材','三菱商事','三井物産'],
+ 'construction':['建設','ゼネコン','竹中','WLC'],'hr':['人材','求人','賃上げ','雇用'],
+ 'ent':['エンタメ','任天堂','ソニー','ＩＰ'],'market':['マーケット','日経平均','ドル円','ユーロ円','クロス円','株式相場','株価','日経'],
+ 'china':['中国'],'us':['米国','FRB','S&P','Warsh','ナスダック'],'trade':['通商','関税','輸出','供給網','対米投資'],
+}
+def _btags(text):
+    return {tag for tag,subs in TAGMAP.items() if any(s in text for s in subs)}
+def _bmatch(l1,l2,news):
+    if not news: return []
+    nt=_btags(l1+" "+l2)
+    if not nt: return []
+    out=[]
+    for n in news:
+        if _btags(n.get("ind","")+" "+n.get("head","")) & nt:
+            out.append({"ind":n.get("ind",""),"head":n.get("head",""),"summ":n.get("summ",""),"url":n.get("url","")})
+    return out[:5]
+def build_svg(flow, news=None):
+    NODES=flow["nodes"]; EDGES=flow["edges"]; pops=[]
     def anc(nid):
         col,y,_,_,_=NODES[nid]; x=COLX[col]; w=COLW[col]; return (x,x+w,y+HH/2)
     def nbox(nid):
@@ -91,7 +115,9 @@ def build_svg(flow):
         o.append(f'<text x="{x+w-27}" y="{y+20}" font-size="10.5" fill="{s["bar"]}" text-anchor="middle" font-weight="700">{esc(s["tag"])}</text>')
         o.append(f'<text x="{x+16}" y="{y+28}" font-size="13.5" fill="#0f172a" font-weight="700">{esc(l1)}</text>')
         o.append(f'<text x="{x+16}" y="{y+48}" font-size="11" fill="#64748b">{esc(l2)}</text>')
-        return "\n".join(o)
+        idx=len(pops); pops.append({"t":l1,"s":l2,"tag":s["tag"],"color":s["bar"],"news":_bmatch(l1,l2,news)})
+        o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{HH}" rx="10" fill="transparent"/>')
+        return f'<g class="fnode" style="cursor:pointer" onclick="bnShowPop({idx})">'+"\n".join(o)+'</g>'
     def epath(f,t,k,label,i):
         _,frx,fy=anc(f); tlx,_,ty=anc(t); x1,y1=frx,fy; x2,y2=tlx,ty; dx=x2-x1
         c1x=x1+dx*0.45; c2x=x2-dx*0.45; color=EKIND[k]; dash='' if k!='ease' else ' stroke-dasharray="5 4"'
@@ -112,7 +138,7 @@ def build_svg(flow):
         p,lab=epath(e[0],e[1],e[2],e[3],i); paths.append(p); labels.append(lab)
     P.extend(paths)
     for nid in NODES: P.append(nbox(nid))
-    P.extend(labels); P.append('</svg>'); return "\n".join(P)
+    P.extend(labels); P.append('</svg>'); return "\n".join(P), pops
 
 LEGEND='''<div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
  <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
@@ -121,6 +147,50 @@ LEGEND='''<div class="legend"><span class="lg"><span class="dot" style="backgrou
 
 def deep_terms_html(terms):
     parts=re.split(r'(?=【)',terms); return "".join(f"<li>{esc(p.strip())}</li>" for p in parts if p.strip())
+
+# ---------- node tap → popup ----------
+MODAL_CSS='''
+.bnov{position:fixed;inset:0;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:.15s;z-index:60}
+.bnov.on{opacity:1;pointer-events:auto}
+.bnpop{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%) scale(.98);width:min(560px,92vw);max-height:82vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(15,23,42,.3);padding:20px 20px 22px;opacity:0;pointer-events:none;transition:.16s;z-index:61}
+.bnpop.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.bnx{position:absolute;top:12px;right:14px;border:none;background:#f1f5f9;width:30px;height:30px;border-radius:50%;font-size:18px;line-height:1;color:#475569;cursor:pointer}
+.bnhd{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding-right:34px}
+.bntag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:8px;border:1px solid}
+.bnt{font-size:16px;font-weight:800;color:#0f172a}
+.bns{color:#64748b;font-size:13px;margin:6px 0 14px}
+.bnnh{font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:.5px;margin:0 0 8px}
+.bnn{border:1px solid #e8edf3;border-radius:11px;padding:11px 13px;margin-bottom:9px;background:#fcfdfe}
+.bnni{display:inline-block;font-size:11px;font-weight:700;color:#2563eb;margin-bottom:4px}
+.bnnh2{font-size:13.5px;font-weight:700;color:#0f172a;line-height:1.45}
+.bnns{font-size:12.5px;color:#475569;margin-top:5px;line-height:1.5}
+.bnnl{display:inline-block;margin-top:7px;font-size:12px;color:#2563eb;text-decoration:none}
+.bnempty{font-size:13px;color:#64748b;line-height:1.6}
+.fnode:hover rect:first-child{stroke:#94a3b8;stroke-width:2}
+'''
+BN_MODAL='''<div id="bnov" class="bnov" onclick="bnClose()"></div>
+<div id="bnpop" class="bnpop" role="dialog" aria-modal="true">
+ <button class="bnx" onclick="bnClose()" aria-label="閉じる">×</button>
+ <div class="bnhd"><span id="bntag" class="bntag"></span><span id="bnt" class="bnt"></span></div>
+ <div id="bns" class="bns"></div><div id="bnbody"></div></div>'''
+def bn_script(pops):
+    js='''<script>
+window.__BNPOPS__=%s;
+function bnE(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bnClose(){document.getElementById('bnov').classList.remove('on');document.getElementById('bnpop').classList.remove('on');}
+function bnShowPop(i){var p=window.__BNPOPS__[i];if(!p)return;
+ document.getElementById('bnt').textContent=p.t;
+ var tag=document.getElementById('bntag');tag.textContent=p.tag;tag.style.color=p.color;tag.style.borderColor=p.color;tag.style.background=p.color+'1a';
+ document.getElementById('bns').textContent=p.s||'';
+ var b=document.getElementById('bnbody');
+ if(p.news&&p.news.length){var h='<div class="bnnh">関連ニュース（'+p.news.length+'件）</div>';
+  p.news.forEach(function(n){h+='<div class="bnn"><div class="bnni">'+bnE(n.ind)+'</div><div class="bnnh2">'+bnE(n.head)+'</div>'+(n.summ?'<div class="bnns">'+bnE(n.summ)+'</div>':'')+(n.url?'<a class="bnnl" href="'+encodeURI(n.url)+'" target="_blank" rel="noopener">出典リンク ↗</a>':'')+'</div>';});
+  b.innerHTML=h;}
+ else{b.innerHTML='<div class="bnempty">このノードに直接ひも付く当日ニュースはありません。日次ダイジェストの「時事ニュース」をご覧ください。</div>';}
+ document.getElementById('bnov').classList.add('on');document.getElementById('bnpop').classList.add('on');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')bnClose();});
+</script>'''
+    return js % json.dumps(pops,ensure_ascii=False)
 
 # ---------- daily ----------
 def render_daily(d):
@@ -145,12 +215,13 @@ def render_daily(d):
    <span class="nhead">{esc(n["head"])}</span>{pn}</summary>
  <div class="ndetail">{blocks}{src}</div></details>''')
     # optional sections
-    secs=[]; toc=[]; num=1
+    secs=[]; toc=[]; num=1; flow_pops=[]
     if has_flow:
+        _svg,flow_pops=build_svg(d["flow"], news)
         toc.append('<a href="#map">① 連動マップ</a>')
         secs.append(f'''<section id="map"><h2><span class="num">{num}</span>業界連動マップ（因果フロー）</h2>
-   <p class="lead">きょうの主要トピックの因果連鎖。色＝影響の符号、矢印＝波及の向き。業界横断のマクロ文脈は<a href="./index.html#trend">ダッシュボードの「業界の動き(2026)」</a>を参照。</p>
-   <div class="diagram">{build_svg(d["flow"])}</div>{LEGEND}</section>'''); num+=1
+   <p class="lead">きょうの主要トピックの因果連鎖。色＝影響の符号、矢印＝波及の向き。<b>各ノードをタップすると関連ニュースをポップアップ表示</b>します。業界横断のマクロ文脈は<a href="./index.html#trend">ダッシュボードの「業界の動き(2026)」</a>を参照。</p>
+   <div class="diagram">{_svg}</div>{LEGEND}</section>'''); num+=1
     toc.append(f'<a href="#news">時事ニュース</a>')
     secs.append(f'''<section id="news"><h2><span class="num">{num}</span>時事ニュース（全項目）</h2><p class="lead">見出しをクリックで、背景・サマリ・重要ポイント・今後の予測・勉強テーマを表示。{'（過去データのバックフィル版。フロー図・ポジ/ネガは当時未記録のため省略）' if backfill else ''}</p>{"".join(nitems)}</section>'''); num+=1
     if comps:
@@ -173,13 +244,13 @@ def render_daily(d):
         secs.append(f'''<section id="pred"><h2><span class="num">{num}</span>今後起きそうなこと</h2><p class="lead">その日のニュースから論理的に予測できる中短期の展開（確度つき）。</p>{prows}</section>'''); num+=1
     cnt=f'全{len(news)}トピック'+(f'・企業{len(comps)}社' if comps else '')+(f'・予測{len(preds)}件' if preds else '')
     return f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ビジネスニュース・デイリーダイジェスト {esc(DL)}</title><style>{CSS}</style></head><body><div class="wrap">
+<title>ビジネスニュース・デイリーダイジェスト {esc(DL)}</title><style>{CSS}{MODAL_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DAILY DIGEST</div><h1>ビジネスニュース・デイリーダイジェスト</h1>
    <div class="sub">{esc(DL)} ／ 国内中心＋主要海外　|　{cnt}</div>
    <div class="home"><a href="./index.html">← ダッシュボード（業界の動き・掘り下げライブラリ・過去一覧）へ</a></div>
    <nav class="toc">{"".join(toc)}</nav></header>
  {"".join(secs)}
- <footer>生成: Cowork デイリーダイジェスト ／ {esc(DL)}　|　深掘りトピックは<a href="./index.html#deep">ライブラリ</a>に蓄積</footer></div></body></html>'''
+ <footer>生成: Cowork デイリーダイジェスト ／ {esc(DL)}　|　深掘りトピックは<a href="./index.html#deep">ライブラリ</a>に蓄積</footer></div>{BN_MODAL}{bn_script(flow_pops)}</body></html>'''
 
 # ---------- index dashboard ----------
 def render_index(outdir):
@@ -188,11 +259,12 @@ def render_index(outdir):
     if os.path.exists(tp): trends=json.load(open(tp,encoding="utf-8"))
     if os.path.exists(dp): deeps=json.load(open(dp,encoding="utf-8"))
     if os.path.exists(mp): master=json.load(open(mp,encoding="utf-8"))
-    master_section=""
+    master_section=""; master_pops=[]
     if master and master.get("nodes"):
+        _msvg,master_pops=build_svg(master)
         master_section=f'''<section id="master"><h2><span class="num">0</span>全体連動マップ（全分野・累積アップデート）</h2>
-   <p class="lead">これまでのニュースを踏まえた、全分野横断の構造マップ。日次ニュースで関係が変わるたびに更新します（その日だけの因果図は各日次の冒頭に掲載）。色＝影響の符号、矢印＝波及の向き。</p>
-   <div class="diagram">{build_svg(master)}</div>{LEGEND}</section>'''
+   <p class="lead">これまでのニュースを踏まえた、全分野横断の構造マップ。日次ニュースで関係が変わるたびに更新します（その日だけの因果図は各日次の冒頭に掲載）。色＝影響の符号、矢印＝波及の向き。<b>各ノードをタップすると詳細を表示</b>します。</p>
+   <div class="diagram">{_msvg}</div>{LEGEND}</section>'''
     tcards="".join(f'<div class="tcard" style="border-top:3px solid {c}"><div class="tname" style="color:{c}">{esc(n)}</div><div class="tdesc">{esc(t)}</div></div>' for n,c,t in trends)
     # deepdives newest first
     dcards=[]
@@ -217,7 +289,7 @@ def render_index(outdir):
         mitems.append(f'<a class="item" href="./{b}"><span class="d">{mm.group(1)}年{int(mm.group(2))}月まとめ</span><span class="arw">月次まとめを開く →</span></a>')
     month_block=(f'<section id="month"><h2><span class="num">C</span>月次まとめ</h2><p class="lead">その月の主要ストーリーを集約。</p>{"".join(mitems)}</section>') if mitems else ''
     body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}</style></head><body><div class="wrap">
+<title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}{MODAL_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DASHBOARD</div><h1>ビジネスニュース・ダッシュボード</h1>
    <div class="sub">業界の動き（2026年）・掘り下げライブラリ（累積）・日次ダイジェスト一覧</div>{latest}
    <nav class="toc"><a href="#master">全体連動マップ</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
@@ -226,7 +298,7 @@ def render_index(outdir):
  <section id="deep"><h2><span class="num">B</span>掘り下げ・分析ライブラリ（累積 {len(deeps)}件）</h2><p class="lead">業界構造・投資テーマ・用語の解説を日々蓄積。新しい順。</p>{"".join(dcards)}</section>
  {month_block}
  <section id="list"><h2><span class="num">D</span>日次ダイジェスト一覧（全{len(items)}日）</h2><p class="lead">毎晩自動生成。新しい順。</p>{"".join(items)}</section>
- <footer>Cowork ビジネスニュース・ダッシュボード</footer></div></body></html>'''
+ <footer>Cowork ビジネスニュース・ダッシュボード</footer></div>{BN_MODAL}{bn_script(master_pops)}</body></html>'''
     open(os.path.join(outdir,"index.html"),"w",encoding="utf-8").write(body)
     return len(items),len(deeps),len(trends)
 

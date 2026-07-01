@@ -35,13 +35,31 @@
  a.item{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;margin-bottom:9px;text-decoration:none;color:#0f172a}
  a.item:hover{border-color:#94a3b8;box-shadow:0 3px 10px rgba(15,23,42,.06)} a.item .d{font-weight:700} a.item .arw{color:#2563eb;font-size:13px}
  footer{color:#94a3b8;font-size:12px;margin-top:26px;text-align:center}
+
+.bnov{position:fixed;inset:0;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:.15s;z-index:60}
+.bnov.on{opacity:1;pointer-events:auto}
+.bnpop{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%) scale(.98);width:min(560px,92vw);max-height:82vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(15,23,42,.3);padding:20px 20px 22px;opacity:0;pointer-events:none;transition:.16s;z-index:61}
+.bnpop.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.bnx{position:absolute;top:12px;right:14px;border:none;background:#f1f5f9;width:30px;height:30px;border-radius:50%;font-size:18px;line-height:1;color:#475569;cursor:pointer}
+.bnhd{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding-right:34px}
+.bntag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:8px;border:1px solid}
+.bnt{font-size:16px;font-weight:800;color:#0f172a}
+.bns{color:#64748b;font-size:13px;margin:6px 0 14px}
+.bnnh{font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:.5px;margin:0 0 8px}
+.bnn{border:1px solid #e8edf3;border-radius:11px;padding:11px 13px;margin-bottom:9px;background:#fcfdfe}
+.bnni{display:inline-block;font-size:11px;font-weight:700;color:#2563eb;margin-bottom:4px}
+.bnnh2{font-size:13.5px;font-weight:700;color:#0f172a;line-height:1.45}
+.bnns{font-size:12.5px;color:#475569;margin-top:5px;line-height:1.5}
+.bnnl{display:inline-block;margin-top:7px;font-size:12px;color:#2563eb;text-decoration:none}
+.bnempty{font-size:13px;color:#64748b;line-height:1.6}
+.fnode:hover rect:first-child{stroke:#94a3b8;stroke-width:2}
 </style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DAILY DIGEST</div><h1>ビジネスニュース・デイリーダイジェスト</h1>
    <div class="sub">2026年6月30日（火） ／ 国内中心＋主要海外　|　全22トピック・企業12社・予測7件</div>
    <div class="home"><a href="./index.html">← ダッシュボード（業界の動き・掘り下げライブラリ・過去一覧）へ</a></div>
    <nav class="toc"><a href="#map">① 連動マップ</a><a href="#news">時事ニュース</a><a href="#company">企業分析</a><a href="#pred">今後起きそうなこと</a></nav></header>
  <section id="map"><h2><span class="num">1</span>業界連動マップ（因果フロー）</h2>
-   <p class="lead">きょうの主要トピックの因果連鎖。色＝影響の符号、矢印＝波及の向き。業界横断のマクロ文脈は<a href="./index.html#trend">ダッシュボードの「業界の動き(2026)」</a>を参照。</p>
+   <p class="lead">きょうの主要トピックの因果連鎖。色＝影響の符号、矢印＝波及の向き。<b>各ノードをタップすると関連ニュースをポップアップ表示</b>します。業界横断のマクロ文脈は<a href="./index.html#trend">ダッシュボードの「業界の動き(2026)」</a>を参照。</p>
    <div class="diagram"><svg viewBox="0 0 1290 1004" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
 <defs>
 <marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
@@ -71,114 +89,132 @@
 <path d="M 928 182.0 C 983.8 182.0 996.2 182.0 1052 182.0" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ah_neg)" opacity="0.92"/>
 <path d="M 928 432.0 C 983.8 432.0 996.2 412.0 1052 412.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
 <path d="M 928 692.0 C 983.8 692.0 996.2 672.0 1052 672.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
-<rect x="24" y="120" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(0)"><rect x="24" y="120" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="24" y="120" width="6" height="64" rx="3" fill="#dc2626"/>
 <rect x="193" y="128" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
 <text x="212" y="140" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
 <text x="40" y="148" font-size="13.5" fill="#0f172a" font-weight="700">OpenAI 9月IPOへ・SpaceX軟調</text>
 <text x="40" y="168" font-size="11" fill="#64748b">AI相場が一服</text>
-<rect x="24" y="300" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="120" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(1)"><rect x="24" y="300" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="24" y="300" width="6" height="64" rx="3" fill="#d97706"/>
 <rect x="193" y="308" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
 <text x="212" y="320" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
 <text x="40" y="328" font-size="13.5" fill="#0f172a" font-weight="700">原油安・米イラン和平</text>
 <text x="40" y="348" font-size="11" fill="#64748b">Brent69ドル割れ</text>
-<rect x="24" y="480" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="300" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(2)"><rect x="24" y="480" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="24" y="480" width="6" height="64" rx="3" fill="#475569"/>
 <rect x="193" y="488" width="38" height="16" rx="8" fill="#f8fafc" stroke="#475569" stroke-width="1"/>
 <text x="212" y="500" font-size="10.5" fill="#475569" text-anchor="middle" font-weight="700">起点</text>
 <text x="40" y="508" font-size="13.5" fill="#0f172a" font-weight="700">円安162円接近・日銀正常化</text>
 <text x="40" y="528" font-size="11" fill="#64748b">為替介入を警戒</text>
-<rect x="24" y="660" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="480" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(3)"><rect x="24" y="660" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="24" y="660" width="6" height="64" rx="3" fill="#dc2626"/>
 <rect x="193" y="668" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
 <text x="212" y="680" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
 <text x="40" y="688" font-size="13.5" fill="#0f172a" font-weight="700">中国減速・26年通商白書</text>
 <text x="40" y="708" font-size="11" fill="#64748b">対中依存=供給網リスク</text>
-<rect x="24" y="840" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="660" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(4)"><rect x="24" y="840" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="24" y="840" width="6" height="64" rx="3" fill="#16a34a"/>
 <rect x="193" y="848" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
 <text x="212" y="860" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
 <text x="40" y="868" font-size="13.5" fill="#0f172a" font-weight="700">国産AI政策・経産省連携</text>
 <text x="40" y="888" font-size="11" fill="#64748b">ソブリンAI推進</text>
-<rect x="362" y="60" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="840" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(5)"><rect x="362" y="60" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="362" y="60" width="6" height="64" rx="3" fill="#d97706"/>
 <rect x="546" y="68" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
 <text x="565" y="80" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
 <text x="378" y="88" font-size="13.5" fill="#0f172a" font-weight="700">半導体・AI株</text>
 <text x="378" y="108" font-size="11" fill="#64748b">資金一服で乱高下</text>
-<rect x="362" y="200" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="60" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(6)"><rect x="362" y="200" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="362" y="200" width="6" height="64" rx="3" fill="#16a34a"/>
 <rect x="546" y="208" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
 <text x="565" y="220" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
 <text x="378" y="228" font-size="13.5" fill="#0f172a" font-weight="700">銀行・メガバンク</text>
 <text x="378" y="248" font-size="11" fill="#64748b">利ざや改善</text>
-<rect x="362" y="340" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="200" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(7)"><rect x="362" y="340" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="362" y="340" width="6" height="64" rx="3" fill="#dc2626"/>
 <rect x="546" y="348" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
 <text x="565" y="360" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
 <text x="378" y="368" font-size="13.5" fill="#0f172a" font-weight="700">自動車</text>
 <text x="378" y="388" font-size="11" fill="#64748b">EV遅れ・VWリストラ</text>
-<rect x="362" y="480" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="340" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(8)"><rect x="362" y="480" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="362" y="480" width="6" height="64" rx="3" fill="#16a34a"/>
 <rect x="546" y="488" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
 <text x="565" y="500" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
 <text x="378" y="508" font-size="13.5" fill="#0f172a" font-weight="700">小売・消費</text>
 <text x="378" y="528" font-size="11" fill="#64748b">5月小売+5.3%</text>
-<rect x="362" y="620" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="480" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(9)"><rect x="362" y="620" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="362" y="620" width="6" height="64" rx="3" fill="#16a34a"/>
 <rect x="546" y="628" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
 <text x="565" y="640" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
 <text x="378" y="648" font-size="13.5" fill="#0f172a" font-weight="700">防衛・宇宙</text>
 <text x="378" y="668" font-size="11" fill="#64748b">護衛艦『ながら』引渡し</text>
-<rect x="362" y="760" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="620" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(10)"><rect x="362" y="760" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="362" y="760" width="6" height="64" rx="3" fill="#16a34a"/>
 <rect x="546" y="768" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
 <text x="565" y="780" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
 <text x="378" y="788" font-size="13.5" fill="#0f172a" font-weight="700">AIインフラ・電力</text>
 <text x="378" y="808" font-size="11" fill="#64748b">DC電力需要増</text>
-<rect x="362" y="900" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="760" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(11)"><rect x="362" y="900" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="362" y="900" width="6" height="64" rx="3" fill="#dc2626"/>
 <rect x="546" y="908" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
 <text x="565" y="920" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
 <text x="378" y="928" font-size="13.5" fill="#0f172a" font-weight="700">商社・素材</text>
 <text x="378" y="948" font-size="11" fill="#64748b">中国需要減・資源安</text>
-<rect x="728" y="150" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="900" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(12)"><rect x="728" y="150" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="728" y="150" width="6" height="64" rx="3" fill="#dc2626"/>
 <rect x="882" y="158" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
 <text x="901" y="170" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
 <text x="744" y="178" font-size="13.5" fill="#0f172a" font-weight="700">高PER株に逆風</text>
 <text x="744" y="198" font-size="11" fill="#64748b">割引率↑で調整</text>
-<rect x="728" y="400" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="150" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(13)"><rect x="728" y="400" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="728" y="400" width="6" height="64" rx="3" fill="#d97706"/>
 <rect x="882" y="408" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
 <text x="901" y="420" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
 <text x="744" y="428" font-size="13.5" fill="#0f172a" font-weight="700">円安・金利</text>
 <text x="744" y="448" font-size="11" fill="#64748b">輸入物価↓/利ざや＋</text>
-<rect x="728" y="660" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="400" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(14)"><rect x="728" y="660" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="728" y="660" width="6" height="64" rx="3" fill="#16a34a"/>
 <rect x="882" y="668" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
 <text x="901" y="680" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
 <text x="744" y="688" font-size="13.5" fill="#0f172a" font-weight="700">電力・インフラ投資</text>
 <text x="744" y="708" font-size="11" fill="#64748b">DC・再エネ・核融合</text>
-<rect x="1052" y="150" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="660" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(15)"><rect x="1052" y="150" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="1052" y="150" width="6" height="64" rx="3" fill="#d97706"/>
 <rect x="1221" y="158" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
 <text x="1240" y="170" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
 <text x="1068" y="178" font-size="13.5" fill="#0f172a" font-weight="700">日経平均・マーケット</text>
 <text x="1068" y="198" font-size="11" fill="#64748b">内需株が受け皿</text>
-<rect x="1052" y="380" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="150" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(16)"><rect x="1052" y="380" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="1052" y="380" width="6" height="64" rx="3" fill="#16a34a"/>
 <rect x="1221" y="388" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
 <text x="1240" y="400" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
 <text x="1068" y="408" font-size="13.5" fill="#0f172a" font-weight="700">インバウンド・内需</text>
 <text x="1068" y="428" font-size="11" fill="#64748b">資産効果で底堅さ</text>
-<rect x="1052" y="640" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="380" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(17)"><rect x="1052" y="640" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
 <rect x="1052" y="640" width="6" height="64" rx="3" fill="#16a34a"/>
 <rect x="1221" y="648" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
 <text x="1240" y="660" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
 <text x="1068" y="668" font-size="13.5" fill="#0f172a" font-weight="700">重電・防衛</text>
 <text x="1068" y="688" font-size="11" fill="#64748b">三菱重工が牽引</text>
+<rect x="1052" y="640" width="215" height="64" rx="10" fill="transparent"/></g>
 <rect x="262.1" y="99.0" width="76.8" height="17" rx="8" fill="white" stroke="#dc2626" stroke-width="1" opacity="0.96"/><text x="300.5" y="111.0" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="600">AI資金一服(−)</text>
 <rect x="269.3" y="419.0" width="62.4" height="17" rx="8" fill="white" stroke="#0891b2" stroke-width="1" opacity="0.96"/><text x="300.5" y="431.0" font-size="10.5" fill="#0891b2" text-anchor="middle" font-weight="600">原油安(緩和)</text>
 <rect x="459.5" y="359.0" width="48.0" height="17" rx="8" fill="white" stroke="#0891b2" stroke-width="1" opacity="0.96"/><text x="483.5" y="371.0" font-size="10.5" fill="#0891b2" text-anchor="middle" font-weight="600">輸入物価↓</text>
@@ -322,4 +358,23 @@
   <div class="pwhat">国産AI政策が計算基盤・電力投資を後押しし重電に追い風</div><div class="pcomp">関連: NTT/三菱重工/日立</div></div><div class="pred"><span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中</span>
   <div class="pwhat">欧州自動車のリストラ加速で日系部品に再編・受注圧力</div><div class="pcomp">関連: トヨタ/デンソー/アイシン</div></div><div class="pred"><span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高</span>
   <div class="pwhat">食品値上げが7月に2269品目へ拡大、実質購買力の重しに</div><div class="pcomp">関連: 味の素/カルビー/明星食品</div></div></section>
- <footer>生成: Cowork デイリーダイジェスト ／ 2026年6月30日（火）　|　深掘りトピックは<a href="./index.html#deep">ライブラリ</a>に蓄積</footer></div></body></html>
+ <footer>生成: Cowork デイリーダイジェスト ／ 2026年6月30日（火）　|　深掘りトピックは<a href="./index.html#deep">ライブラリ</a>に蓄積</footer></div><div id="bnov" class="bnov" onclick="bnClose()"></div>
+<div id="bnpop" class="bnpop" role="dialog" aria-modal="true">
+ <button class="bnx" onclick="bnClose()" aria-label="閉じる">×</button>
+ <div class="bnhd"><span id="bntag" class="bntag"></span><span id="bnt" class="bnt"></span></div>
+ <div id="bns" class="bns"></div><div id="bnbody"></div></div><script>
+window.__BNPOPS__=[{"t": "OpenAI 9月IPOへ・SpaceX軟調", "s": "AI相場が一服", "tag": "ネガ", "color": "#dc2626", "news": [{"ind": "IT・AI", "head": "経産省、国産AI開発で企業連携を発表——ソブリンAIが政策テーマに", "summ": "経産省は6/30、国産AIの開発を目指す企業との連携を発表。計算基盤・データ・人材を巡る官民連携でソブリンAIの確立を狙う。", "url": "https://www.kensetsunews.com/"}, {"ind": "半導体", "head": "OpenAIは9月IPOへ、SpaceX上場後の軟調でAI株に一服感", "summ": "OpenAIは9月の上場を目指し評価額8520億〜1兆ドルが取り沙汰される。先行上場したSpaceXの軟調もあり、AI関連株には過熱調整の動き。", "url": "https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688"}, {"ind": "防衛・宇宙", "head": "三菱重工、護衛艦『ながら』を防衛省へ引き渡し——受注残は高水準", "summ": "三菱重工が護衛艦『ながら』を防衛省へ引き渡し。重工3社の防衛受注残は高水準で、輸出拡大と生産能力確保が26年の焦点となる。", "url": "https://media.rakuten-sec.net/articles/-/51058"}, {"ind": "エネルギー", "head": "AIデータセンターの電力需要が急拡大、重電・核融合に関心", "summ": "AIデータセンター向けの電力需要拡大を背景に、重電・電力インフラから核融合までの関連株に関心が広がる。国産AI政策も需要を後押し。", "url": "https://www.nikkei.com/nkd/company/article/?DisplayType=1&ng=DGXZQOUB01C1B0R00C26A4000000&scode=6504&ba=1"}, {"ind": "エンタメ", "head": "ソニー・任天堂が買われIP・AI活用に期待、内需株の一角", "summ": "6/30の市場でソニーグループや任天堂が買われた。強力なIP群とAI活用への期待、内需・消費の底堅さがエンタメ株を支える。", "url": "https://asia.nikkei.com/business"}]}, {"t": "原油安・米イラン和平", "s": "Brent69ドル割れ", "tag": "混在", "color": "#d97706", "news": [{"ind": "エネルギー", "head": "原油Brentが69ドル割れ、米イラン和平で地政学リスク後退", "summ": "Brentは2月以来の安値となる69ドル割れ。ドーハでの和平協議再開を受けリスクプレミアムが剥落し、輸入物価低下が国内消費を下支えする。", "url": "https://www.nikkei.com/markets/commodities/"}, {"ind": "エネルギー", "head": "AIデータセンターの電力需要が急拡大、重電・核融合に関心", "summ": "AIデータセンター向けの電力需要拡大を背景に、重電・電力インフラから核融合までの関連株に関心が広がる。国産AI政策も需要を後押し。", "url": "https://www.nikkei.com/nkd/company/article/?DisplayType=1&ng=DGXZQOUB01C1B0R00C26A4000000&scode=6504&ba=1"}]}, {"t": "円安162円接近・日銀正常化", "s": "為替介入を警戒", "tag": "起点", "color": "#475569", "news": [{"ind": "金融", "head": "ドル円が162円に接近、40年ぶり円安圏で為替介入を警戒", "summ": "6/29のNYでドル円は161円台後半。和平不透明感や原油高でドル買いが先行する一方、当局の介入警戒が下値を支えた。", "url": "https://www.nikkei.com/topics/24050200"}, {"ind": "不動産", "head": "日銀1%利上げ定着で金利上昇、不動産に逆風", "summ": "金利上昇局面で不動産は調達コスト増とバリュエーション圧迫の逆風。一方で都心の賃料・インバウンド需要は底堅く、明暗が分かれる。", "url": "https://www.nikkei.com/business/"}]}, {"t": "中国減速・26年通商白書", "s": "対中依存=供給網リスク", "tag": "ネガ", "color": "#dc2626", "news": [{"ind": "海外政治経済", "head": "26年通商白書、新興国の対中依存で『供給網途絶リスク』を指摘", "summ": "24年の新興国輸入に占める中国の割合は26%と国別首位。ASEANの中間財依存も上昇し、日本の対新興国輸出拡大で依存低減を提起した。", "url": "https://www.nikkei.com/article/DGXZQOUA25ANL0V20C26A6000000/"}, {"ind": "商社", "head": "商社は中国需要減と資源安で明暗、三菱商事減益・三井物産増益", "summ": "中国需要減と資源安が交錯し、三菱商事は減益、三井物産は小幅増益と明暗。各社は資源循環や脱炭素関連への投資シフトを進める。", "url": "https://www.nikkei.com/business/"}, {"ind": "海外・中国", "head": "中国の不動産開発投資が1〜5月-16.2%、不況の長期化が鮮明", "summ": "1〜5月の不動産開発投資は前年比-16.2%と1〜4月(-13.7%)から悪化。一線都市の新築価格も下落し、当局は大規模刺激を避け局地対応に徹する。", "url": "https://www.globalpropertyguide.com/asia/china/price-history"}]}, {"t": "国産AI政策・経産省連携", "s": "ソブリンAI推進", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "IT・AI", "head": "経産省、国産AI開発で企業連携を発表——ソブリンAIが政策テーマに", "summ": "経産省は6/30、国産AIの開発を目指す企業との連携を発表。計算基盤・データ・人材を巡る官民連携でソブリンAIの確立を狙う。", "url": "https://www.kensetsunews.com/"}, {"ind": "半導体", "head": "OpenAIは9月IPOへ、SpaceX上場後の軟調でAI株に一服感", "summ": "OpenAIは9月の上場を目指し評価額8520億〜1兆ドルが取り沙汰される。先行上場したSpaceXの軟調もあり、AI関連株には過熱調整の動き。", "url": "https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688"}, {"ind": "エネルギー", "head": "AIデータセンターの電力需要が急拡大、重電・核融合に関心", "summ": "AIデータセンター向けの電力需要拡大を背景に、重電・電力インフラから核融合までの関連株に関心が広がる。国産AI政策も需要を後押し。", "url": "https://www.nikkei.com/nkd/company/article/?DisplayType=1&ng=DGXZQOUB01C1B0R00C26A4000000&scode=6504&ba=1"}, {"ind": "エンタメ", "head": "ソニー・任天堂が買われIP・AI活用に期待、内需株の一角", "summ": "6/30の市場でソニーグループや任天堂が買われた。強力なIP群とAI活用への期待、内需・消費の底堅さがエンタメ株を支える。", "url": "https://asia.nikkei.com/business"}]}, {"t": "半導体・AI株", "s": "資金一服で乱高下", "tag": "混在", "color": "#d97706", "news": [{"ind": "マーケット", "head": "日経平均は内需株が受け皿、キオクシア・SBG失速を吸収", "summ": "6/30の東京市場は半導体・AI株が失速する一方、内需・ディフェンシブ株が受け皿となり指数は底堅さを維持。小売売上の好調がセンチメントを支えた。", "url": "https://www.nikkei.com/markets/"}, {"ind": "IT・AI", "head": "経産省、国産AI開発で企業連携を発表——ソブリンAIが政策テーマに", "summ": "経産省は6/30、国産AIの開発を目指す企業との連携を発表。計算基盤・データ・人材を巡る官民連携でソブリンAIの確立を狙う。", "url": "https://www.kensetsunews.com/"}, {"ind": "半導体", "head": "OpenAIは9月IPOへ、SpaceX上場後の軟調でAI株に一服感", "summ": "OpenAIは9月の上場を目指し評価額8520億〜1兆ドルが取り沙汰される。先行上場したSpaceXの軟調もあり、AI関連株には過熱調整の動き。", "url": "https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688"}, {"ind": "エネルギー", "head": "AIデータセンターの電力需要が急拡大、重電・核融合に関心", "summ": "AIデータセンター向けの電力需要拡大を背景に、重電・電力インフラから核融合までの関連株に関心が広がる。国産AI政策も需要を後押し。", "url": "https://www.nikkei.com/nkd/company/article/?DisplayType=1&ng=DGXZQOUB01C1B0R00C26A4000000&scode=6504&ba=1"}, {"ind": "エンタメ", "head": "ソニー・任天堂が買われIP・AI活用に期待、内需株の一角", "summ": "6/30の市場でソニーグループや任天堂が買われた。強力なIP群とAI活用への期待、内需・消費の底堅さがエンタメ株を支える。", "url": "https://asia.nikkei.com/business"}]}, {"t": "銀行・メガバンク", "s": "利ざや改善", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "金融", "head": "ドル円が162円に接近、40年ぶり円安圏で為替介入を警戒", "summ": "6/29のNYでドル円は161円台後半。和平不透明感や原油高でドル買いが先行する一方、当局の介入警戒が下値を支えた。", "url": "https://www.nikkei.com/topics/24050200"}, {"ind": "不動産", "head": "日銀1%利上げ定着で金利上昇、不動産に逆風", "summ": "金利上昇局面で不動産は調達コスト増とバリュエーション圧迫の逆風。一方で都心の賃料・インバウンド需要は底堅く、明暗が分かれる。", "url": "https://www.nikkei.com/business/"}]}, {"t": "自動車", "s": "EV遅れ・VWリストラ", "tag": "ネガ", "color": "#dc2626", "news": [{"ind": "自動車", "head": "トヨタ、次世代EVセダンの開発中止——HEV軸足を鮮明に", "summ": "トヨタは次世代EVセダン(レクサスLF-ZC系)の開発を中止し、SUV型EVとHEVに資源を集中。全固体電池搭載の高航続モデル計画も見送る。", "url": "https://www.nikkei.com/article/DGKKZO96562700Z20C26A5MM8000/"}, {"ind": "自動車", "head": "VW、最大10万人削減・独工場閉鎖を検討——欧州の構造調整", "summ": "フォルクスワーゲンは最大10万人規模の削減と独工場閉鎖を検討し、監査役会で議論。欧州製造業の構造調整が一段と進む。", "url": "https://www.nikkei.com/business/"}]}, {"t": "小売・消費", "s": "5月小売+5.3%", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "小売・消費", "head": "5月の小売売上+5.3%、刺激策で23年11月以来の高い伸び", "summ": "5月の小売売上高は前年比+5.3%と23年11月以来の高い伸び。政府刺激策が消費を下支えし、内需関連株のセンチメントを改善させた。", "url": "https://asia.nikkei.com/business/markets"}]}, {"t": "防衛・宇宙", "s": "護衛艦『ながら』引渡し", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "半導体", "head": "OpenAIは9月IPOへ、SpaceX上場後の軟調でAI株に一服感", "summ": "OpenAIは9月の上場を目指し評価額8520億〜1兆ドルが取り沙汰される。先行上場したSpaceXの軟調もあり、AI関連株には過熱調整の動き。", "url": "https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688"}, {"ind": "防衛・宇宙", "head": "三菱重工、護衛艦『ながら』を防衛省へ引き渡し——受注残は高水準", "summ": "三菱重工が護衛艦『ながら』を防衛省へ引き渡し。重工3社の防衛受注残は高水準で、輸出拡大と生産能力確保が26年の焦点となる。", "url": "https://media.rakuten-sec.net/articles/-/51058"}]}, {"t": "AIインフラ・電力", "s": "DC電力需要増", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "IT・AI", "head": "経産省、国産AI開発で企業連携を発表——ソブリンAIが政策テーマに", "summ": "経産省は6/30、国産AIの開発を目指す企業との連携を発表。計算基盤・データ・人材を巡る官民連携でソブリンAIの確立を狙う。", "url": "https://www.kensetsunews.com/"}, {"ind": "半導体", "head": "OpenAIは9月IPOへ、SpaceX上場後の軟調でAI株に一服感", "summ": "OpenAIは9月の上場を目指し評価額8520億〜1兆ドルが取り沙汰される。先行上場したSpaceXの軟調もあり、AI関連株には過熱調整の動き。", "url": "https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688"}, {"ind": "エネルギー", "head": "AIデータセンターの電力需要が急拡大、重電・核融合に関心", "summ": "AIデータセンター向けの電力需要拡大を背景に、重電・電力インフラから核融合までの関連株に関心が広がる。国産AI政策も需要を後押し。", "url": "https://www.nikkei.com/nkd/company/article/?DisplayType=1&ng=DGXZQOUB01C1B0R00C26A4000000&scode=6504&ba=1"}, {"ind": "エンタメ", "head": "ソニー・任天堂が買われIP・AI活用に期待、内需株の一角", "summ": "6/30の市場でソニーグループや任天堂が買われた。強力なIP群とAI活用への期待、内需・消費の底堅さがエンタメ株を支える。", "url": "https://asia.nikkei.com/business"}]}, {"t": "商社・素材", "s": "中国需要減・資源安", "tag": "ネガ", "color": "#dc2626", "news": [{"ind": "商社", "head": "商社は中国需要減と資源安で明暗、三菱商事減益・三井物産増益", "summ": "中国需要減と資源安が交錯し、三菱商事は減益、三井物産は小幅増益と明暗。各社は資源循環や脱炭素関連への投資シフトを進める。", "url": "https://www.nikkei.com/business/"}, {"ind": "海外・中国", "head": "中国の不動産開発投資が1〜5月-16.2%、不況の長期化が鮮明", "summ": "1〜5月の不動産開発投資は前年比-16.2%と1〜4月(-13.7%)から悪化。一線都市の新築価格も下落し、当局は大規模刺激を避け局地対応に徹する。", "url": "https://www.globalpropertyguide.com/asia/china/price-history"}]}, {"t": "高PER株に逆風", "s": "割引率↑で調整", "tag": "ネガ", "color": "#dc2626", "news": []}, {"t": "円安・金利", "s": "輸入物価↓/利ざや＋", "tag": "混在", "color": "#d97706", "news": [{"ind": "金融", "head": "ドル円が162円に接近、40年ぶり円安圏で為替介入を警戒", "summ": "6/29のNYでドル円は161円台後半。和平不透明感や原油高でドル買いが先行する一方、当局の介入警戒が下値を支えた。", "url": "https://www.nikkei.com/topics/24050200"}, {"ind": "不動産", "head": "日銀1%利上げ定着で金利上昇、不動産に逆風", "summ": "金利上昇局面で不動産は調達コスト増とバリュエーション圧迫の逆風。一方で都心の賃料・インバウンド需要は底堅く、明暗が分かれる。", "url": "https://www.nikkei.com/business/"}]}, {"t": "電力・インフラ投資", "s": "DC・再エネ・核融合", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "エネルギー", "head": "AIデータセンターの電力需要が急拡大、重電・核融合に関心", "summ": "AIデータセンター向けの電力需要拡大を背景に、重電・電力インフラから核融合までの関連株に関心が広がる。国産AI政策も需要を後押し。", "url": "https://www.nikkei.com/nkd/company/article/?DisplayType=1&ng=DGXZQOUB01C1B0R00C26A4000000&scode=6504&ba=1"}]}, {"t": "日経平均・マーケット", "s": "内需株が受け皿", "tag": "混在", "color": "#d97706", "news": [{"ind": "マーケット", "head": "日経平均は内需株が受け皿、キオクシア・SBG失速を吸収", "summ": "6/30の東京市場は半導体・AI株が失速する一方、内需・ディフェンシブ株が受け皿となり指数は底堅さを維持。小売売上の好調がセンチメントを支えた。", "url": "https://www.nikkei.com/markets/"}, {"ind": "金融", "head": "ドル円が162円に接近、40年ぶり円安圏で為替介入を警戒", "summ": "6/29のNYでドル円は161円台後半。和平不透明感や原油高でドル買いが先行する一方、当局の介入警戒が下値を支えた。", "url": "https://www.nikkei.com/topics/24050200"}, {"ind": "マーケット", "head": "ユーロ円が185円台、円全面安で輸入物価に上昇圧力", "summ": "6/29のNYでユーロ円は185円台へ上昇し円全面安が鮮明。原油安が緩和材料となる一方、円安が輸入物価を押し上げる構図が続く。", "url": "https://www.zaikei.co.jp/article/20260630/858969.html"}]}, {"t": "インバウンド・内需", "s": "資産効果で底堅さ", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "小売・消費", "head": "5月の小売売上+5.3%、刺激策で23年11月以来の高い伸び", "summ": "5月の小売売上高は前年比+5.3%と23年11月以来の高い伸び。政府刺激策が消費を下支えし、内需関連株のセンチメントを改善させた。", "url": "https://asia.nikkei.com/business/markets"}]}, {"t": "重電・防衛", "s": "三菱重工が牽引", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "半導体", "head": "OpenAIは9月IPOへ、SpaceX上場後の軟調でAI株に一服感", "summ": "OpenAIは9月の上場を目指し評価額8520億〜1兆ドルが取り沙汰される。先行上場したSpaceXの軟調もあり、AI関連株には過熱調整の動き。", "url": "https://www.investing.com/analysis/the-trilliondollar-ipo-test-spacex-and-openai-face-public-markets-200680688"}, {"ind": "防衛・宇宙", "head": "三菱重工、護衛艦『ながら』を防衛省へ引き渡し——受注残は高水準", "summ": "三菱重工が護衛艦『ながら』を防衛省へ引き渡し。重工3社の防衛受注残は高水準で、輸出拡大と生産能力確保が26年の焦点となる。", "url": "https://media.rakuten-sec.net/articles/-/51058"}, {"ind": "エネルギー", "head": "AIデータセンターの電力需要が急拡大、重電・核融合に関心", "summ": "AIデータセンター向けの電力需要拡大を背景に、重電・電力インフラから核融合までの関連株に関心が広がる。国産AI政策も需要を後押し。", "url": "https://www.nikkei.com/nkd/company/article/?DisplayType=1&ng=DGXZQOUB01C1B0R00C26A4000000&scode=6504&ba=1"}]}];
+function bnE(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bnClose(){document.getElementById('bnov').classList.remove('on');document.getElementById('bnpop').classList.remove('on');}
+function bnShowPop(i){var p=window.__BNPOPS__[i];if(!p)return;
+ document.getElementById('bnt').textContent=p.t;
+ var tag=document.getElementById('bntag');tag.textContent=p.tag;tag.style.color=p.color;tag.style.borderColor=p.color;tag.style.background=p.color+'1a';
+ document.getElementById('bns').textContent=p.s||'';
+ var b=document.getElementById('bnbody');
+ if(p.news&&p.news.length){var h='<div class="bnnh">関連ニュース（'+p.news.length+'件）</div>';
+  p.news.forEach(function(n){h+='<div class="bnn"><div class="bnni">'+bnE(n.ind)+'</div><div class="bnnh2">'+bnE(n.head)+'</div>'+(n.summ?'<div class="bnns">'+bnE(n.summ)+'</div>':'')+(n.url?'<a class="bnnl" href="'+encodeURI(n.url)+'" target="_blank" rel="noopener">出典リンク ↗</a>':'')+'</div>';});
+  b.innerHTML=h;}
+ else{b.innerHTML='<div class="bnempty">このノードに直接ひも付く当日ニュースはありません。日次ダイジェストの「時事ニュース」をご覧ください。</div>';}
+ document.getElementById('bnov').classList.add('on');document.getElementById('bnpop').classList.add('on');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')bnClose();});
+</script></body></html>
