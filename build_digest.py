@@ -259,6 +259,14 @@ def render_index(outdir):
     if os.path.exists(tp): trends=json.load(open(tp,encoding="utf-8"))
     if os.path.exists(dp): deeps=json.load(open(dp,encoding="utf-8"))
     if os.path.exists(mp): master=json.load(open(mp,encoding="utf-8"))
+    cpath=os.path.join(outdir,"companies.json"); ppath=os.path.join(outdir,"predictions.json")
+    ncomp=len(json.load(open(cpath,encoding="utf-8"))) if os.path.exists(cpath) else 0
+    npred=len(json.load(open(ppath,encoding="utf-8"))) if os.path.exists(ppath) else 0
+    navcards=f'''<section id="lib"><h2><span class="num">◎</span>ライブラリ</h2><p class="lead">企業分析と今後の予測を、別ページに集約しています。</p>
+   <div class="navcards">
+     <a class="navcard" href="./companies.html"><div class="nt">🏢 企業分析ライブラリ</div><div class="nd">登場企業を集約。売上高・PER・PBR・ROE・時価総額＋今後の期待。並べ替え可。</div><div class="na">全{ncomp}社を見る →</div></a>
+     <a class="navcard" href="./predictions.html"><div class="nt">🔮 今後の予測マップ</div><div class="nd">「今後起きそうなこと」を確度×時間軸でマッピング。累積一覧つき。</div><div class="na">全{npred}件を見る →</div></a>
+   </div></section>'''
     master_section=""; master_pops=[]
     if master and master.get("nodes"):
         _msvg,master_pops=build_svg(master)
@@ -292,7 +300,8 @@ def render_index(outdir):
 <title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}{MODAL_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DASHBOARD</div><h1>ビジネスニュース・ダッシュボード</h1>
    <div class="sub">業界の動き（2026年）・掘り下げライブラリ（累積）・日次ダイジェスト一覧</div>{latest}
-   <nav class="toc"><a href="#master">全体連動マップ</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
+   <nav class="toc"><a href="#master">全体連動マップ</a><a href="#lib">ライブラリ</a><a href="./companies.html">企業分析</a><a href="./predictions.html">今後の予測</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
+ {navcards}
  {master_section}
  <section id="trend"><h2><span class="num">A</span>業界の動き（2026年）</h2><p class="lead">日次ニュースを読むための、業界別マクロ文脈（随時更新）。</p><div class="tgrid">{tcards}</div></section>
  <section id="deep"><h2><span class="num">B</span>掘り下げ・分析ライブラリ（累積 {len(deeps)}件）</h2><p class="lead">業界構造・投資テーマ・用語の解説を日々蓄積。新しい順。</p>{"".join(dcards)}</section>
@@ -301,6 +310,137 @@ def render_index(outdir):
  <footer>Cowork ビジネスニュース・ダッシュボード</footer></div>{BN_MODAL}{bn_script(master_pops)}</body></html>'''
     open(os.path.join(outdir,"index.html"),"w",encoding="utf-8").write(body)
     return len(items),len(deeps),len(trends)
+
+# ---------- company / prediction stores + pages ----------
+CANON={
+ "キオクシアHD":"キオクシアホールディングス","三菱UFJ FG":"三菱UFJフィナンシャル・グループ",
+ "NTT":"日本電信電話(NTT)","ソフトバンクG":"ソフトバンクグループ",
+}
+def canon(n): return CANON.get(n,n)
+def pred_horizon(w):
+    if any(k in w for k in ["数年","構造的","あと2年","中長期","恒常","常態化","パテントクリフ","定着すれば"]): return "長期"
+    if any(k in w for k in ["7月","9月","今週","介入","監査役会","7/9","9月末","党中央政治局","四半期"]): return "短期"
+    return "中期"
+def _num(s):
+    m=re.search(r'-?\d+(?:\.\d+)?', str(s).replace(",",""))
+    if not m: return -1e18
+    v=float(m.group()); t=str(s)
+    if "兆" in t: v*=10000
+    return v
+
+CSS_EXTRA='''
+ .disc{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 13px;margin:0 0 16px}
+ .ctbl-wrap{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px}
+ table.ctbl{border-collapse:collapse;width:100%;min-width:900px;font-size:12.5px}
+ table.ctbl th,table.ctbl td{padding:9px 11px;text-align:right;border-bottom:1px solid #eef2f7;white-space:nowrap}
+ table.ctbl th{background:#f8fafc;color:#475569;font-size:11.5px;position:sticky;top:0;cursor:pointer;user-select:none}
+ table.ctbl th:hover{background:#eef2f7} table.ctbl th.act::after{content:" ▾";color:#2563eb}
+ table.ctbl th.asc.act::after{content:" ▴"}
+ table.ctbl td.l,table.ctbl th.l{text-align:left} table.ctbl tr:hover td{background:#fcfdfe}
+ .cnm{font-weight:700;color:#0f172a} .ccd{font-size:11px;color:#94a3b8;margin-left:5px}
+ .itag{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:6px}
+ .col{font-size:12.5px;color:#334155;text-align:left;max-width:280px;white-space:normal}
+ .neg{color:#dc2626} .pos{color:#16a34a}
+ .pmx{display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:8px;margin-top:6px}
+ .pmx .hc{font-size:11.5px;font-weight:800;color:#475569;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:8px;padding:6px;text-align:center}
+ .pmx .rl{writing-mode:vertical-rl;text-orientation:mixed} .pmx .corner{background:transparent}
+ .cell{min-height:74px;border:1px solid #eef2f7;border-radius:10px;padding:8px;background:#fcfdfe;display:flex;flex-direction:column;gap:6px}
+ .pchip{font-size:11.5px;line-height:1.4;border-left:4px solid;border-radius:8px;padding:6px 9px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+ .pchip .pc2{display:block;font-size:10.5px;color:#94a3b8;margin-top:3px}
+ .navcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
+ a.navcard{display:block;background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none}
+ a.navcard:hover{box-shadow:0 6px 18px rgba(15,23,42,.18)} a.navcard .nt{font-weight:800;font-size:15px} a.navcard .nd{font-size:12px;color:#cbd5e1;margin-top:4px} a.navcard .na{font-size:12px;color:#93c5fd;margin-top:8px}
+'''
+
+def render_companies(outdir):
+    cp=os.path.join(outdir,"companies.json")
+    comps=json.load(open(cp,encoding="utf-8")) if os.path.exists(cp) else []
+    comps=sorted(comps,key=lambda r:(_num(r.get("cap","")))*-1)
+    rows=[]
+    for r in comps:
+        ic=icolor(r.get("ind","")); nm=esc(r.get("name","")); cd=esc(r.get("code",""))
+        cap=r.get("cap","—"); rev=r.get("revenue","—"); per=r.get("per","—"); pbr=r.get("pbr","—"); roe=r.get("roe","—")
+        outlook=esc(r.get("outlook","") or "—"); ind=esc(r.get("ind",""))
+        seen=f'{r.get("first","")}〜{r.get("last","")}'
+        roecls=' class="neg"' if str(roe).startswith("-") else ''
+        rows.append(f'''<tr>
+   <td class="l" data-v="{esc(nm)}"><span class="cnm">{nm}</span><span class="ccd">{cd}</span></td>
+   <td class="l" data-v="{ind}"><span class="itag" style="background:{ic}1a;color:{ic}">{ind}</span></td>
+   <td data-v="{_num(cap)}">{esc(cap)}</td>
+   <td data-v="{_num(rev)}">{esc(rev)}</td>
+   <td data-v="{_num(per)}">{esc(per)}</td>
+   <td data-v="{_num(pbr)}">{esc(pbr)}</td>
+   <td data-v="{_num(roe)}"{roecls}>{esc(roe)}</td>
+   <td class="col" data-v="{outlook}">{outlook}</td>
+   <td class="l" data-v="{esc(seen)}">{esc(seen)}</td></tr>''')
+    heads=[("企業名","l"),("業種","l"),("時価総額",""),("売上高/収益",""),("PER",""),("PBR",""),("ROE",""),("今後の期待","col l"),("登場","l")]
+    th="".join(f'<th class="{c}" onclick="csort({i})">{esc(h)}</th>' for i,(h,c) in enumerate(heads))
+    disc=('※ 財務数値は各社IR・公開金融情報サイト（IRBANK / Yahoo!ファイナンス / 株探 / 株予報 等）を基にした<b>概算・参考値</b>で、取得時点は2026年6月下旬〜7月1日です。市場変動により実値は変わります。最新値は各社IRでご確認ください。'
+          '「売上高/収益」は事業により営業収益・売上収益・経常収益（銀行）を含みます。<b>*キオクシアは上場直後で自己資本が薄くPBR/ROEが極端値となるため参考外</b>。時価総額は特記なき場合は円、海外企業はドル/ユーロ表記です。')
+    body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>企業分析ライブラリ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}</style></head><body><div class="wrap">
+ <header><div class="eyebrow">BUSINESS NEWS — COMPANY LIBRARY</div><h1>企業分析ライブラリ（累積）</h1>
+   <div class="sub">これまでの日次ダイジェストに登場した企業を集約。主要財務指標＋今後の期待。全{len(comps)}社</div>
+   <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div></header>
+ <section><h2><span class="num">★</span>企業一覧（{len(comps)}社）</h2>
+   <p class="lead">列見出しをクリックで並べ替え。既定は時価総額の大きい順。</p>
+   <div class="disc">{disc}</div>
+   <div class="ctbl-wrap"><table class="ctbl" id="ct"><thead><tr>{th}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>
+ </section>
+ <footer>Cowork ビジネスニュース・ダッシュボード ／ 企業分析ライブラリ</footer></div>
+<script>
+var casc=true,clast=-1;
+function csort(i){{var tb=document.querySelector('#ct tbody');var rs=[].slice.call(tb.rows);
+ if(i===clast)casc=!casc;else casc=true;clast=i;
+ rs.sort(function(a,b){{var x=a.cells[i].getAttribute('data-v'),y=b.cells[i].getAttribute('data-v');
+  var nx=parseFloat(x),ny=parseFloat(y);var num=!isNaN(nx)&&!isNaN(ny)&&/^-?\\d/.test(x)&&/^-?\\d/.test(y);
+  if(num)return casc?nx-ny:ny-nx;return casc?(''+x).localeCompare(y,'ja'):(''+y).localeCompare(x,'ja');}});
+ rs.forEach(function(r){{tb.appendChild(r);}});
+ document.querySelectorAll('#ct th').forEach(function(t,j){{t.classList.toggle('act',j===i);t.classList.toggle('asc',j===i&&casc);}});}}
+</script></body></html>'''
+    open(os.path.join(outdir,"companies.html"),"w",encoding="utf-8").write(body)
+    return len(comps)
+
+def render_predictions(outdir):
+    pp=os.path.join(outdir,"predictions.json")
+    preds=json.load(open(pp,encoding="utf-8")) if os.path.exists(pp) else []
+    cc={"高":"#dc2626","中":"#d97706","低":"#64748b"}
+    HZ=["短期","中期","長期"]; CF=["高","中","低"]
+    HZLAB={"短期":"短期（〜3カ月）","中期":"中期（〜1年）","長期":"長期（1年〜）"}
+    def chip(p):
+        col=cc.get(p.get("conf","中"),"#64748b")
+        cm=f'<span class="pc2">関連: {esc(p["comp"])}</span>' if p.get("comp") else ''
+        dt=f'<span class="pc2">{esc(p.get("date",""))}</span>' if p.get("date") else ''
+        return f'<div class="pchip" style="border-color:{col}">{esc(p["what"])}{cm}{dt}</div>'
+    grid=['<div class="pmx"><div class="corner"></div>']
+    for h in HZ: grid.append(f'<div class="hc">{esc(HZLAB[h])}</div>')
+    for cf in CF:
+        grid.append(f'<div class="hc rl" style="color:{cc[cf]}">確度 {esc(cf)}</div>')
+        for h in HZ:
+            cell=[p for p in preds if p.get("conf")==cf and p.get("horizon",pred_horizon(p["what"]))==h]
+            grid.append('<div class="cell">'+("".join(chip(p) for p in cell) if cell else '<span style="color:#cbd5e1;font-size:11px;margin:auto">—</span>')+'</div>')
+    grid.append('</div>')
+    # full list newest first
+    lst=[]
+    for p in preds:
+        col=cc.get(p.get("conf","中"),"#64748b")
+        lst.append(f'''<div class="pred" style="border-left-color:{col}">
+   <span class="conf" style="background:{col}1a;color:{col};border:1px solid {col}66">確度 {esc(p.get("conf","中"))}・{esc(p.get("horizon",pred_horizon(p["what"])))}</span>
+   <div class="pwhat">{esc(p["what"])}</div><div class="pcomp">関連: {esc(p.get("comp","—"))}　<span style="color:#cbd5e1">{esc(p.get("date",""))}</span></div></div>''')
+    body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>今後の予測マップ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}</style></head><body><div class="wrap">
+ <header><div class="eyebrow">BUSINESS NEWS — OUTLOOK MAP</div><h1>今後の予測マップ（累積）</h1>
+   <div class="sub">日次ダイジェストの「今後起きそうなこと」を集約。確度×時間軸でマッピング。全{len(preds)}件</div>
+   <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div></header>
+ <section><h2><span class="num">◇</span>確度 × 時間軸マトリクス</h2>
+   <p class="lead">縦＝確度（高/中/低）、横＝時間軸（短期〜長期）。右上（高確度×短期）ほど注視度が高い予測です。</p>
+   {"".join(grid)}
+   <div class="legend"><span class="lg"><span class="dot" style="background:#dc2626"></span>高</span><span class="lg"><span class="dot" style="background:#d97706"></span>中</span><span class="lg"><span class="dot" style="background:#64748b"></span>低</span></div>
+ </section>
+ <section><h2><span class="num">≡</span>予測一覧（{len(preds)}件）</h2><p class="lead">これまでの予測を集約。</p>{"".join(lst)}</section>
+ <footer>Cowork ビジネスニュース・ダッシュボード ／ 今後の予測マップ</footer></div></body></html>'''
+    open(os.path.join(outdir,"predictions.html"),"w",encoding="utf-8").write(body)
+    return len(preds)
 
 def update_stores(d,outdir):
     # masterflow.json: 全体連動マップ（毎回上書き更新）
@@ -319,7 +459,43 @@ def update_stores(d,outdir):
         lib.insert(0, [e[0],e[1],e[2],e[3], d.get("date_iso","")])
         existing.add(e[0]); added+=1
     json.dump(lib,open(dp,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
-    return added
+    iso=d.get("date_iso","")
+    # companies.json: accumulate (dedupe by code/name), preserve financial fields
+    cp=os.path.join(outdir,"companies.json")
+    comps=json.load(open(cp,encoding="utf-8")) if os.path.exists(cp) else []
+    cidx={ (r.get("code") or r.get("name")): r for r in comps }
+    cadd=0
+    for c in d.get("companies",[]):
+        name=canon(c[0]); code=(c[1] if len(c)>1 else "").strip()
+        key=code if code and code!="—" else name
+        summ=c[4] if len(c)>4 else ""
+        r=cidx.get(key)
+        if r:
+            r["name"]=name
+            if c[2] if len(c)>2 else "": r["ind"]=c[2]
+            if len(c)>3 and c[3] and c[3]!="—": r["cap"]=c[3]
+            if summ: r["summ"]=summ
+            if iso and iso>=r.get("last",""): r["last"]=iso
+            if iso and iso<r.get("first","9999"): r["first"]=iso
+        else:
+            r={"name":name,"code":code,"ind":c[2] if len(c)>2 else "","cap":c[3] if len(c)>3 else "—",
+               "summ":summ,"first":iso,"last":iso,"revenue":"—","per":"—","pbr":"—","roe":"—","outlook":""}
+            comps.append(r); cidx[key]=r; cadd+=1
+    json.dump(comps,open(cp,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
+    # predictions.json: accumulate (dedupe by leading text), newest first
+    pp=os.path.join(outdir,"predictions.json")
+    preds=json.load(open(pp,encoding="utf-8")) if os.path.exists(pp) else []
+    pseen={p["what"][:26] for p in preds}
+    padd=0
+    for p in d.get("preds",[]):
+        what=p[0]; k=what[:26]
+        if k in pseen: continue
+        pseen.add(k)
+        hz=p[3] if len(p)>3 and p[3] else pred_horizon(what)
+        preds.insert(0,{"what":what,"conf":p[1] if len(p)>1 else "中","comp":p[2] if len(p)>2 else "","horizon":hz,"date":iso})
+        padd+=1
+    json.dump(preds,open(pp,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
+    return added,cadd,padd
 
 if __name__=="__main__":
     data=json.load(open(sys.argv[1],encoding="utf-8"))
@@ -327,6 +503,8 @@ if __name__=="__main__":
     iso=data["date_iso"]
     out=os.path.join(outdir,f"digest_{iso}.html")
     open(out,"w",encoding="utf-8").write(render_daily(data))
-    added=update_stores(data,outdir)
+    added,cadd,padd=update_stores(data,outdir)
+    ncomp=render_companies(outdir)
+    npred=render_predictions(outdir)
     n,nd,nt=render_index(outdir)
-    print(f"wrote {out} | index: {n} digests, deepdive-library {nd} (+{added} new), trends {nt}")
+    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd})")

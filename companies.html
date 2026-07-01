@@ -1,0 +1,349 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>企業分析ライブラリ｜ビジネスニュース・ダッシュボード</title><style>
+ *{box-sizing:border-box} body{margin:0;background:#f1f5f9;color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Noto Sans JP',sans-serif;line-height:1.65}
+ .wrap{max-width:1340px;margin:0 auto;padding:28px 20px 70px} .eyebrow{color:#64748b;font-size:13px;font-weight:700;letter-spacing:1px}
+ h1{font-size:26px;margin:4px 0 2px} .sub{color:#64748b;font-size:14px} .home{font-size:12.5px;margin-top:4px} .home a{color:#2563eb;text-decoration:none}
+ .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px} .toc a{font-size:12.5px;text-decoration:none;color:#334155;background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:5px 13px}
+ .toc a:hover{border-color:#94a3b8} section{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:22px;margin-top:22px;box-shadow:0 1px 2px rgba(15,23,42,.04);scroll-margin-top:14px}
+ h2{font-size:18px;margin:0 0 4px;display:flex;align-items:center;gap:9px} h2 .num{display:inline-flex;width:24px;height:24px;border-radius:7px;background:#0f172a;color:#fff;font-size:13px;align-items:center;justify-content:center}
+ .lead{color:#64748b;font-size:13.5px;margin:0 0 16px} .diagram{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px;background:#fcfdfe;padding:10px}
+ .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:12.5px;color:#475569} .lg{display:inline-flex;align-items:center;gap:6px}
+ .sw{width:22px;border-top:3px solid;display:inline-block;border-radius:2px} .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+ .note{margin-top:14px;font-size:12.5px;color:#475569;background:#f8fafc;border-left:3px solid #cbd5e1;padding:10px 12px;border-radius:8px}
+ .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px} .tcard{border:1px solid #e8edf3;border-radius:11px;padding:13px 15px;background:#fbfcfe}
+ .tname{font-weight:800;font-size:14px;margin-bottom:4px} .tdesc{font-size:12.5px;color:#475569}
+ details.news,details.deep{border:1px solid #e8edf3;border-radius:11px;margin-bottom:10px;background:#fff;overflow:hidden} details.news[open]{box-shadow:0 3px 12px rgba(15,23,42,.07)}
+ details.news summary{list-style:none;cursor:pointer;padding:13px 15px;display:flex;flex-wrap:wrap;align-items:center;gap:9px} details.news summary::-webkit-details-marker,details.deep summary::-webkit-details-marker{display:none}
+ .ind{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;white-space:nowrap} .nhead{font-weight:700;font-size:14.5px;flex:1 1 320px}
+ .pnsmall{font-size:11.5px;color:#64748b;flex:1 1 100%} .pnsmall .p{color:#16a34a} .pnsmall .n{color:#dc2626;margin-left:8px}
+ .ndetail{padding:4px 16px 16px;border-top:1px dashed #eef2f7} .block{margin-top:11px} .block h4{margin:0 0 3px;font-size:12px;color:#0891b2;letter-spacing:.5px}
+ .block p{margin:0;font-size:13px;color:#334155} .block ul{margin:4px 0;padding-left:18px;font-size:13px;color:#334155} .block li{margin:2px 0}
+ .chips{display:flex;flex-wrap:wrap;gap:6px} .chip{font-size:11px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:2px 8px;color:#475569}
+ .src{display:inline-block;margin-top:12px;font-size:12px;color:#2563eb;text-decoration:none}
+ .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:13px} .ccard{border:1px solid #e8edf3;border-radius:12px;padding:14px 15px;background:#fff}
+ .chead{display:flex;align-items:baseline;gap:8px} .cname{font-weight:800;font-size:15px} .ccode{font-size:11.5px;color:#94a3b8}
+ .cmeta{display:flex;gap:10px;font-size:11.5px;color:#64748b;margin:3px 0 8px} .cind{font-weight:700;color:#475569}
+ .csumm{font-size:12.5px;color:#334155;margin:0 0 10px} .cpn{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:5px}
+ .lab{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px} .pl{background:#f0fdf4;color:#16a34a} .nl{background:#fef2f2;color:#dc2626}
+ .pc{font-size:11px;background:#f0fdf4;color:#166534;border-radius:6px;padding:2px 7px} .nc{font-size:11px;background:#fef2f2;color:#991b1b;border-radius:6px;padding:2px 7px}
+ .pred{border:1px solid #e8edf3;border-left:4px solid #cbd5e1;border-radius:10px;padding:11px 14px;margin-bottom:9px;background:#fff}
+ .conf{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:20px;float:right} .pwhat{font-size:13.5px;font-weight:600;color:#1e293b} .pcomp{font-size:11.5px;color:#64748b;margin-top:3px}
+ details.deep summary{cursor:pointer;padding:13px 15px;font-weight:700;font-size:14.5px;list-style:none;display:flex;align-items:center;gap:9px}
+ .dtopic::before{content:"🔎 "} .ddate{font-size:11px;color:#94a3b8;font-weight:600;margin-left:auto}
+ .ddetail{padding:2px 16px 16px;border-top:1px dashed #eef2f7} .ddetail p{font-size:13px;color:#334155} .dcomp{font-size:11.5px;color:#64748b;margin:6px 0} .ddetail h4{font-size:12px;color:#0891b2;margin:10px 0 4px}
+ ul.terms{padding-left:0;list-style:none;margin:0} ul.terms li{font-size:12.5px;color:#334155;background:#f8fafc;border-radius:8px;padding:8px 11px;margin-bottom:6px}
+ a.item{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;margin-bottom:9px;text-decoration:none;color:#0f172a}
+ a.item:hover{border-color:#94a3b8;box-shadow:0 3px 10px rgba(15,23,42,.06)} a.item .d{font-weight:700} a.item .arw{color:#2563eb;font-size:13px}
+ footer{color:#94a3b8;font-size:12px;margin-top:26px;text-align:center}
+
+ .disc{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 13px;margin:0 0 16px}
+ .ctbl-wrap{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px}
+ table.ctbl{border-collapse:collapse;width:100%;min-width:900px;font-size:12.5px}
+ table.ctbl th,table.ctbl td{padding:9px 11px;text-align:right;border-bottom:1px solid #eef2f7;white-space:nowrap}
+ table.ctbl th{background:#f8fafc;color:#475569;font-size:11.5px;position:sticky;top:0;cursor:pointer;user-select:none}
+ table.ctbl th:hover{background:#eef2f7} table.ctbl th.act::after{content:" ▾";color:#2563eb}
+ table.ctbl th.asc.act::after{content:" ▴"}
+ table.ctbl td.l,table.ctbl th.l{text-align:left} table.ctbl tr:hover td{background:#fcfdfe}
+ .cnm{font-weight:700;color:#0f172a} .ccd{font-size:11px;color:#94a3b8;margin-left:5px}
+ .itag{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:6px}
+ .col{font-size:12.5px;color:#334155;text-align:left;max-width:280px;white-space:normal}
+ .neg{color:#dc2626} .pos{color:#16a34a}
+ .pmx{display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:8px;margin-top:6px}
+ .pmx .hc{font-size:11.5px;font-weight:800;color:#475569;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:8px;padding:6px;text-align:center}
+ .pmx .rl{writing-mode:vertical-rl;text-orientation:mixed} .pmx .corner{background:transparent}
+ .cell{min-height:74px;border:1px solid #eef2f7;border-radius:10px;padding:8px;background:#fcfdfe;display:flex;flex-direction:column;gap:6px}
+ .pchip{font-size:11.5px;line-height:1.4;border-left:4px solid;border-radius:8px;padding:6px 9px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+ .pchip .pc2{display:block;font-size:10.5px;color:#94a3b8;margin-top:3px}
+ .navcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
+ a.navcard{display:block;background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none}
+ a.navcard:hover{box-shadow:0 6px 18px rgba(15,23,42,.18)} a.navcard .nt{font-weight:800;font-size:15px} a.navcard .nd{font-size:12px;color:#cbd5e1;margin-top:4px} a.navcard .na{font-size:12px;color:#93c5fd;margin-top:8px}
+</style></head><body><div class="wrap">
+ <header><div class="eyebrow">BUSINESS NEWS — COMPANY LIBRARY</div><h1>企業分析ライブラリ（累積）</h1>
+   <div class="sub">これまでの日次ダイジェストに登場した企業を集約。主要財務指標＋今後の期待。全30社</div>
+   <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div></header>
+ <section><h2><span class="num">★</span>企業一覧（30社）</h2>
+   <p class="lead">列見出しをクリックで並べ替え。既定は時価総額の大きい順。</p>
+   <div class="disc">※ 財務数値は各社IR・公開金融情報サイト（IRBANK / Yahoo!ファイナンス / 株探 / 株予報 等）を基にした<b>概算・参考値</b>で、取得時点は2026年6月下旬〜7月1日です。市場変動により実値は変わります。最新値は各社IRでご確認ください。「売上高/収益」は事業により営業収益・売上収益・経常収益（銀行）を含みます。<b>*キオクシアは上場直後で自己資本が薄くPBR/ROEが極端値となるため参考外</b>。時価総額は特記なき場合は円、海外企業はドル/ユーロ表記です。</div>
+   <div class="ctbl-wrap"><table class="ctbl" id="ct"><thead><tr><th class="l" onclick="csort(0)">企業名</th><th class="l" onclick="csort(1)">業種</th><th class="" onclick="csort(2)">時価総額</th><th class="" onclick="csort(3)">売上高/収益</th><th class="" onclick="csort(4)">PER</th><th class="" onclick="csort(5)">PBR</th><th class="" onclick="csort(6)">ROE</th><th class="col l" onclick="csort(7)">今後の期待</th><th class="l" onclick="csort(8)">登場</th></tr></thead><tbody><tr>
+   <td class="l" data-v="キオクシアホールディングス"><span class="cnm">キオクシアホールディングス</span><span class="ccd">285A</span></td>
+   <td class="l" data-v="半導体(メモリ)"><span class="itag" style="background:#ea580c1a;color:#ea580c">半導体(メモリ)</span></td>
+   <td data-v="440000.0">約44兆円</td>
+   <td data-v="23400.0">2.34兆</td>
+   <td data-v="12.0">約12</td>
+   <td data-v="35.0">35*</td>
+   <td data-v="-1e+18">*</td>
+   <td class="col" data-v="AIメモリ需要で営業益+93%。時価総額急拡大も変動大。SOX連動。">AIメモリ需要で営業益+93%。時価総額急拡大も変動大。SOX連動。</td>
+   <td class="l" data-v="2026-06-27〜2026-07-01">2026-06-27〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="トヨタ自動車"><span class="cnm">トヨタ自動車</span><span class="ccd">7203</span></td>
+   <td class="l" data-v="自動車"><span class="itag" style="background:#7c3aed1a;color:#7c3aed">自動車</span></td>
+   <td data-v="438000.0">43.8兆</td>
+   <td data-v="507000.0">50.7兆</td>
+   <td data-v="12.1">12.1</td>
+   <td data-v="0.91">0.91</td>
+   <td data-v="10.2">10.2%</td>
+   <td class="col" data-v="営業収益は過去最高。営業益は減益だが円安が下支え。低PBRで割安圏。EV投資・関税が変数。">営業収益は過去最高。営業益は減益だが円安が下支え。低PBRで割安圏。EV投資・関税が変数。</td>
+   <td class="l" data-v="2026-06-27〜2026-07-01">2026-06-27〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="三菱UFJフィナンシャル・グループ"><span class="cnm">三菱UFJフィナンシャル・グループ</span><span class="ccd">8306</span></td>
+   <td class="l" data-v="銀行"><span class="itag" style="background:#2563eb1a;color:#2563eb">銀行</span></td>
+   <td data-v="385000.0">38.5兆</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="14.8">14.8</td>
+   <td data-v="1.63">1.63</td>
+   <td data-v="12.1">12.1%</td>
+   <td class="col" data-v="純利益2.4兆で最高益。利上げで資金利益拡大、年内追加利上げが追い風。">純利益2.4兆で最高益。利上げで資金利益拡大、年内追加利上げが追い風。</td>
+   <td class="l" data-v="2026-06-27〜2026-07-01">2026-06-27〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="ソフトバンクグループ"><span class="cnm">ソフトバンクグループ</span><span class="ccd">9984</span></td>
+   <td class="l" data-v="持株"><span class="itag" style="background:#4755691a;color:#475569">持株</span></td>
+   <td data-v="370000.0">約37兆</td>
+   <td data-v="78000.0">7.8兆</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="1.81">1.81</td>
+   <td data-v="28.4">28.4%</td>
+   <td class="col" data-v="OpenAI含み益6.4兆。IPO時期で株価変動大。AI投資の期待とレバレッジ。">OpenAI含み益6.4兆。IPO時期で株価変動大。AI投資の期待とレバレッジ。</td>
+   <td class="l" data-v="2026-06-27〜2026-07-01">2026-06-27〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="ファーストリテイリング"><span class="cnm">ファーストリテイリング</span><span class="ccd">9983</span></td>
+   <td class="l" data-v="小売"><span class="itag" style="background:#4755691a;color:#475569">小売</span></td>
+   <td data-v="268000.0">26.8兆</td>
+   <td data-v="34000.0">約3.4兆</td>
+   <td data-v="53.8">53.8</td>
+   <td data-v="9.8">9.8</td>
+   <td data-v="18.2">18.2%</td>
+   <td class="col" data-v="海外好調で最高益。高PERは成長期待。インバウンド追い風。">海外好調で最高益。高PERは成長期待。インバウンド追い風。</td>
+   <td class="l" data-v="2026-06-29〜2026-06-29">2026-06-29〜2026-06-29</td></tr><tr>
+   <td class="l" data-v="三井住友FG"><span class="cnm">三井住友FG</span><span class="ccd">8316</span></td>
+   <td class="l" data-v="銀行"><span class="itag" style="background:#2563eb1a;color:#2563eb">銀行</span></td>
+   <td data-v="245000.0">24.5兆</td>
+   <td data-v="108000.0">経常10.8兆</td>
+   <td data-v="14.4">14.4</td>
+   <td data-v="1.55">1.55</td>
+   <td data-v="10.8">10.8%</td>
+   <td class="col" data-v="純利益1.58兆+34%で最高益。利上げが追い風。">純利益1.58兆+34%で最高益。利上げが追い風。</td>
+   <td class="l" data-v="2026-06-27〜2026-06-27">2026-06-27〜2026-06-27</td></tr><tr>
+   <td class="l" data-v="ソニーグループ"><span class="cnm">ソニーグループ</span><span class="ccd">6758</span></td>
+   <td class="l" data-v="エンタメ"><span class="itag" style="background:#7c3aed1a;color:#7c3aed">エンタメ</span></td>
+   <td data-v="194000.0">19.4兆</td>
+   <td data-v="125000.0">12.5兆</td>
+   <td data-v="16.7">16.7</td>
+   <td data-v="2.35">2.35</td>
+   <td data-v="14.3">14.3%</td>
+   <td class="col" data-v="ゲーム・音楽・イメージセンサー好調で増収増益。IP資本化の中核。">ゲーム・音楽・イメージセンサー好調で増収増益。IP資本化の中核。</td>
+   <td class="l" data-v="2026-06-30〜2026-07-01">2026-06-30〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="みずほFG"><span class="cnm">みずほFG</span><span class="ccd">8411</span></td>
+   <td class="l" data-v="銀行"><span class="itag" style="background:#2563eb1a;color:#2563eb">銀行</span></td>
+   <td data-v="191000.0">19.1兆</td>
+   <td data-v="91000.0">経常9.1兆</td>
+   <td data-v="14.9">14.9</td>
+   <td data-v="1.68">1.68</td>
+   <td data-v="11.5">11.5%</td>
+   <td class="col" data-v="純利益1.25兆+41%。次期も増益見込み。">純利益1.25兆+41%。次期も増益見込み。</td>
+   <td class="l" data-v="2026-06-27〜2026-06-27">2026-06-27〜2026-06-27</td></tr><tr>
+   <td class="l" data-v="三菱商事"><span class="cnm">三菱商事</span><span class="ccd">8058</span></td>
+   <td class="l" data-v="商社"><span class="itag" style="background:#0d94881a;color:#0d9488">商社</span></td>
+   <td data-v="175000.0">17.5兆</td>
+   <td data-v="189000.0">18.9兆</td>
+   <td data-v="14.5">14.5</td>
+   <td data-v="1.69">1.69</td>
+   <td data-v="11.7">11.7%</td>
+   <td class="col" data-v="前年反動で減益、来期+37%回復見込み。エネルギー部門統合。">前年反動で減益、来期+37%回復見込み。エネルギー部門統合。</td>
+   <td class="l" data-v="2026-06-30〜2026-07-01">2026-06-30〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="三井物産"><span class="cnm">三井物産</span><span class="ccd">8031</span></td>
+   <td class="l" data-v="商社"><span class="itag" style="background:#0d94881a;color:#0d9488">商社</span></td>
+   <td data-v="135000.0">13.5兆</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="14.5">14.5</td>
+   <td data-v="1.52">1.52</td>
+   <td data-v="10.2">10.2%</td>
+   <td class="col" data-v="資源市況で減収減益も基礎CF9789億で財務健全。">資源市況で減収減益も基礎CF9789億で財務健全。</td>
+   <td class="l" data-v="2026-06-29〜2026-06-30">2026-06-29〜2026-06-30</td></tr><tr>
+   <td class="l" data-v="日本電信電話(NTT)"><span class="cnm">日本電信電話(NTT)</span><span class="ccd">9432</span></td>
+   <td class="l" data-v="通信"><span class="itag" style="background:#0891b21a;color:#0891b2">通信</span></td>
+   <td data-v="130000.0">13.0兆</td>
+   <td data-v="137000.0">約13.7兆</td>
+   <td data-v="12.0">12.0</td>
+   <td data-v="1.21">1.21</td>
+   <td data-v="10.1">10.1%</td>
+   <td class="col" data-v="通信は安定収益。HAPS等NTN・IOWNが成長ドライバー。">通信は安定収益。HAPS等NTN・IOWNが成長ドライバー。</td>
+   <td class="l" data-v="2026-06-27〜2026-07-01">2026-06-27〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="三菱重工業"><span class="cnm">三菱重工業</span><span class="ccd">7011</span></td>
+   <td class="l" data-v="重工"><span class="itag" style="background:#4755691a;color:#475569">重工</span></td>
+   <td data-v="126000.0">約12.6兆</td>
+   <td data-v="49700.0">4.97兆</td>
+   <td data-v="30.9">30.9</td>
+   <td data-v="4.0">4.0</td>
+   <td data-v="12.3">12.3%</td>
+   <td class="col" data-v="防衛・エネルギー好調。ガスタービンでDC電力需要。高PBRは期待先行。">防衛・エネルギー好調。ガスタービンでDC電力需要。高PBRは期待先行。</td>
+   <td class="l" data-v="2026-06-29〜2026-07-01">2026-06-29〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="第一三共"><span class="cnm">第一三共</span><span class="ccd">4568</span></td>
+   <td class="l" data-v="製薬"><span class="itag" style="background:#16a34a1a;color:#16a34a">製薬</span></td>
+   <td data-v="120000.0">約12兆</td>
+   <td data-v="21200.0">2.12兆</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="2.81">2.81</td>
+   <td data-v="15.6">15.6%</td>
+   <td class="col" data-v="ADC(エンハーツ)が牽引し増収増益。がん領域が成長。">ADC(エンハーツ)が牽引し増収増益。がん領域が成長。</td>
+   <td class="l" data-v="2026-06-30〜2026-06-30">2026-06-30〜2026-06-30</td></tr><tr>
+   <td class="l" data-v="KDDI"><span class="cnm">KDDI</span><span class="ccd">9433</span></td>
+   <td class="l" data-v="通信"><span class="itag" style="background:#0891b21a;color:#0891b2">通信</span></td>
+   <td data-v="113000.0">11.3兆</td>
+   <td data-v="60700.0">6.07兆</td>
+   <td data-v="13.8">13.8</td>
+   <td data-v="2.09">2.09</td>
+   <td data-v="15.2">15.2%</td>
+   <td class="col" data-v="本業堅調。衛星通信・DXが成長。ローミング動向に注意。">本業堅調。衛星通信・DXが成長。ローミング動向に注意。</td>
+   <td class="l" data-v="2026-06-27〜2026-06-27">2026-06-27〜2026-06-27</td></tr><tr>
+   <td class="l" data-v="任天堂"><span class="cnm">任天堂</span><span class="ccd">7974</span></td>
+   <td class="l" data-v="ゲーム"><span class="itag" style="background:#7c3aed1a;color:#7c3aed">ゲーム</span></td>
+   <td data-v="88000.0">8.8兆</td>
+   <td data-v="23100.0">2.31兆</td>
+   <td data-v="27.8">27.8</td>
+   <td data-v="2.65">2.65</td>
+   <td data-v="10.5">10.5%</td>
+   <td class="col" data-v="Switch2好調で売上ほぼ倍増。R&amp;D1210億投資。IP多面展開。">Switch2好調で売上ほぼ倍増。R&amp;D1210億投資。IP多面展開。</td>
+   <td class="l" data-v="2026-06-27〜2026-07-01">2026-06-27〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="武田薬品工業"><span class="cnm">武田薬品工業</span><span class="ccd">4502</span></td>
+   <td class="l" data-v="製薬"><span class="itag" style="background:#16a34a1a;color:#16a34a">製薬</span></td>
+   <td data-v="80000.0">8.0兆</td>
+   <td data-v="45100.0">4.51兆</td>
+   <td data-v="48.2">48.2</td>
+   <td data-v="1.03">1.03</td>
+   <td data-v="2.1">2.1%</td>
+   <td class="col" data-v="減収で純損失。パテントクリフ・事業再編局面。低PBR。">減収で純損失。パテントクリフ・事業再編局面。低PBR。</td>
+   <td class="l" data-v="2026-06-30〜2026-06-30">2026-06-30〜2026-06-30</td></tr><tr>
+   <td class="l" data-v="京セラ"><span class="cnm">京セラ</span><span class="ccd">6971</span></td>
+   <td class="l" data-v="電子部品"><span class="itag" style="background:#4755691a;color:#475569">電子部品</span></td>
+   <td data-v="50500.0">5.05兆</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="33.3">33.3</td>
+   <td data-v="1.4">1.40</td>
+   <td data-v="4.3">4.3%</td>
+   <td class="col" data-v="電子部品・DC向けが回復途上。低ROEが課題、資本効率改革に注目。">電子部品・DC向けが回復途上。低ROEが課題、資本効率改革に注目。</td>
+   <td class="l" data-v="2026-06-29〜2026-06-30">2026-06-29〜2026-06-30</td></tr><tr>
+   <td class="l" data-v="エヌビディア"><span class="cnm">エヌビディア</span><span class="ccd">NVDA</span></td>
+   <td class="l" data-v="半導体(海外)"><span class="itag" style="background:#ea580c1a;color:#ea580c">半導体(海外)</span></td>
+   <td data-v="47000.0">約4.7兆ドル</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="39.3">39.3</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td class="col" data-v="AI GPUで独走。データセンター需要が業績を牽引。">AI GPUで独走。データセンター需要が業績を牽引。</td>
+   <td class="l" data-v="2026-06-27〜2026-06-27">2026-06-27〜2026-06-27</td></tr><tr>
+   <td class="l" data-v="楽天グループ"><span class="cnm">楽天グループ</span><span class="ccd">4755</span></td>
+   <td class="l" data-v="通信・EC"><span class="itag" style="background:#0891b21a;color:#0891b2">通信・EC</span></td>
+   <td data-v="16400.0">約1.64兆</td>
+   <td data-v="25000.0">2.50兆</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="1.65">1.65</td>
+   <td data-v="-18.5" class="neg">-18.5%</td>
+   <td class="col" data-v="モバイル赤字縮小、Non-GAAP営業黒字。衛星通信FY26Q4。財務が課題。">モバイル赤字縮小、Non-GAAP営業黒字。衛星通信FY26Q4。財務が課題。</td>
+   <td class="l" data-v="2026-06-27〜2026-07-01">2026-06-27〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="シスメックス"><span class="cnm">シスメックス</span><span class="ccd">6869</span></td>
+   <td class="l" data-v="医療機器"><span class="itag" style="background:#4755691a;color:#475569">医療機器</span></td>
+   <td data-v="10000.0">約1.0兆</td>
+   <td data-v="4800.0">約4,800億</td>
+   <td data-v="21.4">21.4</td>
+   <td data-v="1.99">1.99</td>
+   <td data-v="12.0">12.0%</td>
+   <td class="col" data-v="検体検査で世界的シェア。TIME持続可能企業に選出。">検体検査で世界的シェア。TIME持続可能企業に選出。</td>
+   <td class="l" data-v="2026-07-01〜2026-07-01">2026-07-01〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="博報堂DYHD"><span class="cnm">博報堂DYHD</span><span class="ccd">2433</span></td>
+   <td class="l" data-v="広告"><span class="itag" style="background:#db27771a;color:#db2777">広告</span></td>
+   <td data-v="4210.0">4,210億</td>
+   <td data-v="9700.0">9,700億</td>
+   <td data-v="16.0">16.0</td>
+   <td data-v="1.07">1.07</td>
+   <td data-v="6.7">6.7%</td>
+   <td class="col" data-v="広告市況に左右。生成AI活用と事業再編が焦点。">広告市況に左右。生成AI活用と事業再編が焦点。</td>
+   <td class="l" data-v="2026-06-27〜2026-06-27">2026-06-27〜2026-06-27</td></tr><tr>
+   <td class="l" data-v="京浜急行電鉄"><span class="cnm">京浜急行電鉄</span><span class="ccd">9006</span></td>
+   <td class="l" data-v="鉄道・通信"><span class="itag" style="background:#4755691a;color:#475569">鉄道・通信</span></td>
+   <td data-v="4084.0">4,084億</td>
+   <td data-v="3042.0">3,042億</td>
+   <td data-v="13.2">13.2</td>
+   <td data-v="1.02">1.02</td>
+   <td data-v="7.7">7.7%</td>
+   <td class="col" data-v="運輸回復・インバウンド。羽田・沿線開発が支え。">運輸回復・インバウンド。羽田・沿線開発が支え。</td>
+   <td class="l" data-v="2026-06-30〜2026-06-30">2026-06-30〜2026-06-30</td></tr><tr>
+   <td class="l" data-v="ジーエヌアイグループ"><span class="cnm">ジーエヌアイグループ</span><span class="ccd">2160</span></td>
+   <td class="l" data-v="製薬/バイオ"><span class="itag" style="background:#16a34a1a;color:#16a34a">製薬/バイオ</span></td>
+   <td data-v="1590.0">1,590億</td>
+   <td data-v="220.0">約220億</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="3.17">3.17</td>
+   <td data-v="-1e+18">—</td>
+   <td class="col" data-v="F351等R&amp;D先行で営業赤字。中国事業と新薬承認が鍵。">F351等R&amp;D先行で営業赤字。中国事業と新薬承認が鍵。</td>
+   <td class="l" data-v="2026-06-27〜2026-06-27">2026-06-27〜2026-06-27</td></tr><tr>
+   <td class="l" data-v="フォルクスワーゲン"><span class="cnm">フォルクスワーゲン</span><span class="ccd">VOW3</span></td>
+   <td class="l" data-v="自動車"><span class="itag" style="background:#7c3aed1a;color:#7c3aed">自動車</span></td>
+   <td data-v="476.0">約476億EUR</td>
+   <td data-v="756.0">四半期756億EUR</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td class="col" data-v="EV減速・リストラ。高配当。7/9監査役会に注目。">EV減速・リストラ。高配当。7/9監査役会に注目。</td>
+   <td class="l" data-v="2026-06-29〜2026-06-30">2026-06-29〜2026-06-30</td></tr><tr>
+   <td class="l" data-v="onsemi(オンセミ)"><span class="cnm">onsemi(オンセミ)</span><span class="ccd">ON</span></td>
+   <td class="l" data-v="半導体(米)"><span class="itag" style="background:#ea580c1a;color:#ea580c">半導体(米)</span></td>
+   <td data-v="355.0">約355億ドル</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="41.0">約41</td>
+   <td data-v="2.79">2.79</td>
+   <td data-v="-1e+18">—</td>
+   <td class="col" data-v="車載・産業パワー半導体。市況回復待ち。">車載・産業パワー半導体。市況回復待ち。</td>
+   <td class="l" data-v="2026-06-29〜2026-06-29">2026-06-29〜2026-06-29</td></tr><tr>
+   <td class="l" data-v="村田製作所"><span class="cnm">村田製作所</span><span class="ccd">6981</span></td>
+   <td class="l" data-v="電子部品"><span class="itag" style="background:#4755691a;color:#475569">電子部品</span></td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="18300.0">1.83兆</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="10.8">10.8%</td>
+   <td class="col" data-v="AI・DC向け部品が伸長し過去最高売上。来期はAIサーバー需要で大幅増益見込み。">AI・DC向け部品が伸長し過去最高売上。来期はAIサーバー需要で大幅増益見込み。</td>
+   <td class="l" data-v="2026-07-01〜2026-07-01">2026-07-01〜2026-07-01</td></tr><tr>
+   <td class="l" data-v="NTT東日本"><span class="cnm">NTT東日本</span><span class="ccd">—</span></td>
+   <td class="l" data-v="通信"><span class="itag" style="background:#0891b21a;color:#0891b2">通信</span></td>
+   <td data-v="-1e+18">非上場</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td class="col" data-v="NTT子会社。地域通信・DX。">NTT子会社。地域通信・DX。</td>
+   <td class="l" data-v="2026-06-29〜2026-06-29">2026-06-29〜2026-06-29</td></tr><tr>
+   <td class="l" data-v="OpenAI"><span class="cnm">OpenAI</span><span class="ccd">—</span></td>
+   <td class="l" data-v="AI(米・非上場)"><span class="itag" style="background:#db27771a;color:#db2777">AI(米・非上場)</span></td>
+   <td data-v="-1e+18">非上場</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td class="col" data-v="対話AIの基盤企業。IPOは9月観測。">対話AIの基盤企業。IPOは9月観測。</td>
+   <td class="l" data-v="2026-06-27〜2026-06-27">2026-06-27〜2026-06-27</td></tr><tr>
+   <td class="l" data-v="アンソロピック"><span class="cnm">アンソロピック</span><span class="ccd">—</span></td>
+   <td class="l" data-v="AI(米・非上場)"><span class="itag" style="background:#db27771a;color:#db2777">AI(米・非上場)</span></td>
+   <td data-v="-1e+18">非上場</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td class="col" data-v="AI安全性を重視。大型調達が続く。">AI安全性を重視。大型調達が続く。</td>
+   <td class="l" data-v="2026-06-27〜2026-06-27">2026-06-27〜2026-06-27</td></tr><tr>
+   <td class="l" data-v="セイコーウオッチ"><span class="cnm">セイコーウオッチ</span><span class="ccd">—</span></td>
+   <td class="l" data-v="小売(時計)"><span class="itag" style="background:#4755691a;color:#475569">小売(時計)</span></td>
+   <td data-v="-1e+18">非上場</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td data-v="-1e+18">—</td>
+   <td class="col" data-v="セイコーグループの時計事業会社。">セイコーグループの時計事業会社。</td>
+   <td class="l" data-v="2026-06-29〜2026-06-29">2026-06-29〜2026-06-29</td></tr></tbody></table></div>
+ </section>
+ <footer>Cowork ビジネスニュース・ダッシュボード ／ 企業分析ライブラリ</footer></div>
+<script>
+var casc=true,clast=-1;
+function csort(i){var tb=document.querySelector('#ct tbody');var rs=[].slice.call(tb.rows);
+ if(i===clast)casc=!casc;else casc=true;clast=i;
+ rs.sort(function(a,b){var x=a.cells[i].getAttribute('data-v'),y=b.cells[i].getAttribute('data-v');
+  var nx=parseFloat(x),ny=parseFloat(y);var num=!isNaN(nx)&&!isNaN(ny)&&/^-?\d/.test(x)&&/^-?\d/.test(y);
+  if(num)return casc?nx-ny:ny-nx;return casc?(''+x).localeCompare(y,'ja'):(''+y).localeCompare(x,'ja');});
+ rs.forEach(function(r){tb.appendChild(r);});
+ document.querySelectorAll('#ct th').forEach(function(t,j){t.classList.toggle('act',j===i);t.classList.toggle('asc',j===i&&casc);});}
+</script></body></html>

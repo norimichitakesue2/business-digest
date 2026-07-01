@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>今後の予測マップ｜ビジネスニュース・ダッシュボード</title><style>
+ *{box-sizing:border-box} body{margin:0;background:#f1f5f9;color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Noto Sans JP',sans-serif;line-height:1.65}
+ .wrap{max-width:1340px;margin:0 auto;padding:28px 20px 70px} .eyebrow{color:#64748b;font-size:13px;font-weight:700;letter-spacing:1px}
+ h1{font-size:26px;margin:4px 0 2px} .sub{color:#64748b;font-size:14px} .home{font-size:12.5px;margin-top:4px} .home a{color:#2563eb;text-decoration:none}
+ .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px} .toc a{font-size:12.5px;text-decoration:none;color:#334155;background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:5px 13px}
+ .toc a:hover{border-color:#94a3b8} section{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:22px;margin-top:22px;box-shadow:0 1px 2px rgba(15,23,42,.04);scroll-margin-top:14px}
+ h2{font-size:18px;margin:0 0 4px;display:flex;align-items:center;gap:9px} h2 .num{display:inline-flex;width:24px;height:24px;border-radius:7px;background:#0f172a;color:#fff;font-size:13px;align-items:center;justify-content:center}
+ .lead{color:#64748b;font-size:13.5px;margin:0 0 16px} .diagram{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px;background:#fcfdfe;padding:10px}
+ .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:12.5px;color:#475569} .lg{display:inline-flex;align-items:center;gap:6px}
+ .sw{width:22px;border-top:3px solid;display:inline-block;border-radius:2px} .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+ .note{margin-top:14px;font-size:12.5px;color:#475569;background:#f8fafc;border-left:3px solid #cbd5e1;padding:10px 12px;border-radius:8px}
+ .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px} .tcard{border:1px solid #e8edf3;border-radius:11px;padding:13px 15px;background:#fbfcfe}
+ .tname{font-weight:800;font-size:14px;margin-bottom:4px} .tdesc{font-size:12.5px;color:#475569}
+ details.news,details.deep{border:1px solid #e8edf3;border-radius:11px;margin-bottom:10px;background:#fff;overflow:hidden} details.news[open]{box-shadow:0 3px 12px rgba(15,23,42,.07)}
+ details.news summary{list-style:none;cursor:pointer;padding:13px 15px;display:flex;flex-wrap:wrap;align-items:center;gap:9px} details.news summary::-webkit-details-marker,details.deep summary::-webkit-details-marker{display:none}
+ .ind{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;white-space:nowrap} .nhead{font-weight:700;font-size:14.5px;flex:1 1 320px}
+ .pnsmall{font-size:11.5px;color:#64748b;flex:1 1 100%} .pnsmall .p{color:#16a34a} .pnsmall .n{color:#dc2626;margin-left:8px}
+ .ndetail{padding:4px 16px 16px;border-top:1px dashed #eef2f7} .block{margin-top:11px} .block h4{margin:0 0 3px;font-size:12px;color:#0891b2;letter-spacing:.5px}
+ .block p{margin:0;font-size:13px;color:#334155} .block ul{margin:4px 0;padding-left:18px;font-size:13px;color:#334155} .block li{margin:2px 0}
+ .chips{display:flex;flex-wrap:wrap;gap:6px} .chip{font-size:11px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:2px 8px;color:#475569}
+ .src{display:inline-block;margin-top:12px;font-size:12px;color:#2563eb;text-decoration:none}
+ .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:13px} .ccard{border:1px solid #e8edf3;border-radius:12px;padding:14px 15px;background:#fff}
+ .chead{display:flex;align-items:baseline;gap:8px} .cname{font-weight:800;font-size:15px} .ccode{font-size:11.5px;color:#94a3b8}
+ .cmeta{display:flex;gap:10px;font-size:11.5px;color:#64748b;margin:3px 0 8px} .cind{font-weight:700;color:#475569}
+ .csumm{font-size:12.5px;color:#334155;margin:0 0 10px} .cpn{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:5px}
+ .lab{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px} .pl{background:#f0fdf4;color:#16a34a} .nl{background:#fef2f2;color:#dc2626}
+ .pc{font-size:11px;background:#f0fdf4;color:#166534;border-radius:6px;padding:2px 7px} .nc{font-size:11px;background:#fef2f2;color:#991b1b;border-radius:6px;padding:2px 7px}
+ .pred{border:1px solid #e8edf3;border-left:4px solid #cbd5e1;border-radius:10px;padding:11px 14px;margin-bottom:9px;background:#fff}
+ .conf{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:20px;float:right} .pwhat{font-size:13.5px;font-weight:600;color:#1e293b} .pcomp{font-size:11.5px;color:#64748b;margin-top:3px}
+ details.deep summary{cursor:pointer;padding:13px 15px;font-weight:700;font-size:14.5px;list-style:none;display:flex;align-items:center;gap:9px}
+ .dtopic::before{content:"🔎 "} .ddate{font-size:11px;color:#94a3b8;font-weight:600;margin-left:auto}
+ .ddetail{padding:2px 16px 16px;border-top:1px dashed #eef2f7} .ddetail p{font-size:13px;color:#334155} .dcomp{font-size:11.5px;color:#64748b;margin:6px 0} .ddetail h4{font-size:12px;color:#0891b2;margin:10px 0 4px}
+ ul.terms{padding-left:0;list-style:none;margin:0} ul.terms li{font-size:12.5px;color:#334155;background:#f8fafc;border-radius:8px;padding:8px 11px;margin-bottom:6px}
+ a.item{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;margin-bottom:9px;text-decoration:none;color:#0f172a}
+ a.item:hover{border-color:#94a3b8;box-shadow:0 3px 10px rgba(15,23,42,.06)} a.item .d{font-weight:700} a.item .arw{color:#2563eb;font-size:13px}
+ footer{color:#94a3b8;font-size:12px;margin-top:26px;text-align:center}
+
+ .disc{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 13px;margin:0 0 16px}
+ .ctbl-wrap{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px}
+ table.ctbl{border-collapse:collapse;width:100%;min-width:900px;font-size:12.5px}
+ table.ctbl th,table.ctbl td{padding:9px 11px;text-align:right;border-bottom:1px solid #eef2f7;white-space:nowrap}
+ table.ctbl th{background:#f8fafc;color:#475569;font-size:11.5px;position:sticky;top:0;cursor:pointer;user-select:none}
+ table.ctbl th:hover{background:#eef2f7} table.ctbl th.act::after{content:" ▾";color:#2563eb}
+ table.ctbl th.asc.act::after{content:" ▴"}
+ table.ctbl td.l,table.ctbl th.l{text-align:left} table.ctbl tr:hover td{background:#fcfdfe}
+ .cnm{font-weight:700;color:#0f172a} .ccd{font-size:11px;color:#94a3b8;margin-left:5px}
+ .itag{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:6px}
+ .col{font-size:12.5px;color:#334155;text-align:left;max-width:280px;white-space:normal}
+ .neg{color:#dc2626} .pos{color:#16a34a}
+ .pmx{display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:8px;margin-top:6px}
+ .pmx .hc{font-size:11.5px;font-weight:800;color:#475569;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:8px;padding:6px;text-align:center}
+ .pmx .rl{writing-mode:vertical-rl;text-orientation:mixed} .pmx .corner{background:transparent}
+ .cell{min-height:74px;border:1px solid #eef2f7;border-radius:10px;padding:8px;background:#fcfdfe;display:flex;flex-direction:column;gap:6px}
+ .pchip{font-size:11.5px;line-height:1.4;border-left:4px solid;border-radius:8px;padding:6px 9px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+ .pchip .pc2{display:block;font-size:10.5px;color:#94a3b8;margin-top:3px}
+ .navcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
+ a.navcard{display:block;background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none}
+ a.navcard:hover{box-shadow:0 6px 18px rgba(15,23,42,.18)} a.navcard .nt{font-weight:800;font-size:15px} a.navcard .nd{font-size:12px;color:#cbd5e1;margin-top:4px} a.navcard .na{font-size:12px;color:#93c5fd;margin-top:8px}
+</style></head><body><div class="wrap">
+ <header><div class="eyebrow">BUSINESS NEWS — OUTLOOK MAP</div><h1>今後の予測マップ（累積）</h1>
+   <div class="sub">日次ダイジェストの「今後起きそうなこと」を集約。確度×時間軸でマッピング。全34件</div>
+   <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div></header>
+ <section><h2><span class="num">◇</span>確度 × 時間軸マトリクス</h2>
+   <p class="lead">縦＝確度（高/中/低）、横＝時間軸（短期〜長期）。右上（高確度×短期）ほど注視度が高い予測です。</p>
+   <div class="pmx"><div class="corner"></div><div class="hc">短期（〜3カ月）</div><div class="hc">中期（〜1年）</div><div class="hc">長期（1年〜）</div><div class="hc rl" style="color:#dc2626">確度 高</div><div class="cell"><div class="pchip" style="border-color:#dc2626">食品値上げが7月に2269品目へ拡大、実質購買力の重しに<span class="pc2">関連: 味の素/カルビー/明星食品</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#dc2626">楽天モバイルとKDDIのローミング協定(9月末期限)が縮小・終了に向かい、楽天は自前エリア整備と品質改善を一段と加速する。<span class="pc2">関連: KDDI/楽天グループ</span><span class="pc2">2026-06-27</span></div></div><div class="cell"><div class="pchip" style="border-color:#dc2626">AI株高は一極集中から電力・重電・部品などの裾野へ物色が広がる<span class="pc2">関連: 三菱重工・京セラ・村田製作所</span><span class="pc2">2026-07-01</span></div><div class="pchip" style="border-color:#dc2626">円安と中東情勢で下期も食品値上げが続き、内需は資産効果層とで二極化<span class="pc2">関連: 小売・食品各社</span><span class="pc2">2026-07-01</span></div><div class="pchip" style="border-color:#dc2626">中国不動産不況の長期化で商社・素材の対中エクスポージャーが圧迫<span class="pc2">関連: 三菱商事/三井物産/住友化学</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#dc2626">AIデータセンターの電力需要増で、ガスタービン・送配電・再エネ・原子力など電力インフラへの投資が一段と拡大する。<span class="pc2">関連: 三菱重工/日立/東芝/電力各社</span><span class="pc2">2026-06-29</span></div></div><div class="cell"><div class="pchip" style="border-color:#dc2626">製薬のパテントクリフ下で、非中核事業のカーブアウトとがん・ADC領域へのM&amp;Aがさらに増える。<span class="pc2">関連: 第一三共/武田/アステラス/中外</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#dc2626">AIデータセンターの電力需要拡大で、ガスタービン・送配電・再エネの設備投資が数年単位で続く。<span class="pc2">関連: 三菱重工/日立/東芝/京セラ</span><span class="pc2">2026-06-30</span></div></div><div class="hc rl" style="color:#d97706">確度 中</div><div class="cell"><div class="pchip" style="border-color:#d97706">日銀が年内(早ければ7月会合)に追加利上げに踏み切る<span class="pc2">関連: 三菱UFJ・メガバンク各行</span><span class="pc2">2026-07-01</span></div><div class="pchip" style="border-color:#d97706">OpenAIの上場は9月へずれ込み、SBG関連の値動きがAI相場全体を左右する<span class="pc2">関連: ソフトバンクG・アーム</span><span class="pc2">2026-07-01</span></div><div class="pchip" style="border-color:#d97706">ドル円が162円を突破すれば政府・日銀が円買い介入に踏み切る可能性<span class="pc2">関連: 三菱UFJ/財務省/三井住友FG</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">OpenAIの9月IPO実現でAIインフラ・半導体に資金が再流入<span class="pc2">関連: ソフトバンクG/キオクシア/東京エレクトロン</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">VWの監査役会（7/9）でリストラ計画が承認されれば、欧州自動車の再編が本格化し、日本勢の相対優位と部品サプライ網の再編が同時に進む。<span class="pc2">関連: VW/トヨタ/ホンダ/デンソー/アイシン</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">中国が7月下旬の党中央政治局会議で追加の財政出動・金融緩和に踏み込み、不動産・消費テコ入れ策を打ち出す。<span class="pc2">関連: 保利発展/万科企業</span><span class="pc2">2026-06-27</span></div></div><div class="cell"><div class="pchip" style="border-color:#d97706">金融庁の新方針で地銀・信金の再編が加速する<span class="pc2">関連: SBIHD・地銀各行</span><span class="pc2">2026-07-01</span></div><div class="pchip" style="border-color:#d97706">衛星ダイレクト通信の商用化競争が本格化する<span class="pc2">関連: 楽天G・NTT・KDDI</span><span class="pc2">2026-07-01</span></div><div class="pchip" style="border-color:#d97706">日銀が年内に追加利上げ、メガバンクの利ざやが一段改善<span class="pc2">関連: 三菱UFJ/三井住友FG/みずほ</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">国産AI政策が計算基盤・電力投資を後押しし重電に追い風<span class="pc2">関連: NTT/三菱重工/日立</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">欧州自動車のリストラ加速で日系部品に再編・受注圧力<span class="pc2">関連: トヨタ/デンソー/アイシン</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">日銀が年内（12月想定）に追加利上げに踏み切れば、銀行・保険の利ざやは一段改善するが、不動産・REIT・高PER株には逆風が強まる。<span class="pc2">関連: 三菱UFJ/三井住友FG/第一生命/REIT各社</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">AI大型IPO（OpenAI等）の再始動が次の半導体相場の起点になる。先送りが長引けば需給主導の調整が続く。<span class="pc2">関連: キオクシア/アドバンテスト/東京エレクトロン/SBG</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">半導体への一極集中相場が続く中、調整局面では医薬・内需ディフェンシブや出遅れバリューへの資金ローテーションが起きやすい。<span class="pc2">関連: 武田/内需株/銀行/商社</span><span class="pc2">2026-06-29</span></div><div class="pchip" style="border-color:#d97706">対米投資5500億ドルのドル調達を巡り、政府保証(JBIC)やドル供給スキームの設計が具体化する。<span class="pc2">関連: 3メガバンク/JBIC</span><span class="pc2">2026-06-29</span></div><div class="pchip" style="border-color:#d97706">株高の資産効果で高級・高額消費が拡大する一方、相場調整時には反動が出やすく、消費の二極化が進む。<span class="pc2">関連: 高級ブランド/百貨店/時計</span><span class="pc2">2026-06-29</span></div><div class="pchip" style="border-color:#d97706">半導体の報酬インフレが国内にも波及し、人材獲得競争と処遇見直しが他産業にも広がる。<span class="pc2">関連: キオクシア/半導体各社</span><span class="pc2">2026-06-29</span></div><div class="pchip" style="border-color:#d97706">欧州の人権デューデリジェンス規制強化で、サプライチェーン監査に対応できない取引先の淘汰・再編が進む。<span class="pc2">関連: ファストリ/アパレル/商社</span><span class="pc2">2026-06-29</span></div><div class="pchip" style="border-color:#d97706">日米の対米投融資(5500億ドル)を巡り、政府がJBIC保証やドル供給スキームなどメガバンク向け支援策を具体化する。<span class="pc2">関連: 三菱UFJ FG/三井住友FG/みずほフィナンシャルグループ/JBIC</span><span class="pc2">2026-06-27</span></div><div class="pchip" style="border-color:#d97706">米FRBが年内に利上げを再開する織り込みが強まり、米長期金利上昇とドル高が高PERのハイテク株の重荷となる。<span class="pc2">関連: エヌビディア/ソフトバンクG/キオクシアホールディングス</span><span class="pc2">2026-06-27</span></div><div class="pchip" style="border-color:#d97706">生成AIエージェントの普及を受け、デジタル広告の効果測定で『非人間トラフィック』排除が業界標準の論点となる。<span class="pc2">関連: 博報堂/電通グループ</span><span class="pc2">2026-06-27</span></div><div class="pchip" style="border-color:#d97706">日経平均が半導体株主導の乱高下を続け、医薬・内需などディフェンシブ・出遅れ株への資金分散が進む。<span class="pc2">関連: 武田薬品工業/第一三共/アステラス製薬</span><span class="pc2">2026-06-27</span></div></div><div class="cell"><div class="pchip" style="border-color:#d97706">原油安（Brent60ドル前後）が定着すれば輸入物価の低下が消費を下支えする一方、石油元売り・資源開発・商社の資源益は圧迫される。<span class="pc2">関連: ENEOS/INPEX/三菱商事/三井物産</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">中国不動産不況が『あと2年』続けば、対中依存の高い素材・建機・化学の業績下方修正が相次ぐ。<span class="pc2">関連: コマツ/日立建機/信越化学/三菱ケミカル</span><span class="pc2">2026-06-30</span></div><div class="pchip" style="border-color:#d97706">米イラン和平が定着すれば原油安基調が続き、輸入物価の低下が日本の消費・企業収益を下支えする。一方で資源開発・石油元売りの採算は悪化する。<span class="pc2">関連: JAPEX/INPEX/ENEOS/航空・運輸</span><span class="pc2">2026-06-29</span></div><div class="pchip" style="border-color:#d97706">先端AIモデルの輸出管理が常態化し、フロンティアAIの提供が政府許可制・限定提供の枠組みへ移行していく。<span class="pc2">関連: アンソロピック(Anthropic)/OpenAI</span><span class="pc2">2026-06-27</span></div></div><div class="hc rl" style="color:#64748b">確度 低</div><div class="cell"><span style="color:#cbd5e1;font-size:11px;margin:auto">—</span></div><div class="cell"><span style="color:#cbd5e1;font-size:11px;margin:auto">—</span></div><div class="cell"><span style="color:#cbd5e1;font-size:11px;margin:auto">—</span></div></div>
+   <div class="legend"><span class="lg"><span class="dot" style="background:#dc2626"></span>高</span><span class="lg"><span class="dot" style="background:#d97706"></span>中</span><span class="lg"><span class="dot" style="background:#64748b"></span>低</span></div>
+ </section>
+ <section><h2><span class="num">≡</span>予測一覧（34件）</h2><p class="lead">これまでの予測を集約。</p><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・短期</span>
+   <div class="pwhat">日銀が年内(早ければ7月会合)に追加利上げに踏み切る</div><div class="pcomp">関連: 三菱UFJ・メガバンク各行　<span style="color:#cbd5e1">2026-07-01</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・短期</span>
+   <div class="pwhat">OpenAIの上場は9月へずれ込み、SBG関連の値動きがAI相場全体を左右する</div><div class="pcomp">関連: ソフトバンクG・アーム　<span style="color:#cbd5e1">2026-07-01</span></div></div><div class="pred" style="border-left-color:#dc2626">
+   <span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高・中期</span>
+   <div class="pwhat">AI株高は一極集中から電力・重電・部品などの裾野へ物色が広がる</div><div class="pcomp">関連: 三菱重工・京セラ・村田製作所　<span style="color:#cbd5e1">2026-07-01</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">金融庁の新方針で地銀・信金の再編が加速する</div><div class="pcomp">関連: SBIHD・地銀各行　<span style="color:#cbd5e1">2026-07-01</span></div></div><div class="pred" style="border-left-color:#dc2626">
+   <span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高・中期</span>
+   <div class="pwhat">円安と中東情勢で下期も食品値上げが続き、内需は資産効果層とで二極化</div><div class="pcomp">関連: 小売・食品各社　<span style="color:#cbd5e1">2026-07-01</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">衛星ダイレクト通信の商用化競争が本格化する</div><div class="pcomp">関連: 楽天G・NTT・KDDI　<span style="color:#cbd5e1">2026-07-01</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・短期</span>
+   <div class="pwhat">ドル円が162円を突破すれば政府・日銀が円買い介入に踏み切る可能性</div><div class="pcomp">関連: 三菱UFJ/財務省/三井住友FG　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・短期</span>
+   <div class="pwhat">OpenAIの9月IPO実現でAIインフラ・半導体に資金が再流入</div><div class="pcomp">関連: ソフトバンクG/キオクシア/東京エレクトロン　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">日銀が年内に追加利上げ、メガバンクの利ざやが一段改善</div><div class="pcomp">関連: 三菱UFJ/三井住友FG/みずほ　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#dc2626">
+   <span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高・中期</span>
+   <div class="pwhat">中国不動産不況の長期化で商社・素材の対中エクスポージャーが圧迫</div><div class="pcomp">関連: 三菱商事/三井物産/住友化学　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">国産AI政策が計算基盤・電力投資を後押しし重電に追い風</div><div class="pcomp">関連: NTT/三菱重工/日立　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">欧州自動車のリストラ加速で日系部品に再編・受注圧力</div><div class="pcomp">関連: トヨタ/デンソー/アイシン　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#dc2626">
+   <span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高・短期</span>
+   <div class="pwhat">食品値上げが7月に2269品目へ拡大、実質購買力の重しに</div><div class="pcomp">関連: 味の素/カルビー/明星食品　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・短期</span>
+   <div class="pwhat">VWの監査役会（7/9）でリストラ計画が承認されれば、欧州自動車の再編が本格化し、日本勢の相対優位と部品サプライ網の再編が同時に進む。</div><div class="pcomp">関連: VW/トヨタ/ホンダ/デンソー/アイシン　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・長期</span>
+   <div class="pwhat">原油安（Brent60ドル前後）が定着すれば輸入物価の低下が消費を下支えする一方、石油元売り・資源開発・商社の資源益は圧迫される。</div><div class="pcomp">関連: ENEOS/INPEX/三菱商事/三井物産　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">日銀が年内（12月想定）に追加利上げに踏み切れば、銀行・保険の利ざやは一段改善するが、不動産・REIT・高PER株には逆風が強まる。</div><div class="pcomp">関連: 三菱UFJ/三井住友FG/第一生命/REIT各社　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">AI大型IPO（OpenAI等）の再始動が次の半導体相場の起点になる。先送りが長引けば需給主導の調整が続く。</div><div class="pcomp">関連: キオクシア/アドバンテスト/東京エレクトロン/SBG　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#dc2626">
+   <span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高・長期</span>
+   <div class="pwhat">製薬のパテントクリフ下で、非中核事業のカーブアウトとがん・ADC領域へのM&amp;Aがさらに増える。</div><div class="pcomp">関連: 第一三共/武田/アステラス/中外　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・長期</span>
+   <div class="pwhat">中国不動産不況が『あと2年』続けば、対中依存の高い素材・建機・化学の業績下方修正が相次ぐ。</div><div class="pcomp">関連: コマツ/日立建機/信越化学/三菱ケミカル　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#dc2626">
+   <span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高・長期</span>
+   <div class="pwhat">AIデータセンターの電力需要拡大で、ガスタービン・送配電・再エネの設備投資が数年単位で続く。</div><div class="pcomp">関連: 三菱重工/日立/東芝/京セラ　<span style="color:#cbd5e1">2026-06-30</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・長期</span>
+   <div class="pwhat">米イラン和平が定着すれば原油安基調が続き、輸入物価の低下が日本の消費・企業収益を下支えする。一方で資源開発・石油元売りの採算は悪化する。</div><div class="pcomp">関連: JAPEX/INPEX/ENEOS/航空・運輸　<span style="color:#cbd5e1">2026-06-29</span></div></div><div class="pred" style="border-left-color:#dc2626">
+   <span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高・中期</span>
+   <div class="pwhat">AIデータセンターの電力需要増で、ガスタービン・送配電・再エネ・原子力など電力インフラへの投資が一段と拡大する。</div><div class="pcomp">関連: 三菱重工/日立/東芝/電力各社　<span style="color:#cbd5e1">2026-06-29</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">半導体への一極集中相場が続く中、調整局面では医薬・内需ディフェンシブや出遅れバリューへの資金ローテーションが起きやすい。</div><div class="pcomp">関連: 武田/内需株/銀行/商社　<span style="color:#cbd5e1">2026-06-29</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">対米投資5500億ドルのドル調達を巡り、政府保証(JBIC)やドル供給スキームの設計が具体化する。</div><div class="pcomp">関連: 3メガバンク/JBIC　<span style="color:#cbd5e1">2026-06-29</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">株高の資産効果で高級・高額消費が拡大する一方、相場調整時には反動が出やすく、消費の二極化が進む。</div><div class="pcomp">関連: 高級ブランド/百貨店/時計　<span style="color:#cbd5e1">2026-06-29</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">半導体の報酬インフレが国内にも波及し、人材獲得競争と処遇見直しが他産業にも広がる。</div><div class="pcomp">関連: キオクシア/半導体各社　<span style="color:#cbd5e1">2026-06-29</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">欧州の人権デューデリジェンス規制強化で、サプライチェーン監査に対応できない取引先の淘汰・再編が進む。</div><div class="pcomp">関連: ファストリ/アパレル/商社　<span style="color:#cbd5e1">2026-06-29</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">日米の対米投融資(5500億ドル)を巡り、政府がJBIC保証やドル供給スキームなどメガバンク向け支援策を具体化する。</div><div class="pcomp">関連: 三菱UFJ FG/三井住友FG/みずほフィナンシャルグループ/JBIC　<span style="color:#cbd5e1">2026-06-27</span></div></div><div class="pred" style="border-left-color:#dc2626">
+   <span class="conf" style="background:#dc26261a;color:#dc2626;border:1px solid #dc262666">確度 高・短期</span>
+   <div class="pwhat">楽天モバイルとKDDIのローミング協定(9月末期限)が縮小・終了に向かい、楽天は自前エリア整備と品質改善を一段と加速する。</div><div class="pcomp">関連: KDDI/楽天グループ　<span style="color:#cbd5e1">2026-06-27</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・短期</span>
+   <div class="pwhat">中国が7月下旬の党中央政治局会議で追加の財政出動・金融緩和に踏み込み、不動産・消費テコ入れ策を打ち出す。</div><div class="pcomp">関連: 保利発展/万科企業　<span style="color:#cbd5e1">2026-06-27</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">米FRBが年内に利上げを再開する織り込みが強まり、米長期金利上昇とドル高が高PERのハイテク株の重荷となる。</div><div class="pcomp">関連: エヌビディア/ソフトバンクG/キオクシアホールディングス　<span style="color:#cbd5e1">2026-06-27</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・長期</span>
+   <div class="pwhat">先端AIモデルの輸出管理が常態化し、フロンティアAIの提供が政府許可制・限定提供の枠組みへ移行していく。</div><div class="pcomp">関連: アンソロピック(Anthropic)/OpenAI　<span style="color:#cbd5e1">2026-06-27</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">生成AIエージェントの普及を受け、デジタル広告の効果測定で『非人間トラフィック』排除が業界標準の論点となる。</div><div class="pcomp">関連: 博報堂/電通グループ　<span style="color:#cbd5e1">2026-06-27</span></div></div><div class="pred" style="border-left-color:#d97706">
+   <span class="conf" style="background:#d977061a;color:#d97706;border:1px solid #d9770666">確度 中・中期</span>
+   <div class="pwhat">日経平均が半導体株主導の乱高下を続け、医薬・内需などディフェンシブ・出遅れ株への資金分散が進む。</div><div class="pcomp">関連: 武田薬品工業/第一三共/アステラス製薬　<span style="color:#cbd5e1">2026-06-27</span></div></div></section>
+ <footer>Cowork ビジネスニュース・ダッシュボード ／ 今後の予測マップ</footer></div></body></html>
