@@ -580,7 +580,7 @@ def update_stores(d,outdir):
     # trends.json: overwrite with latest snapshot
     if d.get("trends"):
         json.dump(d["trends"],open(os.path.join(outdir,"trends.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=1)
-    # news.json: 日次ニュースを累積（headで重複排除・新しい順・最大500件）。連動マップのノード→ニュース紐付けに使用
+    # news.json: 日次ニュースを累積（headで重複排除・新しい順・最大900件）。連動マップのノード→ニュース紐付けに使用
     np=os.path.join(outdir,"news.json")
     nlib=json.load(open(np,encoding="utf-8")) if os.path.exists(np) else []
     nseen={n.get("head") for n in nlib}
@@ -589,7 +589,7 @@ def update_stores(d,outdir):
         nseen.add(n.get("head"))
         nlib.insert(0,{"ind":n.get("ind",""),"head":n.get("head",""),"summ":n.get("summ",""),
                        "url":n.get("url",""),"date":d.get("date_iso","")})
-    nlib=nlib[:500]
+    nlib=nlib[:900]
     json.dump(nlib,open(np,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
     # deepdives.json: append new (dedupe by topic), newest first
     dp=os.path.join(outdir,"deepdives.json")
