@@ -5,3 +5,4 @@ enrich.py
 extract_stores.py
 gen_day.py
 masterflow_updated.json
+_chk_*.png

@@ -35,6 +35,15 @@ IND_COLOR = {
 }
 def icolor(ind): return IND_COLOR.get(ind, IND_COLOR.get(ind.split("(")[0], "#475569"))
 def esc(s): return html.escape(str(s))
+def _wrap_cjk(s, max_chars, max_lines):
+    """日本語テキストを文字数でword-wrap。max_lines超過分は末尾…で省略。"""
+    s=str(s).strip(); lines=[]
+    while s:
+        if len(lines)==max_lines-1 and len(s)>max_chars:
+            lines.append(s[:max(1,max_chars-1)]+"…"); s=""; break
+        lines.append(s[:max_chars]); s=s[max_chars:]
+        if len(lines)>=max_lines: break
+    return lines or [""]
 
 CSS = '''
  *{box-sizing:border-box} body{margin:0;background:#f1f5f9;color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Noto Sans JP',sans-serif;line-height:1.65}
@@ -103,19 +112,28 @@ def _bmatch(l1,l2,news):
         if _btags(n.get("ind","")+" "+n.get("head","")) & nt:
             out.append({"ind":n.get("ind",""),"head":n.get("head",""),"summ":n.get("summ",""),"url":n.get("url","")})
     return out[:5]
-def build_svg(flow, news=None):
+def build_svg(flow, news=None, idbase=0, node_news=None):
     NODES=flow["nodes"]; EDGES=flow["edges"]; pops=[]
     def anc(nid):
-        col,y,_,_,_=NODES[nid]; x=COLX[col]; w=COLW[col]; return (x,x+w,y+HH/2)
+        col,y=NODES[nid][0],NODES[nid][1]; x=COLX[col]; w=COLW[col]; return (x,x+w,y+HH/2)
     def nbox(nid):
-        col,y,sent,l1,l2=NODES[nid]; x=COLX[col]; w=COLW[col]; s=SENT[sent]; o=[]
+        col,y,sent,l1,l2=NODES[nid][:5]; x=COLX[col]; w=COLW[col]; s=SENT[sent]; o=[]
+        tcpl=max(6,int((w-66)/13.0)); scpl=max(8,int((w-26)/10.6))
+        tl=_wrap_cjk(l1,tcpl,2); sl=_wrap_cjk(l2,scpl,1)[0] if l2 else ""
         o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{HH}" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>')
         o.append(f'<rect x="{x}" y="{y}" width="6" height="{HH}" rx="3" fill="{s["bar"]}"/>')
         o.append(f'<rect x="{x+w-46}" y="{y+8}" width="38" height="16" rx="8" fill="{s["bg"]}" stroke="{s["bar"]}" stroke-width="1"/>')
         o.append(f'<text x="{x+w-27}" y="{y+20}" font-size="10.5" fill="{s["bar"]}" text-anchor="middle" font-weight="700">{esc(s["tag"])}</text>')
-        o.append(f'<text x="{x+16}" y="{y+28}" font-size="13.5" fill="#0f172a" font-weight="700">{esc(l1)}</text>')
-        o.append(f'<text x="{x+16}" y="{y+48}" font-size="11" fill="#64748b">{esc(l2)}</text>')
-        idx=len(pops); pops.append({"t":l1,"s":l2,"tag":s["tag"],"color":s["bar"],"news":_bmatch(l1,l2,news)})
+        if len(tl)==1:
+            o.append(f'<text x="{x+16}" y="{y+27}" font-size="13.5" fill="#0f172a" font-weight="700">{esc(tl[0])}</text>')
+            if sl: o.append(f'<text x="{x+16}" y="{y+47}" font-size="11" fill="#64748b">{esc(sl)}</text>')
+        else:
+            o.append(f'<text x="{x+16}" y="{y+21}" font-size="13.5" fill="#0f172a" font-weight="700">{esc(tl[0])}</text>')
+            o.append(f'<text x="{x+16}" y="{y+38}" font-size="13.5" fill="#0f172a" font-weight="700">{esc(tl[1])}</text>')
+            if sl: o.append(f'<text x="{x+16}" y="{y+55}" font-size="10.5" fill="#64748b">{esc(sl)}</text>')
+        extra=NODES[nid][5] if len(NODES[nid])>5 else None
+        nw=node_news.get(nid) if (node_news and nid in node_news) else _bmatch(l1,l2,news)
+        idx=idbase+len(pops); pops.append({"t":l1,"s":l2,"tag":s["tag"],"color":s["bar"],"news":nw,"extra":extra})
         o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{HH}" rx="10" fill="transparent"/>')
         return f'<g class="fnode" style="cursor:pointer" onclick="bnShowPop({idx})">'+"\n".join(o)+'</g>'
     def epath(f,t,k,label,i):
@@ -166,6 +184,7 @@ MODAL_CSS='''
 .bnns{font-size:12.5px;color:#475569;margin-top:5px;line-height:1.5}
 .bnnl{display:inline-block;margin-top:7px;font-size:12px;color:#2563eb;text-decoration:none}
 .bnempty{font-size:13px;color:#64748b;line-height:1.6}
+.bnextra{font-size:12.5px;color:#334155;line-height:1.6;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:8px;padding:9px 12px;margin:0 0 14px}
 .fnode:hover rect:first-child{stroke:#94a3b8;stroke-width:2}
 '''
 BN_MODAL='''<div id="bnov" class="bnov" onclick="bnClose()"></div>
@@ -182,11 +201,12 @@ function bnShowPop(i){var p=window.__BNPOPS__[i];if(!p)return;
  document.getElementById('bnt').textContent=p.t;
  var tag=document.getElementById('bntag');tag.textContent=p.tag;tag.style.color=p.color;tag.style.borderColor=p.color;tag.style.background=p.color+'1a';
  document.getElementById('bns').textContent=p.s||'';
- var b=document.getElementById('bnbody');
- if(p.news&&p.news.length){var h='<div class="bnnh">関連ニュース（'+p.news.length+'件）</div>';
+ var b=document.getElementById('bnbody');var h='';
+ if(p.extra){h+='<div class="bnextra">'+bnE(p.extra)+'</div>';}
+ if(p.news&&p.news.length){h+='<div class="bnnh">関連ニュース（'+p.news.length+'件）</div>';
   p.news.forEach(function(n){h+='<div class="bnn"><div class="bnni">'+bnE(n.ind)+'</div><div class="bnnh2">'+bnE(n.head)+'</div>'+(n.summ?'<div class="bnns">'+bnE(n.summ)+'</div>':'')+(n.url?'<a class="bnnl" href="'+encodeURI(n.url)+'" target="_blank" rel="noopener">出典リンク ↗</a>':'')+'</div>';});
-  b.innerHTML=h;}
- else{b.innerHTML='<div class="bnempty">このノードに直接ひも付く当日ニュースはありません。日次ダイジェストの「時事ニュース」をご覧ください。</div>';}
+ }else{h+='<div class="bnempty">このノードに直接ひも付くニュースは見つかりませんでした。日次ダイジェストの「時事ニュース」もご覧ください。</div>';}
+ b.innerHTML=h;
  document.getElementById('bnov').classList.add('on');document.getElementById('bnpop').classList.add('on');}
 document.addEventListener('keydown',function(e){if(e.key==='Escape')bnClose();});
 </script>'''
@@ -264,12 +284,15 @@ def render_index(outdir):
     npred=len(json.load(open(ppath,encoding="utf-8"))) if os.path.exists(ppath) else 0
     navcards=f'''<section id="lib"><h2><span class="num">◎</span>ライブラリ</h2><p class="lead">企業分析と今後の予測を、別ページに集約しています。</p>
    <div class="navcards">
+     <a class="navcard" href="./sectors.html"><div class="nt">🗺 業界構造マップ</div><div class="nd">分野別のバリューチェーン（上流→下流）と主要企業の結びつき。ノードから関連ニュースへ。</div><div class="na">構造マップを見る →</div></a>
      <a class="navcard" href="./companies.html"><div class="nt">🏢 企業分析ライブラリ</div><div class="nd">登場企業を集約。売上高・PER・PBR・ROE・時価総額＋今後の期待。並べ替え可。</div><div class="na">全{ncomp}社を見る →</div></a>
      <a class="navcard" href="./predictions.html"><div class="nt">🔮 今後の予測マップ</div><div class="nd">「今後起きそうなこと」を確度×時間軸でマッピング。累積一覧つき。</div><div class="na">全{npred}件を見る →</div></a>
    </div></section>'''
+    npath=os.path.join(outdir,"news.json")
+    news_store=json.load(open(npath,encoding="utf-8")) if os.path.exists(npath) else []
     master_section=""; master_pops=[]
     if master and master.get("nodes"):
-        _msvg,master_pops=build_svg(master)
+        _msvg,master_pops=build_svg(master, news_store[:160])
         master_section=f'''<section id="master"><h2><span class="num">0</span>全体連動マップ（全分野・累積アップデート）</h2>
    <p class="lead">これまでのニュースを踏まえた、全分野横断の構造マップ。日次ニュースで関係が変わるたびに更新します（その日だけの因果図は各日次の冒頭に掲載）。色＝影響の符号、矢印＝波及の向き。<b>各ノードをタップすると詳細を表示</b>します。</p>
    <div class="diagram">{_msvg}</div>{LEGEND}</section>'''
@@ -300,7 +323,7 @@ def render_index(outdir):
 <title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}{MODAL_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DASHBOARD</div><h1>ビジネスニュース・ダッシュボード</h1>
    <div class="sub">業界の動き（2026年）・掘り下げライブラリ（累積）・日次ダイジェスト一覧</div>{latest}
-   <nav class="toc"><a href="#master">全体連動マップ</a><a href="#lib">ライブラリ</a><a href="./companies.html">企業分析</a><a href="./predictions.html">今後の予測</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
+   <nav class="toc"><a href="#master">全体連動マップ</a><a href="./sectors.html">業界構造マップ</a><a href="#lib">ライブラリ</a><a href="./companies.html">企業分析</a><a href="./predictions.html">今後の予測</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
  {navcards}
  {master_section}
  <section id="trend"><h2><span class="num">A</span>業界の動き（2026年）</h2><p class="lead">日次ニュースを読むための、業界別マクロ文脈（随時更新）。</p><div class="tgrid">{tcards}</div></section>
@@ -375,8 +398,8 @@ def render_companies(outdir):
    <td class="l" data-v="{esc(seen)}">{esc(seen)}</td></tr>''')
     heads=[("企業名","l"),("業種","l"),("時価総額",""),("売上高/収益",""),("PER",""),("PBR",""),("ROE",""),("今後の期待","col l"),("登場","l")]
     th="".join(f'<th class="{c}" onclick="csort({i})">{esc(h)}</th>' for i,(h,c) in enumerate(heads))
-    disc=('※ 財務数値は各社IR・公開金融情報サイト（IRBANK / Yahoo!ファイナンス / 株探 / 株予報 等）を基にした<b>概算・参考値</b>で、取得時点は2026年6月下旬〜7月1日です。市場変動により実値は変わります。最新値は各社IRでご確認ください。'
-          '「売上高/収益」は事業により営業収益・売上収益・経常収益（銀行）を含みます。<b>*キオクシアは上場直後で自己資本が薄くPBR/ROEが極端値となるため参考外</b>。時価総額は特記なき場合は円、海外企業はドル/ユーロ表記です。')
+    disc=('※ 財務数値は各社IR・公開金融情報サイト（IRBANK / Yahoo!ファイナンス / 株探 / みんかぶ 等）を基にした<b>概算・参考値</b>で、取得時点は2026年7月上旬です。市場変動により実値は変わります。最新値は各社IRでご確認ください。'
+          '「売上高/収益」は事業により営業収益・売上収益・経常収益（銀行）を含みます。<b>非上場企業（OpenAI・Anthropic 等）はPER/PBR/ROEが存在しないため「—」</b>。キオクシア・ispace等は上場直後や赤字でPBR/ROEが極端値となるため参考値です。時価総額は特記なき場合は円、海外企業はドル/ユーロ/ウォン等の現地通貨表記です。')
     body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>企業分析ライブラリ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — COMPANY LIBRARY</div><h1>企業分析ライブラリ（累積）</h1>
@@ -442,6 +465,114 @@ def render_predictions(outdir):
     open(os.path.join(outdir,"predictions.html"),"w",encoding="utf-8").write(body)
     return len(preds)
 
+def _news_for_company(title, aliases, newslist, k=5):
+    """企業名（および別名）を見出し・サマリに含むニュースを抽出（新しい順・最大k件）"""
+    keys=[a for a in ([title]+list(aliases or [])) if a and len(a)>=2]
+    out=[]
+    for n in newslist:
+        blob=(n.get("head","")+" "+n.get("summ","")+" "+n.get("ind",""))
+        if any(kk in blob for kk in keys):
+            out.append({"ind":n.get("ind",""),"head":n.get("head",""),"summ":n.get("summ",""),"url":n.get("url","")})
+        if len(out)>=k: break
+    return out
+
+def render_month(outdir, iso):
+    """当月の月次まとめHTMLを自動生成（毎回上書き）。news.json / deepdives.json / digest一覧から集約。"""
+    if not iso or len(iso)<7: return None
+    ym=iso[:7]; y,m=ym.split("-")
+    npath=os.path.join(outdir,"news.json")
+    news=json.load(open(npath,encoding="utf-8")) if os.path.exists(npath) else []
+    mnews=[n for n in news if str(n.get("date","")).startswith(ym)]
+    # 業界別集計
+    from collections import Counter, OrderedDict
+    cnt=Counter(n.get("ind","その他") for n in mnews)
+    days=sorted({n.get("date","") for n in mnews if n.get("date")}, reverse=True)
+    # 当月のdigest一覧
+    dfiles=sorted(glob.glob(os.path.join(outdir,f"digest_{ym}-*.html")), reverse=True)
+    _dpat=re.compile(r"digest_(\d{4}-\d{2}-\d{2})")
+    dlink_parts=[]
+    for f in dfiles:
+        mm=_dpat.search(os.path.basename(f))
+        if mm: dlink_parts.append(f'<a class="item" href="./{os.path.basename(f)}"><span class="d">{mm.group(1)}</span><span class="arw">日次を開く →</span></a>')
+    dlinks="".join(dlink_parts)
+    # 当月の掘り下げ
+    dp=os.path.join(outdir,"deepdives.json")
+    deeps=json.load(open(dp,encoding="utf-8")) if os.path.exists(dp) else []
+    mdeeps=[e for e in deeps if len(e)>4 and str(e[4]).startswith(ym)]
+    dcards="".join(f'<details class="deep"><summary><span class="dtopic">{esc(e[0])}</span><span class="ddate">{esc(e[4])}</span></summary><div class="ddetail"><p>{esc(e[1])}</p><div class="dcomp">関連: {esc(e[2])}</div></div></details>' for e in mdeeps)
+    # 業界別バー
+    total=sum(cnt.values()) or 1; maxc=max(cnt.values()) if cnt else 1
+    bars=""
+    for ind,c in cnt.most_common():
+        col=icolor(ind); w=int(c/maxc*100)
+        bars+=f'<div class="mbar"><span class="mbl">{esc(ind)}</span><span class="mbt"><span class="mbf" style="width:{w}%;background:{col}"></span></span><span class="mbn">{c}</span></div>'
+    # 主要トピック（各日の先頭ニュース＝その日のトップ）
+    byday=OrderedDict()
+    for n in mnews: byday.setdefault(n.get("date",""),n)
+    tops="".join(f'<div class="mtop"><span class="mtd">{esc(dt)}</span><a href="{esc(t.get("url","#"))}" target="_blank" rel="noopener" class="mth">{esc(t.get("head",""))}</a></div>' for dt,t in list(byday.items())[:16])
+    body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{y}年{int(m)}月まとめ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}{MONTH_CSS}</style></head><body><div class="wrap">
+ <header><div class="eyebrow">BUSINESS NEWS — MONTHLY</div><h1>{y}年{int(m)}月 マンスリーまとめ</h1>
+   <div class="sub">当月に取り上げた {len(mnews)} 本のニュースを集約（{len(days)}営業日・{len(dfiles)}ダイジェスト）。随時更新。</div>
+   <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div></header>
+ <section><h2><span class="num">1</span>今月の主要トピック</h2><p class="lead">各日のトップニュース（新しい順）。</p>{tops or '<p class="lead">データがありません。</p>'}</section>
+ <section><h2><span class="num">2</span>業界別のニュース量</h2><p class="lead">当月に多く報じられた分野の分布。</p><div class="mbars">{bars or '—'}</div></section>
+ {f'<section><h2><span class="num">3</span>今月追加した掘り下げ（{len(mdeeps)}件）</h2>{dcards}</section>' if mdeeps else ''}
+ <section><h2><span class="num">4</span>当月の日次ダイジェスト（{len(dfiles)}件）</h2>{dlinks or '—'}</section>
+ <footer>Cowork ビジネスニュース・ダッシュボード ／ {y}年{int(m)}月まとめ</footer></div></body></html>'''
+    open(os.path.join(outdir,f"month-{ym}.html"),"w",encoding="utf-8").write(body)
+    return ym
+
+def render_sectors(outdir):
+    """分野別ビジネス構造マップ（バリューチェーン＋企業＋関連ニュース）。sectors.jsonが無ければスキップ。"""
+    sp=os.path.join(outdir,"sectors.json")
+    if not os.path.exists(sp): return 0
+    secdef=json.load(open(sp,encoding="utf-8"))
+    sectors=secdef.get("sectors",[])
+    npath=os.path.join(outdir,"news.json")
+    news=json.load(open(npath,encoding="utf-8")) if os.path.exists(npath) else []
+    all_pops=[]; blocks=[]; toc=[]
+    for s in sectors:
+        key=s["key"]; name=s["name"]; col=s.get("color","#475569")
+        flow=s["flow"]; nodes=flow["nodes"]
+        # node_news: 各ノード（企業/セグメント）名から関連ニュースを抽出
+        aliasmap=s.get("aliases",{})
+        node_news={}
+        for nid,v in nodes.items():
+            title=v[3]; al=aliasmap.get(nid,[]) or aliasmap.get(title,[])
+            node_news[nid]=_news_for_company(title, al, news, k=5)
+        svg,pops=build_svg(flow, None, idbase=len(all_pops), node_news=node_news)
+        all_pops.extend(pops)
+        # 企業リスト（この分野で登場する企業）
+        clist="".join(f'<span class="chip">{esc(c)}</span>' for c in s.get("companies",[]))
+        toc.append(f'<a href="#sec-{key}">{esc(name)}</a>')
+        blocks.append(f'''<section id="sec-{key}"><h2><span class="num" style="background:{col}">◆</span>{esc(name)}</h2>
+   <p class="lead">{esc(s.get("lead",""))} <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram">{svg}</div>{LEGEND}
+   {f'<div class="secchips"><span class="secl">登場企業:</span>{clist}</div>' if clist else ''}</section>''')
+    body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>業界構造マップ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}{MODAL_CSS}{SECTOR_CSS}</style></head><body><div class="wrap">
+ <header><div class="eyebrow">BUSINESS NEWS — SECTOR MAP</div><h1>業界構造マップ（バリューチェーン）</h1>
+   <div class="sub">分野ごとの「ビジネスの流れ」と主要プレイヤーの結びつき。上流→中流→下流→市場の順に、企業がどこで価値を生むかを俯瞰。全{len(sectors)}分野</div>
+   <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div>
+   <nav class="toc">{"".join(toc)}</nav></header>
+ {"".join(blocks)}
+ <footer>Cowork ビジネスニュース・ダッシュボード ／ 業界構造マップ</footer></div>{BN_MODAL}{bn_script(all_pops)}</body></html>'''
+    open(os.path.join(outdir,"sectors.html"),"w",encoding="utf-8").write(body)
+    return len(sectors)
+
+MONTH_CSS='''
+ .mtop{display:flex;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid #eef2f7}
+ .mtd{font-size:11.5px;color:#94a3b8;font-weight:700;min-width:82px} .mth{font-size:13.5px;color:#0f172a;text-decoration:none;font-weight:600}
+ .mth:hover{color:#2563eb} .mbars{display:flex;flex-direction:column;gap:7px}
+ .mbar{display:flex;align-items:center;gap:10px} .mbl{font-size:12px;color:#475569;min-width:120px;text-align:right}
+ .mbt{flex:1;background:#f1f5f9;border-radius:6px;height:14px;overflow:hidden} .mbf{display:block;height:100%;border-radius:6px}
+ .mbn{font-size:12px;color:#64748b;min-width:26px;font-weight:700}
+'''
+SECTOR_CSS='''
+ .secchips{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center} .secl{font-size:12px;font-weight:700;color:#475569;margin-right:4px}
+'''
+
 def update_stores(d,outdir):
     # masterflow.json: 全体連動マップ（毎回上書き更新）
     if d.get("masterflow") and d["masterflow"].get("nodes"):
@@ -449,6 +580,17 @@ def update_stores(d,outdir):
     # trends.json: overwrite with latest snapshot
     if d.get("trends"):
         json.dump(d["trends"],open(os.path.join(outdir,"trends.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=1)
+    # news.json: 日次ニュースを累積（headで重複排除・新しい順・最大500件）。連動マップのノード→ニュース紐付けに使用
+    np=os.path.join(outdir,"news.json")
+    nlib=json.load(open(np,encoding="utf-8")) if os.path.exists(np) else []
+    nseen={n.get("head") for n in nlib}
+    for n in d.get("news",[]):
+        if n.get("head") in nseen: continue
+        nseen.add(n.get("head"))
+        nlib.insert(0,{"ind":n.get("ind",""),"head":n.get("head",""),"summ":n.get("summ",""),
+                       "url":n.get("url",""),"date":d.get("date_iso","")})
+    nlib=nlib[:500]
+    json.dump(nlib,open(np,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
     # deepdives.json: append new (dedupe by topic), newest first
     dp=os.path.join(outdir,"deepdives.json")
     lib=json.load(open(dp,encoding="utf-8")) if os.path.exists(dp) else []
@@ -506,5 +648,7 @@ if __name__=="__main__":
     added,cadd,padd=update_stores(data,outdir)
     ncomp=render_companies(outdir)
     npred=render_predictions(outdir)
+    ym=render_month(outdir, iso)
+    nsec=render_sectors(outdir)
     n,nd,nt=render_index(outdir)
-    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd})")
+    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd}) | month {ym} | sectors {nsec}")

@@ -1,0 +1,1150 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>業界構造マップ｜ビジネスニュース・ダッシュボード</title><style>
+ *{box-sizing:border-box} body{margin:0;background:#f1f5f9;color:#0f172a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Noto Sans JP',sans-serif;line-height:1.65}
+ .wrap{max-width:1340px;margin:0 auto;padding:28px 20px 70px} .eyebrow{color:#64748b;font-size:13px;font-weight:700;letter-spacing:1px}
+ h1{font-size:26px;margin:4px 0 2px} .sub{color:#64748b;font-size:14px} .home{font-size:12.5px;margin-top:4px} .home a{color:#2563eb;text-decoration:none}
+ .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px} .toc a{font-size:12.5px;text-decoration:none;color:#334155;background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:5px 13px}
+ .toc a:hover{border-color:#94a3b8} section{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:22px;margin-top:22px;box-shadow:0 1px 2px rgba(15,23,42,.04);scroll-margin-top:14px}
+ h2{font-size:18px;margin:0 0 4px;display:flex;align-items:center;gap:9px} h2 .num{display:inline-flex;width:24px;height:24px;border-radius:7px;background:#0f172a;color:#fff;font-size:13px;align-items:center;justify-content:center}
+ .lead{color:#64748b;font-size:13.5px;margin:0 0 16px} .diagram{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px;background:#fcfdfe;padding:10px}
+ .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:12.5px;color:#475569} .lg{display:inline-flex;align-items:center;gap:6px}
+ .sw{width:22px;border-top:3px solid;display:inline-block;border-radius:2px} .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+ .note{margin-top:14px;font-size:12.5px;color:#475569;background:#f8fafc;border-left:3px solid #cbd5e1;padding:10px 12px;border-radius:8px}
+ .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px} .tcard{border:1px solid #e8edf3;border-radius:11px;padding:13px 15px;background:#fbfcfe}
+ .tname{font-weight:800;font-size:14px;margin-bottom:4px} .tdesc{font-size:12.5px;color:#475569}
+ details.news,details.deep{border:1px solid #e8edf3;border-radius:11px;margin-bottom:10px;background:#fff;overflow:hidden} details.news[open]{box-shadow:0 3px 12px rgba(15,23,42,.07)}
+ details.news summary{list-style:none;cursor:pointer;padding:13px 15px;display:flex;flex-wrap:wrap;align-items:center;gap:9px} details.news summary::-webkit-details-marker,details.deep summary::-webkit-details-marker{display:none}
+ .ind{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;white-space:nowrap} .nhead{font-weight:700;font-size:14.5px;flex:1 1 320px}
+ .pnsmall{font-size:11.5px;color:#64748b;flex:1 1 100%} .pnsmall .p{color:#16a34a} .pnsmall .n{color:#dc2626;margin-left:8px}
+ .ndetail{padding:4px 16px 16px;border-top:1px dashed #eef2f7} .block{margin-top:11px} .block h4{margin:0 0 3px;font-size:12px;color:#0891b2;letter-spacing:.5px}
+ .block p{margin:0;font-size:13px;color:#334155} .block ul{margin:4px 0;padding-left:18px;font-size:13px;color:#334155} .block li{margin:2px 0}
+ .chips{display:flex;flex-wrap:wrap;gap:6px} .chip{font-size:11px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:2px 8px;color:#475569}
+ .src{display:inline-block;margin-top:12px;font-size:12px;color:#2563eb;text-decoration:none}
+ .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:13px} .ccard{border:1px solid #e8edf3;border-radius:12px;padding:14px 15px;background:#fff}
+ .chead{display:flex;align-items:baseline;gap:8px} .cname{font-weight:800;font-size:15px} .ccode{font-size:11.5px;color:#94a3b8}
+ .cmeta{display:flex;gap:10px;font-size:11.5px;color:#64748b;margin:3px 0 8px} .cind{font-weight:700;color:#475569}
+ .csumm{font-size:12.5px;color:#334155;margin:0 0 10px} .cpn{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-top:5px}
+ .lab{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:5px} .pl{background:#f0fdf4;color:#16a34a} .nl{background:#fef2f2;color:#dc2626}
+ .pc{font-size:11px;background:#f0fdf4;color:#166534;border-radius:6px;padding:2px 7px} .nc{font-size:11px;background:#fef2f2;color:#991b1b;border-radius:6px;padding:2px 7px}
+ .pred{border:1px solid #e8edf3;border-left:4px solid #cbd5e1;border-radius:10px;padding:11px 14px;margin-bottom:9px;background:#fff}
+ .conf{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:20px;float:right} .pwhat{font-size:13.5px;font-weight:600;color:#1e293b} .pcomp{font-size:11.5px;color:#64748b;margin-top:3px}
+ details.deep summary{cursor:pointer;padding:13px 15px;font-weight:700;font-size:14.5px;list-style:none;display:flex;align-items:center;gap:9px}
+ .dtopic::before{content:"🔎 "} .ddate{font-size:11px;color:#94a3b8;font-weight:600;margin-left:auto}
+ .ddetail{padding:2px 16px 16px;border-top:1px dashed #eef2f7} .ddetail p{font-size:13px;color:#334155} .dcomp{font-size:11.5px;color:#64748b;margin:6px 0} .ddetail h4{font-size:12px;color:#0891b2;margin:10px 0 4px}
+ ul.terms{padding-left:0;list-style:none;margin:0} ul.terms li{font-size:12.5px;color:#334155;background:#f8fafc;border-radius:8px;padding:8px 11px;margin-bottom:6px}
+ a.item{display:flex;justify-content:space-between;align-items:center;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;margin-bottom:9px;text-decoration:none;color:#0f172a}
+ a.item:hover{border-color:#94a3b8;box-shadow:0 3px 10px rgba(15,23,42,.06)} a.item .d{font-weight:700} a.item .arw{color:#2563eb;font-size:13px}
+ footer{color:#94a3b8;font-size:12px;margin-top:26px;text-align:center}
+
+ .disc{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 13px;margin:0 0 16px}
+ .ctbl-wrap{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px}
+ table.ctbl{border-collapse:collapse;width:100%;min-width:900px;font-size:12.5px}
+ table.ctbl th,table.ctbl td{padding:9px 11px;text-align:right;border-bottom:1px solid #eef2f7;white-space:nowrap}
+ table.ctbl th{background:#f8fafc;color:#475569;font-size:11.5px;position:sticky;top:0;cursor:pointer;user-select:none}
+ table.ctbl th:hover{background:#eef2f7} table.ctbl th.act::after{content:" ▾";color:#2563eb}
+ table.ctbl th.asc.act::after{content:" ▴"}
+ table.ctbl td.l,table.ctbl th.l{text-align:left} table.ctbl tr:hover td{background:#fcfdfe}
+ .cnm{font-weight:700;color:#0f172a} .ccd{font-size:11px;color:#94a3b8;margin-left:5px}
+ .itag{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:6px}
+ .col{font-size:12.5px;color:#334155;text-align:left;max-width:280px;white-space:normal}
+ .neg{color:#dc2626} .pos{color:#16a34a}
+ .pmx{display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:8px;margin-top:6px}
+ .pmx .hc{font-size:11.5px;font-weight:800;color:#475569;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:8px;padding:6px;text-align:center}
+ .pmx .rl{writing-mode:vertical-rl;text-orientation:mixed} .pmx .corner{background:transparent}
+ .cell{min-height:74px;border:1px solid #eef2f7;border-radius:10px;padding:8px;background:#fcfdfe;display:flex;flex-direction:column;gap:6px}
+ .pchip{font-size:11.5px;line-height:1.4;border-left:4px solid;border-radius:8px;padding:6px 9px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+ .pchip .pc2{display:block;font-size:10.5px;color:#94a3b8;margin-top:3px}
+ .navcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
+ a.navcard{display:block;background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none}
+ a.navcard:hover{box-shadow:0 6px 18px rgba(15,23,42,.18)} a.navcard .nt{font-weight:800;font-size:15px} a.navcard .nd{font-size:12px;color:#cbd5e1;margin-top:4px} a.navcard .na{font-size:12px;color:#93c5fd;margin-top:8px}
+
+.bnov{position:fixed;inset:0;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;transition:.15s;z-index:60}
+.bnov.on{opacity:1;pointer-events:auto}
+.bnpop{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%) scale(.98);width:min(560px,92vw);max-height:82vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 24px 60px rgba(15,23,42,.3);padding:20px 20px 22px;opacity:0;pointer-events:none;transition:.16s;z-index:61}
+.bnpop.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.bnx{position:absolute;top:12px;right:14px;border:none;background:#f1f5f9;width:30px;height:30px;border-radius:50%;font-size:18px;line-height:1;color:#475569;cursor:pointer}
+.bnhd{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding-right:34px}
+.bntag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:8px;border:1px solid}
+.bnt{font-size:16px;font-weight:800;color:#0f172a}
+.bns{color:#64748b;font-size:13px;margin:6px 0 14px}
+.bnnh{font-size:12px;font-weight:700;color:#94a3b8;letter-spacing:.5px;margin:0 0 8px}
+.bnn{border:1px solid #e8edf3;border-radius:11px;padding:11px 13px;margin-bottom:9px;background:#fcfdfe}
+.bnni{display:inline-block;font-size:11px;font-weight:700;color:#2563eb;margin-bottom:4px}
+.bnnh2{font-size:13.5px;font-weight:700;color:#0f172a;line-height:1.45}
+.bnns{font-size:12.5px;color:#475569;margin-top:5px;line-height:1.5}
+.bnnl{display:inline-block;margin-top:7px;font-size:12px;color:#2563eb;text-decoration:none}
+.bnempty{font-size:13px;color:#64748b;line-height:1.6}
+.bnextra{font-size:12.5px;color:#334155;line-height:1.6;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:8px;padding:9px 12px;margin:0 0 14px}
+.fnode:hover rect:first-child{stroke:#94a3b8;stroke-width:2}
+
+ .secchips{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:center} .secl{font-size:12px;font-weight:700;color:#475569;margin-right:4px}
+</style></head><body><div class="wrap">
+ <header><div class="eyebrow">BUSINESS NEWS — SECTOR MAP</div><h1>業界構造マップ（バリューチェーン）</h1>
+   <div class="sub">分野ごとの「ビジネスの流れ」と主要プレイヤーの結びつき。上流→中流→下流→市場の順に、企業がどこで価値を生むかを俯瞰。全10分野</div>
+   <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div>
+   <nav class="toc"><a href="#sec-semi">半導体・AI</a><a href="#sec-auto">自動車</a><a href="#sec-fin">金融・銀行</a><a href="#sec-energy">エネルギー</a><a href="#sec-trading">商社・資源</a><a href="#sec-telecom">通信</a><a href="#sec-pharma">製薬・ヘルスケア</a><a href="#sec-retail">小売・消費</a><a href="#sec-construction">建設・不動産</a><a href="#sec-defense">防衛・宇宙</a></nav></header>
+ <section id="sec-semi"><h2><span class="num" style="background:#ea580c">◆</span>半導体・AI</h2>
+   <p class="lead">製造装置・材料が上流、TSMCやメモリ各社が製造、エヌビディア等が設計、AIデータセンターが最終需要。装置→製造→設計→AI需要の順に価値が流れる。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 484" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 76.0 C 294.35 76.0 306.65 160.0 362 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 160.0 C 294.35 160.0 306.65 244.0 362 244.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 244.0 C 294.35 244.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 244.0 C 653.2 244.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 328.0 C 653.2 328.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 160.0 728 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 160.0 1052 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 412.0 C 799.0 412.0 845.0 160.0 1052 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(0)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">東京エレクトロン</text>
+<text x="40" y="91" font-size="11" fill="#64748b">前工程製造装置</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(1)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">アドバンテスト</text>
+<text x="40" y="175" font-size="11" fill="#64748b">テスタ・検査装置</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(2)"><rect x="24" y="212" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="212" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="220" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="232" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="239" font-size="13.5" fill="#0f172a" font-weight="700">フジクラ</text>
+<text x="40" y="259" font-size="11" fill="#64748b">光配線・DC向け基板</text>
+<rect x="24" y="212" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(3)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">TSMC</text>
+<text x="378" y="91" font-size="11" fill="#64748b">最先端ファウンドリ</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(4)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">サムスン電子</text>
+<text x="378" y="175" font-size="11" fill="#64748b">総合・メモリ最大手</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(5)"><rect x="362" y="212" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="212" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="220" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="232" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="239" font-size="13.5" fill="#0f172a" font-weight="700">SKハイニックス</text>
+<text x="378" y="259" font-size="11" fill="#64748b">HBM/DRAM</text>
+<rect x="362" y="212" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(6)"><rect x="362" y="296" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="296" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="304" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="316" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="323" font-size="13.5" fill="#0f172a" font-weight="700">マイクロン</text>
+<text x="378" y="343" font-size="11" fill="#64748b">DRAM/NAND</text>
+<rect x="362" y="296" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(7)"><rect x="362" y="380" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="380" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="388" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="400" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="407" font-size="13.5" fill="#0f172a" font-weight="700">キオクシア</text>
+<text x="378" y="427" font-size="11" fill="#64748b">NAND</text>
+<rect x="362" y="380" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(8)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">エヌビディア</text>
+<text x="744" y="91" font-size="11" fill="#64748b">AI-GPU設計の中核</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(9)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">アップル</text>
+<text x="744" y="175" font-size="11" fill="#64748b">自社SoC・端末</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(10)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">AIデータセンター</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">MS/Google/Meta/O…</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(11)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">スマホ・PC</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">民生需要</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="280.1" y="53.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">装置供給</text>
+<rect x="280.1" y="115.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">装置供給</text>
+<rect x="287.3" y="179.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="191.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">検査</text>
+<rect x="287.3" y="157.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="169.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">基板</text>
+<rect x="639.6" y="53.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">製造受託</text>
+<rect x="636.0" y="157.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="169.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">HBM供給</text>
+<rect x="643.2" y="179.0" width="33.6" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="191.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">メモリ</text>
+<rect x="636.0" y="115.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">SoC製造</text>
+<rect x="969.6" y="53.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">AI計算</text>
+<rect x="976.8" y="157.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="990.0" y="169.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">端末</text>
+<rect x="798.0" y="263.0" width="48.0" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="822.0" y="275.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">ストレージ</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">東京エレクトロン</span><span class="chip">アドバンテスト</span><span class="chip">フジクラ</span><span class="chip">TSMC</span><span class="chip">サムスン電子</span><span class="chip">SKハイニックス</span><span class="chip">マイクロン</span><span class="chip">キオクシア</span><span class="chip">エヌビディア</span><span class="chip">アップル</span></div></section><section id="sec-auto"><h2><span class="num" style="background:#7c3aed">◆</span>自動車</h2>
+   <p class="lead">電池・電子部品が上流、完成車メーカーが中核、販売・モビリティサービスを経て北米・中国・国内市場へ。関税と円安、EV戦略が流れを左右。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 76.0 362 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 239 160.0 C 294.35 160.0 306.65 76.0 362 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 239 244.0 C 294.35 244.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 76.0 C 294.35 76.0 306.65 244.0 362 244.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 76.0 728 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 160.0 728 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 160.0 C 653.2 160.0 666.8 76.0 728 76.0" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ah_neg)" opacity="0.92"/>
+<path d="M 592 328.0 C 653.2 328.0 666.8 76.0 728 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 76.0 1052 76.0" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ah_neg)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 160.0 1052 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 244.0 1052 244.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 244.0 1052 244.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(12)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">アイシン</text>
+<text x="40" y="91" font-size="11" fill="#64748b">駆動・車体部品</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(13)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">パナソニックエナジー</text>
+<text x="40" y="175" font-size="11" fill="#64748b">車載電池</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(14)"><rect x="24" y="212" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="212" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="220" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="232" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="239" font-size="13.5" fill="#0f172a" font-weight="700">村田製作所</text>
+<text x="40" y="259" font-size="11" fill="#64748b">電子部品</text>
+<rect x="24" y="212" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(15)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">トヨタ自動車</text>
+<text x="378" y="91" font-size="11" fill="#64748b">世界最大の完成車</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(16)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#dc2626"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">日産自動車</text>
+<text x="378" y="175" font-size="11" fill="#64748b">構造改革中</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(17)"><rect x="362" y="212" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="212" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="220" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="232" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="239" font-size="13.5" fill="#0f172a" font-weight="700">SUBARU</text>
+<text x="378" y="259" font-size="11" fill="#64748b">北米依存・EV混流</text>
+<rect x="362" y="212" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(18)"><rect x="362" y="296" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="296" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="304" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="316" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="323" font-size="13.5" fill="#0f172a" font-weight="700">フォルクスワーゲン</text>
+<text x="378" y="343" font-size="11" fill="#64748b">欧州最大手</text>
+<rect x="362" y="296" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(19)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">販売・ディーラー網</text>
+<text x="744" y="91" font-size="11" fill="#64748b">流通・アフター</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(20)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">自動運転・MaaS</text>
+<text x="744" y="175" font-size="11" fill="#64748b">ティアフォー等</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(21)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#dc2626"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">北米市場</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">対米25%関税(8/1)</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(22)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">中国市場</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">現地EV競争</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(23)"><rect x="1052" y="212" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="212" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="220" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="232" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="239" font-size="13.5" fill="#0f172a" font-weight="700">国内・インバウンド</text>
+<text x="1068" y="259" font-size="11" fill="#64748b">円安採算</text>
+<rect x="1052" y="212" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="287.3" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="65.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">部品</text>
+<rect x="287.3" y="115.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="127.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">電池</text>
+<rect x="280.1" y="137.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="149.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">電子部品</text>
+<rect x="287.3" y="157.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="169.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">部品</text>
+<rect x="646.8" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="660.0" y="65.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">販売</text>
+<rect x="639.6" y="115.0" width="40.8" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="660.0" y="127.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">自動運転</text>
+<rect x="646.8" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#dc2626" stroke-width="1" opacity="0.96"/><text x="660.0" y="107.0" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="600">販売</text>
+<rect x="646.8" y="199.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="660.0" y="211.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">販売</text>
+<rect x="976.8" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#dc2626" stroke-width="1" opacity="0.96"/><text x="990.0" y="65.0" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="600">関税</text>
+<rect x="976.8" y="115.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="990.0" y="127.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">競争</text>
+<rect x="976.8" y="137.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="149.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">内需</text>
+<rect x="976.8" y="199.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="211.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">実装</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">アイシン</span><span class="chip">パナソニックHD</span><span class="chip">村田製作所</span><span class="chip">トヨタ自動車</span><span class="chip">日産自動車</span><span class="chip">SUBARU</span><span class="chip">フォルクスワーゲン</span></div></section><section id="sec-fin"><h2><span class="num" style="background:#2563eb">◆</span>金融・銀行</h2>
+   <p class="lead">日銀の金融政策が起点、メガ・地銀が資金を仲介、証券・運用・決済を通じて企業と個人へ。金利1%で利ざやが改善、新NISAで個人マネーが流入。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 76.0 C 294.35 76.0 306.65 160.0 362 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 76.0 C 294.35 76.0 306.65 244.0 362 244.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 76.0 C 294.35 76.0 306.65 328.0 362 328.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 160.0 C 653.2 160.0 666.8 160.0 728 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 76.0 C 799.0 76.0 845.0 76.0 1052 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(24)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#475569"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#f8fafc" stroke="#475569" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#475569" text-anchor="middle" font-weight="700">起点</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">日銀・金融政策</text>
+<text x="40" y="91" font-size="11" fill="#64748b">政策金利1.0%</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(25)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">三菱UFJ FG</text>
+<text x="378" y="91" font-size="11" fill="#64748b">国内最大の総合金融</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(26)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">三井住友FG</text>
+<text x="378" y="175" font-size="11" fill="#64748b">メガバンク</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(27)"><rect x="362" y="212" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="212" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="220" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="232" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="239" font-size="13.5" fill="#0f172a" font-weight="700">みずほFG</text>
+<text x="378" y="259" font-size="11" fill="#64748b">メガバンク</text>
+<rect x="362" y="212" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(28)"><rect x="362" y="296" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="296" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="304" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="316" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="323" font-size="13.5" fill="#0f172a" font-weight="700">山口FG</text>
+<text x="378" y="343" font-size="11" fill="#64748b">地銀・AI改革</text>
+<rect x="362" y="296" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(29)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">証券・資産運用</text>
+<text x="744" y="91" font-size="11" fill="#64748b">投信12兆円流入</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(30)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">決済・経済圏</text>
+<text x="744" y="175" font-size="11" fill="#64748b">銀行×通信</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(31)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">企業・融資</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">設備投資資金</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(32)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">個人・資産形成</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">新NISA</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="276.5" y="53.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">利ざや改善</text>
+<rect x="276.5" y="115.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">利ざや改善</text>
+<rect x="276.5" y="137.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="149.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">利ざや改善</text>
+<rect x="276.5" y="199.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="211.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">利ざや改善</text>
+<rect x="646.8" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">運用</text>
+<rect x="646.8" y="157.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="660.0" y="169.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">決済</text>
+<rect x="808.8" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="822.0" y="65.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">融資</text>
+<rect x="969.6" y="115.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">資産形成</text>
+<rect x="969.6" y="137.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="149.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">ポイント</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">三菱UFJフィナンシャル・グループ</span><span class="chip">三井住友FG</span><span class="chip">みずほFG</span><span class="chip">山口FG</span></div></section><section id="sec-energy"><h2><span class="num" style="background:#059669">◆</span>エネルギー</h2>
+   <p class="lead">資源開発・地政学が上流、電力・精製が中核、送配電・再エネを経てデータセンターや産業の需要へ。原油とホルムズ情勢がコストを左右。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 316" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 244.0 362 244.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 239 160.0 C 294.35 160.0 306.65 244.0 362 244.0" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ah_neg)" opacity="0.92"/>
+<path d="M 239 160.0 C 142.25 160.0 120.75 76.0 24 76.0" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ah_neg)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 160.0 728 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 160.0 C 653.2 160.0 666.8 160.0 728 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 244.0 C 799.0 244.0 845.0 160.0 1052 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(33)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">INPEX</text>
+<text x="40" y="91" font-size="11" fill="#64748b">石油・ガス開発(E&amp;P)</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(34)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#dc2626"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">中東・ホルムズ</text>
+<text x="40" y="175" font-size="11" fill="#64748b">供給リスク</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(35)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">中部電力</text>
+<text x="378" y="91" font-size="11" fill="#64748b">電力・DC誘致</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(36)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">関西電力</text>
+<text x="378" y="175" font-size="11" fill="#64748b">原発再稼働</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(37)"><rect x="362" y="212" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="212" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="220" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="232" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="239" font-size="13.5" fill="#0f172a" font-weight="700">石油元売り</text>
+<text x="378" y="259" font-size="11" fill="#64748b">精製・燃料</text>
+<rect x="362" y="212" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(38)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">洋上風力・再エネ</text>
+<text x="744" y="91" font-size="11" fill="#64748b">三菱商事/川重</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(39)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">DC向け電力供給</text>
+<text x="744" y="175" font-size="11" fill="#64748b">液冷・蓄電</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(40)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">データセンター</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">AI電力需要増</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(41)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">産業・家庭</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">電力消費</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="280.1" y="137.0" width="40.8" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="149.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">原油供給</text>
+<rect x="280.1" y="199.0" width="40.8" height="17" rx="8" fill="white" stroke="#dc2626" stroke-width="1" opacity="0.96"/><text x="300.5" y="211.0" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="600">供給不安</text>
+<rect x="114.7" y="95.0" width="33.6" height="17" rx="8" fill="white" stroke="#dc2626" stroke-width="1" opacity="0.96"/><text x="131.5" y="107.0" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="600">地政学</text>
+<rect x="646.8" y="115.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">電力</text>
+<rect x="646.8" y="137.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="149.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">電力</text>
+<rect x="643.2" y="73.0" width="33.6" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="85.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">再エネ</text>
+<rect x="966.0" y="53.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">再エネ供給</text>
+<rect x="969.6" y="115.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">DC電力</text>
+<rect x="808.8" y="179.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="822.0" y="191.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">燃料</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">INPEX</span><span class="chip">中部電力</span><span class="chip">関西電力</span><span class="chip">三菱商事</span><span class="chip">川崎重工業</span></div></section><section id="sec-trading"><h2><span class="num" style="background:#0d9488">◆</span>商社・資源</h2>
+   <p class="lead">資源権益・調達が上流、総合商社が中核として事業投資、再エネ・食品流通・インフラを通じて国内外の産業需要へ結びつく。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 484" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 76.0 362 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 239 76.0 C 294.35 76.0 306.65 160.0 362 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 239 160.0 C 294.35 160.0 306.65 412.0 362 412.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 244.0 C 653.2 244.0 666.8 160.0 728 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 328.0 C 653.2 328.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 76.0 1052 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 412.0 C 799.0 412.0 845.0 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(42)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">資源権益</text>
+<text x="40" y="91" font-size="11" fill="#64748b">鉄鉱石/原油/LNG</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(43)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">脱中国調達</text>
+<text x="40" y="175" font-size="11" fill="#64748b">重要鉱物</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(44)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">三菱商事</text>
+<text x="378" y="91" font-size="11" fill="#64748b">総合商社最大手</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(45)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">三井物産</text>
+<text x="378" y="175" font-size="11" fill="#64748b">資源に強み</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(46)"><rect x="362" y="212" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="212" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="220" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="232" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="239" font-size="13.5" fill="#0f172a" font-weight="700">住友商事</text>
+<text x="378" y="259" font-size="11" fill="#64748b">事業投資</text>
+<rect x="362" y="212" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(47)"><rect x="362" y="296" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="296" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="304" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="316" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="323" font-size="13.5" fill="#0f172a" font-weight="700">丸紅</text>
+<text x="378" y="343" font-size="11" fill="#64748b">電力・食料</text>
+<rect x="362" y="296" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(48)"><rect x="362" y="380" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="380" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="388" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="400" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="407" font-size="13.5" fill="#0f172a" font-weight="700">阪和興業</text>
+<text x="378" y="427" font-size="11" fill="#64748b">鉄鋼商社・北米M&amp;A</text>
+<rect x="362" y="380" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(49)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">再エネ事業</text>
+<text x="744" y="91" font-size="11" fill="#64748b">MTグリーン等</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(50)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">食品・流通</text>
+<text x="744" y="175" font-size="11" fill="#64748b">川下事業</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(51)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">国内産業</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">素材・エネ供給</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(52)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">海外事業</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">北米・アジア</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="287.3" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="65.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">権益</text>
+<rect x="287.3" y="115.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="127.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">権益</text>
+<rect x="287.3" y="263.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="275.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">調達</text>
+<rect x="636.0" y="73.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="85.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">再エネ投資</text>
+<rect x="646.8" y="179.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="660.0" y="191.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">流通</text>
+<rect x="646.8" y="199.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="211.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">電力</text>
+<rect x="976.8" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">供給</text>
+<rect x="976.8" y="115.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="990.0" y="127.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">流通</text>
+<rect x="808.8" y="263.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="822.0" y="275.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">北米</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">三菱商事</span><span class="chip">三井物産</span><span class="chip">住友商事</span><span class="chip">丸紅</span><span class="chip">阪和興業</span></div></section><section id="sec-telecom"><h2><span class="num" style="background:#0891b2">◆</span>通信</h2>
+   <p class="lead">光・基地局インフラが上流、キャリアが中核、金融経済圏や衛星通信などのサービスを経て個人・法人・IoT需要へ。金融×ポイントが新たな収益源。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 316" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 160.0 C 142.25 160.0 120.75 76.0 24 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 76.0 C 294.35 76.0 306.65 160.0 362 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 160.0 C 653.2 160.0 666.8 76.0 728 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 160.0 728 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 244.0 C 799.0 244.0 845.0 76.0 1052 76.0" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ah_neg)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(53)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">NTT</text>
+<text x="40" y="91" font-size="11" fill="#64748b">光・IOWN基盤</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(54)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">フジクラ</text>
+<text x="40" y="175" font-size="11" fill="#64748b">光ファイバ</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(55)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">KDDI</text>
+<text x="378" y="91" font-size="11" fill="#64748b">通信×金融経済圏</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(56)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">ソフトバンク</text>
+<text x="378" y="175" font-size="11" fill="#64748b">AI投資</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(57)"><rect x="362" y="212" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="212" width="6" height="64" rx="3" fill="#dc2626"/>
+<rect x="546" y="220" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
+<text x="565" y="232" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
+<text x="378" y="239" font-size="13.5" fill="#0f172a" font-weight="700">楽天グループ</text>
+<text x="378" y="259" font-size="11" fill="#64748b">モバイル黒字化途上</text>
+<rect x="362" y="212" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(58)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">金融・ポイント</text>
+<text x="744" y="91" font-size="11" fill="#64748b">決済経済圏</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(59)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">衛星通信</text>
+<text x="744" y="175" font-size="11" fill="#64748b">スターリンク連携</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(60)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">個人</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">携帯・決済</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(61)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">法人・IoT</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">DX需要</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="287.3" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">回線</text>
+<rect x="114.7" y="115.0" width="33.6" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="131.5" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">光部材</text>
+<rect x="287.3" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="107.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">回線</text>
+<rect x="646.8" y="73.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="85.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">金融</text>
+<rect x="646.8" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="660.0" y="107.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">決済</text>
+<rect x="646.8" y="115.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">衛星</text>
+<rect x="973.2" y="53.0" width="33.6" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">経済圏</text>
+<rect x="966.0" y="157.0" width="48.0" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="169.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">カバレッジ</text>
+<rect x="808.8" y="137.0" width="26.4" height="17" rx="8" fill="white" stroke="#dc2626" stroke-width="1" opacity="0.96"/><text x="822.0" y="149.0" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="600">競争</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">日本電信電話(NTT)</span><span class="chip">KDDI</span><span class="chip">ソフトバンクグループ</span><span class="chip">楽天グループ</span><span class="chip">フジクラ</span></div></section><section id="sec-pharma"><h2><span class="num" style="background:#16a34a">◆</span>製薬・ヘルスケア</h2>
+   <p class="lead">創薬・研究が上流、医療機器・診断が中核、調剤・ドラッグの販売網を経て病院・患者へ。パテントクリフとM&amp;A、調剤の収益構造が鍵。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 316" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 160.0 C 294.35 160.0 306.65 160.0 362 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 239 244.0 C 294.35 244.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 76.0 728 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 160.0 C 799.0 160.0 845.0 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 160.0 1052 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 160.0 1052 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 239 76.0 C 604.85 76.0 686.15 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(62)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">第一三共</text>
+<text x="40" y="91" font-size="11" fill="#64748b">ADC創薬</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(63)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">武田薬品工業</text>
+<text x="40" y="175" font-size="11" fill="#64748b">大型M&amp;A・特許</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(64)"><rect x="24" y="212" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="212" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="220" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="232" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="239" font-size="13.5" fill="#0f172a" font-weight="700">ジーエヌアイグループ</text>
+<text x="40" y="259" font-size="11" fill="#64748b">バイオ創薬</text>
+<rect x="24" y="212" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(65)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">テルモ</text>
+<text x="378" y="91" font-size="11" fill="#64748b">医療機器・CDMO</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(66)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">シスメックス</text>
+<text x="378" y="175" font-size="11" fill="#64748b">検体検査・診断</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(67)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">スギHD</text>
+<text x="744" y="91" font-size="11" fill="#64748b">調剤・ドラッグ</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(68)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">ツルハHD</text>
+<text x="744" y="175" font-size="11" fill="#64748b">ドラッグ大手</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(69)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">病院・医療機関</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">急性期病床再編</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(70)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">患者・消費者</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">セルフメディケーション</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="280.1" y="53.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">機器連携</text>
+<rect x="287.3" y="157.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="169.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">診断</text>
+<rect x="287.3" y="137.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="149.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">開発</text>
+<rect x="646.8" y="73.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="660.0" y="85.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">供給</text>
+<rect x="801.6" y="95.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="822.0" y="107.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">診断機器</text>
+<rect x="966.0" y="115.0" width="48.0" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="990.0" y="127.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">調剤・小売</text>
+<rect x="976.8" y="137.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="990.0" y="149.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">小売</text>
+<rect x="632.3" y="73.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="645.5" y="85.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">新薬</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">第一三共</span><span class="chip">武田薬品工業</span><span class="chip">ジーエヌアイグループ</span><span class="chip">テルモ</span><span class="chip">シスメックス</span><span class="chip">スギHD</span><span class="chip">ツルハHD</span></div></section><section id="sec-retail"><h2><span class="num" style="background:#e11d48">◆</span>小売・消費</h2>
+   <p class="lead">ブランド・製造が上流、卸・流通を経て、コンビニ・アパレル・外食の小売が消費者へ。円安・インバウンドと値上げ第二波が需要を左右。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 316" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 459.05 76.0 507.95 160.0 728 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 160.0 C 459.05 160.0 507.95 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 244.0 C 459.05 244.0 507.95 76.0 728 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 76.0 C 799.0 76.0 845.0 160.0 1052 160.0" fill="none" stroke="#dc2626" stroke-width="2.2" marker-end="url(#ah_neg)" opacity="0.92"/>
+<path d="M 592 160.0 C 653.2 160.0 666.8 76.0 728 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 160.0 1052 160.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 244.0 C 983.8 244.0 996.2 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(71)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">ファーストリテイリング</text>
+<text x="40" y="91" font-size="11" fill="#64748b">SPA・世界2位</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(72)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">明治HD</text>
+<text x="40" y="175" font-size="11" fill="#64748b">食品・菓子</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(73)"><rect x="24" y="212" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="212" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="193" y="220" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="212" y="232" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="40" y="239" font-size="13.5" fill="#0f172a" font-weight="700">アサヒ/キリン</text>
+<text x="40" y="259" font-size="11" fill="#64748b">飲料大手</text>
+<rect x="24" y="212" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(74)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#dc2626"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="700">ネガ</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">アスクル</text>
+<text x="378" y="91" font-size="11" fill="#64748b">BtoB通販</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(75)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">商社流通</text>
+<text x="378" y="175" font-size="11" fill="#64748b">川中</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(76)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">セブン&amp;アイ</text>
+<text x="744" y="91" font-size="11" fill="#64748b">コンビニ・一転増益</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(77)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">しまむら</text>
+<text x="744" y="175" font-size="11" fill="#64748b">低価格アパレル</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(78)"><rect x="728" y="212" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="212" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="220" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="232" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="233" font-size="13.5" fill="#0f172a" font-weight="700">ゼンショー/ABCマ</text>
+<text x="744" y="250" font-size="13.5" fill="#0f172a" font-weight="700">ート</text>
+<text x="744" y="267" font-size="10.5" fill="#64748b">外食・靴</text>
+<rect x="728" y="212" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(79)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">インバウンド</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">訪日消費</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(80)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">国内個人</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">値上げと選別</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="470.3" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="483.5" y="107.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">供給</text>
+<rect x="470.3" y="115.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="483.5" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">商品</text>
+<rect x="470.3" y="137.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="483.5" y="149.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">飲料</text>
+<rect x="801.6" y="115.0" width="40.8" height="17" rx="8" fill="white" stroke="#dc2626" stroke-width="1" opacity="0.96"/><text x="822.0" y="127.0" font-size="10.5" fill="#dc2626" text-anchor="middle" font-weight="600">BtoB</text>
+<rect x="646.8" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="660.0" y="107.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">流通</text>
+<rect x="976.8" y="73.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="85.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">来店</text>
+<rect x="976.8" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="990.0" y="107.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">消費</text>
+<rect x="973.2" y="157.0" width="33.6" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="169.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">低価格</text>
+<rect x="976.8" y="137.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="149.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">外食</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">ファーストリテイリング</span><span class="chip">明治ホールディングス</span><span class="chip">アサヒグループHD</span><span class="chip">キリンHD</span><span class="chip">アスクル</span><span class="chip">セブン&amp;アイ・HD</span><span class="chip">しまむら</span><span class="chip">ゼンショーホールディングス</span><span class="chip">ABCマート</span></div></section><section id="sec-construction"><h2><span class="num" style="background:#78716c">◆</span>建設・不動産</h2>
+   <p class="lead">鉄鋼・素材が上流、ゼネコン・設備工事が中核、デベロッパーを経て都市再開発・データセンター・インフラ需要へ。省人化と金利が焦点。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 316" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 76.0 362 76.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 239 160.0 C 294.35 160.0 306.65 244.0 362 244.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<path d="M 592 76.0 C 653.2 76.0 666.8 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 160.0 C 799.0 160.0 845.0 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 244.0 C 799.0 244.0 845.0 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 799.0 76.0 845.0 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 799.0 76.0 845.0 244.0 1052 244.0" fill="none" stroke="#94a3b8" stroke-width="2.2" marker-end="url(#ah_mix)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(81)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">日本製鉄</text>
+<text x="40" y="91" font-size="11" fill="#64748b">鋼材</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(82)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">東レ</text>
+<text x="40" y="175" font-size="11" fill="#64748b">素材・炭素繊維</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(83)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">清水建設</text>
+<text x="378" y="91" font-size="11" fill="#64748b">ゼネコン・フィジカルAI</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(84)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">きんでん</text>
+<text x="378" y="175" font-size="11" fill="#64748b">電気設備工事</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(85)"><rect x="362" y="212" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="212" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="220" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="232" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="239" font-size="13.5" fill="#0f172a" font-weight="700">高砂熱学</text>
+<text x="378" y="259" font-size="11" fill="#64748b">空調・DC</text>
+<rect x="362" y="212" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(86)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">住友不動産</text>
+<text x="744" y="91" font-size="11" fill="#64748b">デベロッパー</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(87)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">都市再開発</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">品川・川崎等</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(88)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">データセンター建設</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">AI需要</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(89)"><rect x="1052" y="212" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="212" width="6" height="64" rx="3" fill="#d97706"/>
+<rect x="1221" y="220" width="38" height="16" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1"/>
+<text x="1240" y="232" font-size="10.5" fill="#d97706" text-anchor="middle" font-weight="700">混在</text>
+<text x="1068" y="239" font-size="13.5" fill="#0f172a" font-weight="700">インフラ</text>
+<text x="1068" y="259" font-size="11" fill="#64748b">更新投資</text>
+<rect x="1052" y="212" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="287.3" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="65.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">鋼材</text>
+<rect x="287.3" y="199.0" width="26.4" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="300.5" y="211.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">素材</text>
+<rect x="646.8" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="660.0" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">施工</text>
+<rect x="801.6" y="157.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="822.0" y="169.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">電気工事</text>
+<rect x="808.8" y="179.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="822.0" y="191.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">空調</text>
+<rect x="976.8" y="73.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="85.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">開発</text>
+<rect x="808.8" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="822.0" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">施工</text>
+<rect x="801.6" y="157.0" width="40.8" height="17" rx="8" fill="white" stroke="#94a3b8" stroke-width="1" opacity="0.96"/><text x="822.0" y="169.0" font-size="10.5" fill="#94a3b8" text-anchor="middle" font-weight="600">インフラ</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">日本製鉄</span><span class="chip">東レ</span><span class="chip">清水建設</span><span class="chip">きんでん</span><span class="chip">住友不動産</span></div></section><section id="sec-defense"><h2><span class="num" style="background:#334155">◆</span>防衛・宇宙</h2>
+   <p class="lead">電子・部品が上流、重工が機体・システムを製造、宇宙輸送・サービスを経て防衛省や民間宇宙の需要へ。防衛費増額と月面商業化が構造的追い風。 <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <div class="diagram"><svg viewBox="0 0 1290 232" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;min-width:980px" font-family="-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif">
+<defs>
+<marker id="ah_pos" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#16a34a"/></marker>
+<marker id="ah_neg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#dc2626"/></marker>
+<marker id="ah_mix" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+<marker id="ah_ease" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#0891b2"/></marker>
+</defs>
+<text x="131.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">起点ドライバー</text>
+<text x="477.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">第一次の波及（業界）</text>
+<text x="828.0" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">伝播メカニズム</text>
+<text x="1159.5" y="24" font-size="12.5" fill="#94a3b8" text-anchor="middle" font-weight="700" letter-spacing="1">市場・帰結</text>
+<path d="M 239 76.0 C 294.35 76.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 160.0 C 294.35 160.0 306.65 76.0 362 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 239 76.0 C 294.35 76.0 306.65 160.0 362 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 799.0 76.0 845.0 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 160.0 C 799.0 160.0 845.0 76.0 1052 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 160.0 C 838.0 160.0 818.0 76.0 728 76.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 76.0 C 983.8 76.0 996.2 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 928 160.0 C 983.8 160.0 996.2 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<path d="M 592 76.0 C 799.0 76.0 845.0 160.0 1052 160.0" fill="none" stroke="#16a34a" stroke-width="2.2" marker-end="url(#ah_pos)" opacity="0.92"/>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(90)"><rect x="24" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="71" font-size="13.5" fill="#0f172a" font-weight="700">三菱電機</text>
+<text x="40" y="91" font-size="11" fill="#64748b">レーダー・衛星電子</text>
+<rect x="24" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(91)"><rect x="24" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="24" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="193" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="212" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="40" y="155" font-size="13.5" fill="#0f172a" font-weight="700">東京計器</text>
+<text x="40" y="175" font-size="11" fill="#64748b">防衛計測機器</text>
+<rect x="24" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(92)"><rect x="362" y="44" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="71" font-size="13.5" fill="#0f172a" font-weight="700">三菱重工業</text>
+<text x="378" y="91" font-size="11" fill="#64748b">防衛・航空・宇宙</text>
+<rect x="362" y="44" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(93)"><rect x="362" y="128" width="230" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="362" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="546" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="565" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="378" y="155" font-size="13.5" fill="#0f172a" font-weight="700">川崎重工業</text>
+<text x="378" y="175" font-size="11" fill="#64748b">艦艇・航空・水素</text>
+<rect x="362" y="128" width="230" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(94)"><rect x="728" y="44" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="71" font-size="13.5" fill="#0f172a" font-weight="700">ispace</text>
+<text x="744" y="91" font-size="11" fill="#64748b">月面輸送</text>
+<rect x="728" y="44" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(95)"><rect x="728" y="128" width="200" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="728" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="882" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="901" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="744" y="155" font-size="13.5" fill="#0f172a" font-weight="700">スペースX</text>
+<text x="744" y="175" font-size="11" fill="#64748b">打ち上げ・スターシップ</text>
+<rect x="728" y="128" width="200" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(96)"><rect x="1052" y="44" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="44" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="52" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="64" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="71" font-size="13.5" fill="#0f172a" font-weight="700">防衛省・安全保障</text>
+<text x="1068" y="91" font-size="11" fill="#64748b">防衛費増額</text>
+<rect x="1052" y="44" width="215" height="64" rx="10" fill="transparent"/></g>
+<g class="fnode" style="cursor:pointer" onclick="bnShowPop(97)"><rect x="1052" y="128" width="215" height="64" rx="10" fill="white" stroke="#e2e8f0" stroke-width="1.5"/>
+<rect x="1052" y="128" width="6" height="64" rx="3" fill="#16a34a"/>
+<rect x="1221" y="136" width="38" height="16" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1"/>
+<text x="1240" y="148" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="700">ポジ</text>
+<text x="1068" y="155" font-size="13.5" fill="#0f172a" font-weight="700">民間宇宙</text>
+<text x="1068" y="175" font-size="11" fill="#64748b">月面・衛星</text>
+<rect x="1052" y="128" width="215" height="64" rx="10" fill="transparent"/></g>
+<rect x="287.3" y="53.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="65.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">電子</text>
+<rect x="287.3" y="115.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">計測</text>
+<rect x="287.3" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="300.5" y="107.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">電子</text>
+<rect x="808.8" y="73.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="822.0" y="85.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">装備</text>
+<rect x="808.8" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="822.0" y="107.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">艦艇</text>
+<rect x="807.6" y="115.0" width="40.8" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="828.0" y="127.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">打ち上げ</text>
+<rect x="976.8" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="107.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">輸送</text>
+<rect x="976.8" y="157.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="990.0" y="169.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">輸送</text>
+<rect x="808.8" y="95.0" width="26.4" height="17" rx="8" fill="white" stroke="#16a34a" stroke-width="1" opacity="0.96"/><text x="822.0" y="107.0" font-size="10.5" fill="#16a34a" text-anchor="middle" font-weight="600">衛星</text>
+</svg></div><div class="legend"><span class="lg"><span class="dot" style="background:#475569"></span><b>起点</b></span>
+ <span class="lg"><span class="dot" style="background:#16a34a"></span>ポジ</span><span class="lg"><span class="dot" style="background:#dc2626"></span>ネガ</span>
+ <span class="lg"><span class="dot" style="background:#d97706"></span>混在</span><span class="lg"><span class="sw" style="border-color:#16a34a"></span>プラス波及</span>
+ <span class="lg"><span class="sw" style="border-color:#dc2626"></span>マイナス波及</span><span class="lg"><span class="sw" style="border-color:#0891b2;border-top-style:dashed"></span>緩和要因</span></div>
+   <div class="secchips"><span class="secl">登場企業:</span><span class="chip">三菱電機</span><span class="chip">東京計器</span><span class="chip">三菱重工業</span><span class="chip">川崎重工業</span><span class="chip">ispace</span></div></section>
+ <footer>Cowork ビジネスニュース・ダッシュボード ／ 業界構造マップ</footer></div><div id="bnov" class="bnov" onclick="bnClose()"></div>
+<div id="bnpop" class="bnpop" role="dialog" aria-modal="true">
+ <button class="bnx" onclick="bnClose()" aria-label="閉じる">×</button>
+ <div class="bnhd"><span id="bntag" class="bntag"></span><span id="bnt" class="bnt"></span></div>
+ <div id="bns" class="bns"></div><div id="bnbody"></div></div><script>
+window.__BNPOPS__=[{"t": "東京エレクトロン", "s": "前工程製造装置", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "アドバンテスト", "s": "テスタ・検査装置", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "フジクラ", "s": "光配線・DC向け基板", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "TSMC", "s": "最先端ファウンドリ", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "サムスン電子", "s": "総合・メモリ最大手", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "SKハイニックス", "s": "HBM/DRAM", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "マイクロン", "s": "DRAM/NAND", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "キオクシア", "s": "NAND", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "エヌビディア", "s": "AI-GPU設計の中核", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "半導体", "head": "米半導体株が反発、エヌビディア3.65%高 押し目買い強まる", "summ": "7/8のNY市場でエヌビディアが3.65%高と急反発し、半導体・製造装置が上昇。ナスダックは51.96ポイント高の25,870.65。ダウは原油高を嫌気し576ドル安の52,348.39と方向感はまちまち。", "url": "https://finance.biggo.jp/news/049e79bb-8724-4987-ad67-2384f42957a5"}, {"ind": "半導体", "head": "中国、エヌビディア製先端半導体の購入容認 H200対中輸出も解禁", "summ": "中国が米エヌビディア製の先端半導体購入を一部企業に容認したと報じられた。トランプ大統領はH200の対中輸出を認め、条件として米政府が収入の25%を受け取ると表明。対中AI政策の大きな転換。", "url": "https://www.jiji.com/jc/article?k=2026070900247&g=int"}], "extra": null}, {"t": "アップル", "s": "自社SoC・端末", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "AIデータセンター", "s": "MS/Google/Meta/OpenAI等の投資", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "人材", "head": "建設・物流の人手不足が継続 省人化投資が拡大局面に", "summ": "清水建設のフィジカルAI導入に象徴されるように、建設・物流を中心に人手不足対応の省人化投資が拡大している。賃上げが続くなかで生産性を高める設備投資が企業収益の分岐点になりつつある。", "url": "https://www.nikkei.com/news/category/economy/"}, {"ind": "建設", "head": "清水建設、フィジカルAIを現場導入 労働力不足と安全性に対応", "summ": "清水建設は建設現場の労働力不足解消と生産性・安全性向上を目的に、フィジカルAI(人工知能)を活用すると発表した。", "url": "https://www.nikkei.com/news/category/business/"}, {"ind": "IT", "head": "パナソニックHD、データセンター冷却の新技術 消費電力60%減", "summ": "パナソニックHDがデータセンター冷却の新技術を発表し、消費電力を60%削減できるとした。同社はAIインフラ関連に26-28年度で5000億円を投じる計画で、蓄電システムなどとあわせDC事業を強化。", "url": "https://www.nikkei.com/article/DGXZQOUF075Y00X00C26A7000000/"}, {"ind": "半導体", "head": "中国、エヌビディア製先端半導体の購入容認 H200対中輸出も解禁", "summ": "中国が米エヌビディア製の先端半導体購入を一部企業に容認したと報じられた。トランプ大統領はH200の対中輸出を認め、条件として米政府が収入の25%を受け取ると表明。対中AI政策の大きな転換。", "url": "https://www.jiji.com/jc/article?k=2026070900247&g=int"}, {"ind": "半導体", "head": "ローツェ、1Q経常益51%増 生成AI需要で装置売上が四半期最高", "summ": "ローツェの第1四半期は経常利益が前年同期比51.1%増の109億円。半導体関連装置の売上高が四半期ベースで過去最高を記録した。", "url": "https://kabutan.jp/news/?b=k202607090028"}], "extra": null}, {"t": "スマホ・PC", "s": "民生需要", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "アイシン", "s": "駆動・車体部品", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "パナソニックエナジー", "s": "車載電池", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "村田製作所", "s": "電子部品", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "トヨタ自動車", "s": "世界最大の完成車", "tag": "混在", "color": "#d97706", "news": [{"ind": "自動車", "head": "トヨタ、KDDI株を政策保有縮減 持ち株比率7.73%へ", "summ": "トヨタ自動車は7月8日付でKDDI株の変更報告書を提出し、保有比率を7.73%に引き下げた。KDDIは最大3000億円の自社株買いを発表し、トヨタと京セラが保有株の一部を約2500億円で売却した。", "url": "https://maonline.jp/kabuhoyu/sh-s100yixc"}], "extra": null}, {"t": "日産自動車", "s": "構造改革中", "tag": "ネガ", "color": "#dc2626", "news": [], "extra": null}, {"t": "SUBARU", "s": "北米依存・EV混流", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "フォルクスワーゲン", "s": "欧州最大手", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "販売・ディーラー網", "s": "流通・アフター", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "自動運転・MaaS", "s": "ティアフォー等", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "北米市場", "s": "対米25%関税(8/1)", "tag": "ネガ", "color": "#dc2626", "news": [], "extra": null}, {"t": "中国市場", "s": "現地EV競争", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "国内・インバウンド", "s": "円安採算", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "日銀・金融政策", "s": "政策金利1.0%", "tag": "起点", "color": "#475569", "news": [{"ind": "銀行", "head": "銀行株、高値圏を維持 政策金利1%で利ざや改善続く", "summ": "政策金利1%を背景に銀行の利ざや改善が続き、銀行株は高値圏を維持。9日の株式相場反発局面でも金融株に資金が向かった。", "url": "https://www.nikkei.com/markets/stocks/"}, {"ind": "金融政策", "head": "FOMC6月議事要旨、中立・様子見に転換 利下げ期待後退", "summ": "6月16-17日のFOMC議事要旨(7/8公表)では、政策が中立・様子見に完全に移行したことが判明。委員は利上げ・利下げ双方の主張で割れた。運輸・航空運賃・石油など幅広い品目で物価上昇が広がっていると確認。", "url": "https://kabushiki.jp/market/indexes/news/840006"}], "extra": null}, {"t": "三菱UFJ FG", "s": "国内最大の総合金融", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "三井住友FG", "s": "メガバンク", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "みずほFG", "s": "メガバンク", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "山口FG", "s": "地銀・AI改革", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "証券・資産運用", "s": "投信12兆円流入", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "金融", "head": "投資信託への資金流入、1-6月で12兆円 過去最高", "summ": "投資信託への資金流入が2026年1〜6月で12兆円と半期で過去最高に達した。個人の資産形成マネーが株式市場を下支えする構図が続く。", "url": "https://www.nikkei.com/markets/"}], "extra": null}, {"t": "決済・経済圏", "s": "銀行×通信", "tag": "混在", "color": "#d97706", "news": [{"ind": "半導体", "head": "米半導体株が反発、エヌビディア3.65%高 押し目買い強まる", "summ": "7/8のNY市場でエヌビディアが3.65%高と急反発し、半導体・製造装置が上昇。ナスダックは51.96ポイント高の25,870.65。ダウは原油高を嫌気し576ドル安の52,348.39と方向感はまちまち。", "url": "https://finance.biggo.jp/news/049e79bb-8724-4987-ad67-2384f42957a5"}, {"ind": "通信", "head": "ドコモ・KDDI、金融新会社が始動 ポイント経済圏で成長模索", "summ": "NTTドコモとKDDIはそれぞれ金融事業の新会社を設立し7月に事業を開始。ドコモは金融持ち株会社を設立し、傘下銀行のブランドを刷新した。通信を補う成長源としてポイント還元などで競う。", "url": "https://www.nikkei.com/article/DGXZQOUC307D40Q6A630C2000000/"}, {"ind": "マーケット", "head": "日経平均924円高、4日ぶり反発 米半導体株高と好決算追い風", "summ": "9日の日経平均は前日比924円80銭(1.38%)高の67,743円85銭で4営業日ぶりに反発。一時上げ幅は1600円を超えた。TOPIXも13.94ポイント(0.35%)高の4020.37と3日ぶり反発。", "url": "https://www.nikkei.com/article/DGXZQOFL090M40Z00C26A7000000/"}], "extra": null}, {"t": "企業・融資", "s": "設備投資資金", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "個人・資産形成", "s": "新NISA", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "INPEX", "s": "石油・ガス開発(E&P)", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "中東・ホルムズ", "s": "供給リスク", "tag": "ネガ", "color": "#dc2626", "news": [{"ind": "半導体", "head": "米半導体株が反発、エヌビディア3.65%高 押し目買い強まる", "summ": "7/8のNY市場でエヌビディアが3.65%高と急反発し、半導体・製造装置が上昇。ナスダックは51.96ポイント高の25,870.65。ダウは原油高を嫌気し576ドル安の52,348.39と方向感はまちまち。", "url": "https://finance.biggo.jp/news/049e79bb-8724-4987-ad67-2384f42957a5"}, {"ind": "エネルギー", "head": "原油、7/9に2.26%下落 中東の最悪シナリオ後退でコスト緩和", "summ": "WTI原油は9日に2.26%下落。中東情勢の綱引きが続くなかで供給不安が和らぎ、コストプッシュ圧力が一服。日本の交易条件改善に寄与する。", "url": "https://www.tradingkey.com/news/market-movers/262018531-market-movers-usoil-f-20260709"}], "extra": null}, {"t": "中部電力", "s": "電力・DC誘致", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "関西電力", "s": "原発再稼働", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "石油元売り", "s": "精製・燃料", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "洋上風力・再エネ", "s": "三菱商事/川重", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "食品", "head": "MTグリーン関連・キリン、再エネ地産で脱炭素対応を加速", "summ": "キリンビール施設と連動したMTグリーンエネルギーの取り組みなど、食品メーカーは再エネ地産地消でコストと脱炭素を両立させる動きを強めている。値上げ環境下で製造コスト管理が重要度を増す。", "url": "https://www.kensetsunews.com/"}, {"ind": "商社", "head": "高砂熱学・三菱商事のMTグリーンエナジー、北海道でグリーン事業", "summ": "高砂熱学工業と三菱商事が出資するMTグリーンエネルギーは、北海道千歳市のキリンビール施設に関連したグリーンエネルギー事業を進めている。再エネと地域産業を結ぶ取り組み。", "url": "https://www.kensetsunews.com/"}], "extra": null}, {"t": "DC向け電力供給", "s": "液冷・蓄電", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "IT", "head": "パナソニックHD、データセンター冷却の新技術 消費電力60%減", "summ": "パナソニックHDがデータセンター冷却の新技術を発表し、消費電力を60%削減できるとした。同社はAIインフラ関連に26-28年度で5000億円を投じる計画で、蓄電システムなどとあわせDC事業を強化。", "url": "https://www.nikkei.com/article/DGXZQOUF075Y00X00C26A7000000/"}], "extra": null}, {"t": "データセンター", "s": "AI電力需要増", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "人材", "head": "建設・物流の人手不足が継続 省人化投資が拡大局面に", "summ": "清水建設のフィジカルAI導入に象徴されるように、建設・物流を中心に人手不足対応の省人化投資が拡大している。賃上げが続くなかで生産性を高める設備投資が企業収益の分岐点になりつつある。", "url": "https://www.nikkei.com/news/category/economy/"}, {"ind": "建設", "head": "清水建設、フィジカルAIを現場導入 労働力不足と安全性に対応", "summ": "清水建設は建設現場の労働力不足解消と生産性・安全性向上を目的に、フィジカルAI(人工知能)を活用すると発表した。", "url": "https://www.nikkei.com/news/category/business/"}, {"ind": "IT", "head": "パナソニックHD、データセンター冷却の新技術 消費電力60%減", "summ": "パナソニックHDがデータセンター冷却の新技術を発表し、消費電力を60%削減できるとした。同社はAIインフラ関連に26-28年度で5000億円を投じる計画で、蓄電システムなどとあわせDC事業を強化。", "url": "https://www.nikkei.com/article/DGXZQOUF075Y00X00C26A7000000/"}, {"ind": "半導体", "head": "中国、エヌビディア製先端半導体の購入容認 H200対中輸出も解禁", "summ": "中国が米エヌビディア製の先端半導体購入を一部企業に容認したと報じられた。トランプ大統領はH200の対中輸出を認め、条件として米政府が収入の25%を受け取ると表明。対中AI政策の大きな転換。", "url": "https://www.jiji.com/jc/article?k=2026070900247&g=int"}, {"ind": "半導体", "head": "ローツェ、1Q経常益51%増 生成AI需要で装置売上が四半期最高", "summ": "ローツェの第1四半期は経常利益が前年同期比51.1%増の109億円。半導体関連装置の売上高が四半期ベースで過去最高を記録した。", "url": "https://kabutan.jp/news/?b=k202607090028"}], "extra": null}, {"t": "産業・家庭", "s": "電力消費", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "資源権益", "s": "鉄鉱石/原油/LNG", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "脱中国調達", "s": "重要鉱物", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "三菱商事", "s": "総合商社最大手", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "商社", "head": "高砂熱学・三菱商事のMTグリーンエナジー、北海道でグリーン事業", "summ": "高砂熱学工業と三菱商事が出資するMTグリーンエネルギーは、北海道千歳市のキリンビール施設に関連したグリーンエネルギー事業を進めている。再エネと地域産業を結ぶ取り組み。", "url": "https://www.kensetsunews.com/"}], "extra": null}, {"t": "三井物産", "s": "資源に強み", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "住友商事", "s": "事業投資", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "丸紅", "s": "電力・食料", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "阪和興業", "s": "鉄鋼商社・北米M&A", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "再エネ事業", "s": "MTグリーン等", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "食品", "head": "MTグリーン関連・キリン、再エネ地産で脱炭素対応を加速", "summ": "キリンビール施設と連動したMTグリーンエネルギーの取り組みなど、食品メーカーは再エネ地産地消でコストと脱炭素を両立させる動きを強めている。値上げ環境下で製造コスト管理が重要度を増す。", "url": "https://www.kensetsunews.com/"}, {"ind": "商社", "head": "高砂熱学・三菱商事のMTグリーンエナジー、北海道でグリーン事業", "summ": "高砂熱学工業と三菱商事が出資するMTグリーンエネルギーは、北海道千歳市のキリンビール施設に関連したグリーンエネルギー事業を進めている。再エネと地域産業を結ぶ取り組み。", "url": "https://www.kensetsunews.com/"}], "extra": null}, {"t": "食品・流通", "s": "川下事業", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "国内産業", "s": "素材・エネ供給", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "海外事業", "s": "北米・アジア", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "NTT", "s": "光・IOWN基盤", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "通信", "head": "ドコモ・KDDI、金融新会社が始動 ポイント経済圏で成長模索", "summ": "NTTドコモとKDDIはそれぞれ金融事業の新会社を設立し7月に事業を開始。ドコモは金融持ち株会社を設立し、傘下銀行のブランドを刷新した。通信を補う成長源としてポイント還元などで競う。", "url": "https://www.nikkei.com/article/DGXZQOUC307D40Q6A630C2000000/"}], "extra": null}, {"t": "フジクラ", "s": "光ファイバ", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "KDDI", "s": "通信×金融経済圏", "tag": "混在", "color": "#d97706", "news": [{"ind": "通信", "head": "ドコモ・KDDI、金融新会社が始動 ポイント経済圏で成長模索", "summ": "NTTドコモとKDDIはそれぞれ金融事業の新会社を設立し7月に事業を開始。ドコモは金融持ち株会社を設立し、傘下銀行のブランドを刷新した。通信を補う成長源としてポイント還元などで競う。", "url": "https://www.nikkei.com/article/DGXZQOUC307D40Q6A630C2000000/"}, {"ind": "自動車", "head": "トヨタ、KDDI株を政策保有縮減 持ち株比率7.73%へ", "summ": "トヨタ自動車は7月8日付でKDDI株の変更報告書を提出し、保有比率を7.73%に引き下げた。KDDIは最大3000億円の自社株買いを発表し、トヨタと京セラが保有株の一部を約2500億円で売却した。", "url": "https://maonline.jp/kabuhoyu/sh-s100yixc"}], "extra": null}, {"t": "ソフトバンク", "s": "AI投資", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "楽天グループ", "s": "モバイル黒字化途上", "tag": "ネガ", "color": "#dc2626", "news": [], "extra": null}, {"t": "金融・ポイント", "s": "決済経済圏", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "半導体", "head": "米半導体株が反発、エヌビディア3.65%高 押し目買い強まる", "summ": "7/8のNY市場でエヌビディアが3.65%高と急反発し、半導体・製造装置が上昇。ナスダックは51.96ポイント高の25,870.65。ダウは原油高を嫌気し576ドル安の52,348.39と方向感はまちまち。", "url": "https://finance.biggo.jp/news/049e79bb-8724-4987-ad67-2384f42957a5"}, {"ind": "銀行", "head": "銀行株、高値圏を維持 政策金利1%で利ざや改善続く", "summ": "政策金利1%を背景に銀行の利ざや改善が続き、銀行株は高値圏を維持。9日の株式相場反発局面でも金融株に資金が向かった。", "url": "https://www.nikkei.com/markets/stocks/"}, {"ind": "通信", "head": "ドコモ・KDDI、金融新会社が始動 ポイント経済圏で成長模索", "summ": "NTTドコモとKDDIはそれぞれ金融事業の新会社を設立し7月に事業を開始。ドコモは金融持ち株会社を設立し、傘下銀行のブランドを刷新した。通信を補う成長源としてポイント還元などで競う。", "url": "https://www.nikkei.com/article/DGXZQOUC307D40Q6A630C2000000/"}, {"ind": "金融", "head": "投資信託への資金流入、1-6月で12兆円 過去最高", "summ": "投資信託への資金流入が2026年1〜6月で12兆円と半期で過去最高に達した。個人の資産形成マネーが株式市場を下支えする構図が続く。", "url": "https://www.nikkei.com/markets/"}, {"ind": "金融政策", "head": "FOMC6月議事要旨、中立・様子見に転換 利下げ期待後退", "summ": "6月16-17日のFOMC議事要旨(7/8公表)では、政策が中立・様子見に完全に移行したことが判明。委員は利上げ・利下げ双方の主張で割れた。運輸・航空運賃・石油など幅広い品目で物価上昇が広がっていると確認。", "url": "https://kabushiki.jp/market/indexes/news/840006"}], "extra": null}, {"t": "衛星通信", "s": "スターリンク連携", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "個人", "s": "携帯・決済", "tag": "混在", "color": "#d97706", "news": [{"ind": "金融", "head": "投資信託への資金流入、1-6月で12兆円 過去最高", "summ": "投資信託への資金流入が2026年1〜6月で12兆円と半期で過去最高に達した。個人の資産形成マネーが株式市場を下支えする構図が続く。", "url": "https://www.nikkei.com/markets/"}], "extra": null}, {"t": "法人・IoT", "s": "DX需要", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "第一三共", "s": "ADC創薬", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "武田薬品工業", "s": "大型M&A・特許", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "ジーエヌアイグループ", "s": "バイオ創薬", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "テルモ", "s": "医療機器・CDMO", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "シスメックス", "s": "検体検査・診断", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "スギHD", "s": "調剤・ドラッグ", "tag": "混在", "color": "#d97706", "news": [{"ind": "薬品", "head": "スギHD、1Q増収減益 売上2701億円・純利益は67.5%減", "summ": "スギホールディングスの27年2月期第1四半期は売上高2701億7500万円(前年同期比10.1%増)、純利益69億100万円(同67.5%減)。増収ながら利益は前年の反動で大きく減少した。", "url": "https://finance.biggo.jp/news/bf484117-c81d-450b-9720-5ff2328200ab"}], "extra": null}, {"t": "ツルハHD", "s": "ドラッグ大手", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "病院・医療機関", "s": "急性期病床再編", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "患者・消費者", "s": "セルフメディケーション", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "ファーストリテイリング", "s": "SPA・世界2位", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "小売", "head": "ファストリ、9カ月最高益 通期純利益5000億円へ上方修正 世界2位に", "summ": "25年9月〜26年5月期の純利益は前年同期比25.6%増の4260億円と9カ月で過去最高。売上収益は17.1%増の3兆651億円、営業益は36.2%増の6143億円。26年8月期通期は純利益を従来4800億円から5000億円(前期比15%増)へ上方修正。", "url": "https://www.nikkei.com/article/DGXZQOUB065JR0W6A700C2000000/"}], "extra": null}, {"t": "明治HD", "s": "食品・菓子", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "アサヒ/キリン", "s": "飲料大手", "tag": "混在", "color": "#d97706", "news": [{"ind": "食品", "head": "MTグリーン関連・キリン、再エネ地産で脱炭素対応を加速", "summ": "キリンビール施設と連動したMTグリーンエネルギーの取り組みなど、食品メーカーは再エネ地産地消でコストと脱炭素を両立させる動きを強めている。値上げ環境下で製造コスト管理が重要度を増す。", "url": "https://www.kensetsunews.com/"}, {"ind": "商社", "head": "高砂熱学・三菱商事のMTグリーンエナジー、北海道でグリーン事業", "summ": "高砂熱学工業と三菱商事が出資するMTグリーンエネルギーは、北海道千歳市のキリンビール施設に関連したグリーンエネルギー事業を進めている。再エネと地域産業を結ぶ取り組み。", "url": "https://www.kensetsunews.com/"}], "extra": null}, {"t": "アスクル", "s": "BtoB通販", "tag": "ネガ", "color": "#dc2626", "news": [], "extra": null}, {"t": "商社流通", "s": "川中", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "セブン&アイ", "s": "コンビニ・一転増益", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "小売", "head": "セブン&アイ、一転増益に 通期経常益3900億円へ上方修正", "summ": "セブン&アイは海外コンビニ事業の好調と円安を受け、通期経常利益予想を3900億円に上方修正し一転増益見通しとした。ブルームバーグも再建期待を強めると報道。", "url": "https://www.nikkei.com/article/DGXZQOUB126JK0S6A510C2000000/"}], "extra": null}, {"t": "しまむら", "s": "低価格アパレル", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "ゼンショー/ABCマート", "s": "外食・靴", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "インバウンド", "s": "訪日消費", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "国内個人", "s": "値上げと選別", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "日本製鉄", "s": "鋼材", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "東レ", "s": "素材・炭素繊維", "tag": "混在", "color": "#d97706", "news": [], "extra": null}, {"t": "清水建設", "s": "ゼネコン・フィジカルAI", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "人材", "head": "建設・物流の人手不足が継続 省人化投資が拡大局面に", "summ": "清水建設のフィジカルAI導入に象徴されるように、建設・物流を中心に人手不足対応の省人化投資が拡大している。賃上げが続くなかで生産性を高める設備投資が企業収益の分岐点になりつつある。", "url": "https://www.nikkei.com/news/category/economy/"}, {"ind": "建設", "head": "清水建設、フィジカルAIを現場導入 労働力不足と安全性に対応", "summ": "清水建設は建設現場の労働力不足解消と生産性・安全性向上を目的に、フィジカルAI(人工知能)を活用すると発表した。", "url": "https://www.nikkei.com/news/category/business/"}], "extra": null}, {"t": "きんでん", "s": "電気設備工事", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "高砂熱学", "s": "空調・DC", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "食品", "head": "MTグリーン関連・キリン、再エネ地産で脱炭素対応を加速", "summ": "キリンビール施設と連動したMTグリーンエネルギーの取り組みなど、食品メーカーは再エネ地産地消でコストと脱炭素を両立させる動きを強めている。値上げ環境下で製造コスト管理が重要度を増す。", "url": "https://www.kensetsunews.com/"}, {"ind": "商社", "head": "高砂熱学・三菱商事のMTグリーンエナジー、北海道でグリーン事業", "summ": "高砂熱学工業と三菱商事が出資するMTグリーンエネルギーは、北海道千歳市のキリンビール施設に関連したグリーンエネルギー事業を進めている。再エネと地域産業を結ぶ取り組み。", "url": "https://www.kensetsunews.com/"}], "extra": null}, {"t": "住友不動産", "s": "デベロッパー", "tag": "混在", "color": "#d97706", "news": [{"ind": "不動産", "head": "住友不動産、川崎で約3.5万㎡の共同住宅を新設", "summ": "住友不動産は川崎市で延べ約3万5000平方メートルの共同住宅を新設する計画を明らかにした。都市部の住宅開発を継続する。", "url": "https://www.nikkei.com/news/category/"}], "extra": null}, {"t": "都市再開発", "s": "品川・川崎等", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "データセンター建設", "s": "AI需要", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "IT", "head": "パナソニックHD、データセンター冷却の新技術 消費電力60%減", "summ": "パナソニックHDがデータセンター冷却の新技術を発表し、消費電力を60%削減できるとした。同社はAIインフラ関連に26-28年度で5000億円を投じる計画で、蓄電システムなどとあわせDC事業を強化。", "url": "https://www.nikkei.com/article/DGXZQOUF075Y00X00C26A7000000/"}], "extra": null}, {"t": "インフラ", "s": "更新投資", "tag": "混在", "color": "#d97706", "news": [{"ind": "IT", "head": "パナソニックHD、データセンター冷却の新技術 消費電力60%減", "summ": "パナソニックHDがデータセンター冷却の新技術を発表し、消費電力を60%削減できるとした。同社はAIインフラ関連に26-28年度で5000億円を投じる計画で、蓄電システムなどとあわせDC事業を強化。", "url": "https://www.nikkei.com/article/DGXZQOUF075Y00X00C26A7000000/"}], "extra": null}, {"t": "三菱電機", "s": "レーダー・衛星電子", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "東京計器", "s": "防衛計測機器", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "三菱重工業", "s": "防衛・航空・宇宙", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "川崎重工業", "s": "艦艇・航空・水素", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "ispace", "s": "月面輸送", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "宇宙", "head": "ispaceがストップ高 スペースX活用の月面輸送計画を好感", "summ": "ispace株は9日、前日比80円(19%)高の508円までストップ高。スターシップを活用した月面ペイロード輸送サービス構築計画を材料視。ローバー型で着陸地点から数km先へ数百kgを運搬でき、早ければ2030年に打ち上げる。", "url": "https://www.bloomberg.com/jp/news/articles/2026-07-09/THVYJWKK3NYA00"}], "extra": null}, {"t": "スペースX", "s": "打ち上げ・スターシップ", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "宇宙", "head": "ispaceがストップ高 スペースX活用の月面輸送計画を好感", "summ": "ispace株は9日、前日比80円(19%)高の508円までストップ高。スターシップを活用した月面ペイロード輸送サービス構築計画を材料視。ローバー型で着陸地点から数km先へ数百kgを運搬でき、早ければ2030年に打ち上げる。", "url": "https://www.bloomberg.com/jp/news/articles/2026-07-09/THVYJWKK3NYA00"}], "extra": null}, {"t": "防衛省・安全保障", "s": "防衛費増額", "tag": "ポジ", "color": "#16a34a", "news": [], "extra": null}, {"t": "民間宇宙", "s": "月面・衛星", "tag": "ポジ", "color": "#16a34a", "news": [{"ind": "宇宙", "head": "ispaceがストップ高 スペースX活用の月面輸送計画を好感", "summ": "ispace株は9日、前日比80円(19%)高の508円までストップ高。スターシップを活用した月面ペイロード輸送サービス構築計画を材料視。ローバー型で着陸地点から数km先へ数百kgを運搬でき、早ければ2030年に打ち上げる。", "url": "https://www.bloomberg.com/jp/news/articles/2026-07-09/THVYJWKK3NYA00"}], "extra": null}];
+function bnE(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bnClose(){document.getElementById('bnov').classList.remove('on');document.getElementById('bnpop').classList.remove('on');}
+function bnShowPop(i){var p=window.__BNPOPS__[i];if(!p)return;
+ document.getElementById('bnt').textContent=p.t;
+ var tag=document.getElementById('bntag');tag.textContent=p.tag;tag.style.color=p.color;tag.style.borderColor=p.color;tag.style.background=p.color+'1a';
+ document.getElementById('bns').textContent=p.s||'';
+ var b=document.getElementById('bnbody');var h='';
+ if(p.extra){h+='<div class="bnextra">'+bnE(p.extra)+'</div>';}
+ if(p.news&&p.news.length){h+='<div class="bnnh">関連ニュース（'+p.news.length+'件）</div>';
+  p.news.forEach(function(n){h+='<div class="bnn"><div class="bnni">'+bnE(n.ind)+'</div><div class="bnnh2">'+bnE(n.head)+'</div>'+(n.summ?'<div class="bnns">'+bnE(n.summ)+'</div>':'')+(n.url?'<a class="bnnl" href="'+encodeURI(n.url)+'" target="_blank" rel="noopener">出典リンク ↗</a>':'')+'</div>';});
+ }else{h+='<div class="bnempty">このノードに直接ひも付くニュースは見つかりませんでした。日次ダイジェストの「時事ニュース」もご覧ください。</div>';}
+ b.innerHTML=h;
+ document.getElementById('bnov').classList.add('on');document.getElementById('bnpop').classList.add('on');}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')bnClose();});
+</script></body></html>
