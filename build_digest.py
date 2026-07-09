@@ -112,7 +112,7 @@ def _bmatch(l1,l2,news):
         if _btags(n.get("ind","")+" "+n.get("head","")) & nt:
             out.append({"ind":n.get("ind",""),"head":n.get("head",""),"summ":n.get("summ",""),"url":n.get("url","")})
     return out[:5]
-def build_svg(flow, news=None, idbase=0, node_news=None):
+def build_svg(flow, news=None, idbase=0, node_news=None, node_meta=None):
     NODES=flow["nodes"]; EDGES=flow["edges"]; pops=[]
     def anc(nid):
         col,y=NODES[nid][0],NODES[nid][1]; x=COLX[col]; w=COLW[col]; return (x,x+w,y+HH/2)
@@ -133,7 +133,8 @@ def build_svg(flow, news=None, idbase=0, node_news=None):
             if sl: o.append(f'<text x="{x+16}" y="{y+55}" font-size="10.5" fill="#64748b">{esc(sl)}</text>')
         extra=NODES[nid][5] if len(NODES[nid])>5 else None
         nw=node_news.get(nid) if (node_news and nid in node_news) else _bmatch(l1,l2,news)
-        idx=idbase+len(pops); pops.append({"t":l1,"s":l2,"tag":s["tag"],"color":s["bar"],"news":nw,"extra":extra})
+        comps=(node_meta.get(nid,{}).get("companies") if node_meta else None)
+        idx=idbase+len(pops); pops.append({"t":l1,"s":l2,"tag":s["tag"],"color":s["bar"],"news":nw,"extra":extra,"companies":comps})
         o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{HH}" rx="10" fill="transparent"/>')
         return f'<g class="fnode" style="cursor:pointer" onclick="bnShowPop({idx})">'+"\n".join(o)+'</g>'
     def epath(f,t,k,label,i):
@@ -185,6 +186,10 @@ MODAL_CSS='''
 .bnnl{display:inline-block;margin-top:7px;font-size:12px;color:#2563eb;text-decoration:none}
 .bnempty{font-size:13px;color:#64748b;line-height:1.6}
 .bnextra{font-size:12.5px;color:#334155;line-height:1.6;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:8px;padding:9px 12px;margin:0 0 14px}
+.bncos{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.bnco{display:flex;align-items:baseline;gap:8px;border:1px solid #e8edf3;border-radius:9px;padding:7px 11px;background:#fcfdfe}
+.bncon{font-size:13px;font-weight:700;color:#0f172a;white-space:nowrap}
+.bncor{font-size:11.5px;color:#64748b;line-height:1.4}
 .fnode:hover rect:first-child{stroke:#94a3b8;stroke-width:2}
 '''
 BN_MODAL='''<div id="bnov" class="bnov" onclick="bnClose()"></div>
@@ -203,6 +208,10 @@ function bnShowPop(i){var p=window.__BNPOPS__[i];if(!p)return;
  document.getElementById('bns').textContent=p.s||'';
  var b=document.getElementById('bnbody');var h='';
  if(p.extra){h+='<div class="bnextra">'+bnE(p.extra)+'</div>';}
+ if(p.companies&&p.companies.length){h+='<div class="bnnh">関連企業（'+p.companies.length+'社）</div><div class="bncos">';
+  p.companies.forEach(function(c){var nm=Array.isArray(c)?c[0]:c;var ro=Array.isArray(c)?(c[1]||''):'';
+   h+='<div class="bnco"><span class="bncon">'+bnE(nm)+'</span>'+(ro?'<span class="bncor">'+bnE(ro)+'</span>':'')+'</div>';});
+  h+='</div>';}
  if(p.news&&p.news.length){h+='<div class="bnnh">関連ニュース（'+p.news.length+'件）</div>';
   p.news.forEach(function(n){h+='<div class="bnn"><div class="bnni">'+bnE(n.ind)+'</div><div class="bnnh2">'+bnE(n.head)+'</div>'+(n.summ?'<div class="bnns">'+bnE(n.summ)+'</div>':'')+(n.url?'<a class="bnnl" href="'+encodeURI(n.url)+'" target="_blank" rel="noopener">出典リンク ↗</a>':'')+'</div>';});
  }else{h+='<div class="bnempty">このノードに直接ひも付くニュースは見つかりませんでした。日次ダイジェストの「時事ニュース」もご覧ください。</div>';}
@@ -534,22 +543,27 @@ def render_sectors(outdir):
     all_pops=[]; blocks=[]; toc=[]
     for s in sectors:
         key=s["key"]; name=s["name"]; col=s.get("color","#475569")
-        flow=s["flow"]; nodes=flow["nodes"]
-        # node_news: 各ノード（企業/セグメント）名から関連ニュースを抽出
-        aliasmap=s.get("aliases",{})
-        node_news={}
+        flow=s["flow"]; nodes=flow["nodes"]; meta=s.get("meta",{})
+        # node_meta: 各要素ノードにひも付く関連企業。node_news: 要素キーワード＋関連企業名でニュース抽出
+        node_meta={}; node_news={}; allcos=[]
         for nid,v in nodes.items():
-            title=v[3]; al=aliasmap.get(nid,[]) or aliasmap.get(title,[])
-            node_news[nid]=_news_for_company(title, al, news, k=5)
-        svg,pops=build_svg(flow, None, idbase=len(all_pops), node_news=node_news)
+            title=v[3]; m=meta.get(nid,{})
+            comps=m.get("companies",[])
+            node_meta[nid]={"companies":comps}
+            conames=[c[0] if isinstance(c,list) else c for c in comps]
+            allcos+=conames
+            al=list(m.get("aliases",[]))+conames
+            node_news[nid]=_news_for_company(title, al, news, k=6)
+        svg,pops=build_svg(flow, None, idbase=len(all_pops), node_news=node_news, node_meta=node_meta)
         all_pops.extend(pops)
-        # 企業リスト（この分野で登場する企業）
-        clist="".join(f'<span class="chip">{esc(c)}</span>' for c in s.get("companies",[]))
+        # 登場企業（重複排除・順序保持）
+        seen=set(); uniq=[c for c in allcos if not (c in seen or seen.add(c))]
+        clist="".join(f'<span class="chip">{esc(c)}</span>' for c in uniq)
         toc.append(f'<a href="#sec-{key}">{esc(name)}</a>')
         blocks.append(f'''<section id="sec-{key}"><h2><span class="num" style="background:{col}">◆</span>{esc(name)}</h2>
-   <p class="lead">{esc(s.get("lead",""))} <b>各ノードをタップ</b>すると、その企業・セグメントに関連する当日以降のニュースを表示します。</p>
+   <p class="lead">{esc(s.get("lead",""))} 図のノードは<b>バリューチェーンの機能・工程（要素）</b>です。<b>各要素をタップ</b>すると、その工程に位置する<b>関連企業</b>と<b>関連ニュース</b>を表示します。</p>
    <div class="diagram">{svg}</div>{LEGEND}
-   {f'<div class="secchips"><span class="secl">登場企業:</span>{clist}</div>' if clist else ''}</section>''')
+   {f'<div class="secchips"><span class="secl">登場企業（{len(uniq)}社）:</span>{clist}</div>' if clist else ''}</section>''')
     body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>業界構造マップ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}{MODAL_CSS}{SECTOR_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — SECTOR MAP</div><h1>業界構造マップ（バリューチェーン）</h1>
