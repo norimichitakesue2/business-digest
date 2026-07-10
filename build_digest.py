@@ -137,12 +137,30 @@ def build_svg(flow, news=None, idbase=0, node_news=None, node_meta=None):
         idx=idbase+len(pops); pops.append({"t":l1,"s":l2,"tag":s["tag"],"color":s["bar"],"news":nw,"extra":extra,"companies":comps})
         o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{HH}" rx="10" fill="transparent"/>')
         return f'<g class="fnode" style="cursor:pointer" onclick="bnShowPop({idx})">'+"\n".join(o)+'</g>'
+    def _col(nid): return NODES[nid][0]
+    def _gutter_r(c):
+        rc=COLX[c]+COLW[c]
+        return (rc+COLX[c+1])/2 if (c+1) in COLX else rc+42
+    def _gutter_l(c):
+        return (COLX[c-1]+COLW[c-1]+COLX[c])/2 if (c-1) in COLX else COLX[c]-42
     def epath(f,t,k,label,i):
-        _,frx,fy=anc(f); tlx,_,ty=anc(t); x1,y1=frx,fy; x2,y2=tlx,ty; dx=x2-x1
-        c1x=x1+dx*0.45; c2x=x2-dx*0.45; color=EKIND[k]; dash='' if k!='ease' else ' stroke-dasharray="5 4"'
-        p=f'<path d="M {x1} {y1} C {c1x} {y1} {c2x} {y2} {x2} {y2}" fill="none" stroke="{color}" stroke-width="2.2"{dash} marker-end="url(#ah_{k})" opacity="0.92"/>'
-        lx=x1+dx*0.5; ly=(y1+y2)/2-2+(-10 if i%2==0 else 10); wpx=len(label)*7.2+12
-        lab=(f'<rect x="{lx-wpx/2:.1f}" y="{ly-11:.1f}" width="{wpx:.1f}" height="17" rx="8" fill="white" stroke="{color}" stroke-width="1" opacity="0.96"/>'
+        cf=_col(f); ct=_col(t); color=EKIND[k]; dash='' if k!='ease' else ' stroke-dasharray="5 4"'
+        fl,fr,fy=anc(f); tl,tr,ty=anc(t)
+        if ct>cf:  # 前進（左→右）：ラベルは源泉列の右側ガターへ
+            x1,y1=fr,fy; x2,y2=tl,ty; dx=x2-x1; c1x=x1+dx*0.45; c2x=x2-dx*0.45
+            p=f'<path d="M {x1} {y1} C {c1x} {y1} {c2x} {y2} {x2} {y2}" fill="none" stroke="{color}" stroke-width="2.2"{dash} marker-end="url(#ah_{k})" opacity="0.9"/>'
+            lx=_gutter_r(cf); ly=y1+(y2-y1)*0.14+(-9 if i%2==0 else 9)
+        elif cf==ct:  # 同一列（縦）：ガターへ迂回。末尾列は左、それ以外は右
+            if (cf+1) in COLX: gx=_gutter_r(cf); x1,y1=fr,fy; x2,y2=tr,ty
+            else: gx=_gutter_l(cf); x1,y1=fl,fy; x2,y2=tl,ty
+            p=f'<path d="M {x1} {y1} C {gx} {y1} {gx} {y2} {x2} {y2}" fill="none" stroke="{color}" stroke-width="2"{dash} marker-end="url(#ah_{k})" opacity="0.85"/>'
+            lx=gx; ly=(y1+y2)/2+(-9 if i%2==0 else 9)
+        else:  # 後退（右→左）フォールバック：源泉列の左ガターへ
+            gx=_gutter_l(cf); x1,y1=fl,fy; x2,y2=tr,ty
+            p=f'<path d="M {x1} {y1} C {gx} {y1} {gx} {y2} {x2} {y2}" fill="none" stroke="{color}" stroke-width="2"{dash} marker-end="url(#ah_{k})" opacity="0.85"/>'
+            lx=gx; ly=(y1+y2)/2+(-9 if i%2==0 else 9)
+        wpx=len(label)*7.2+12
+        lab=(f'<rect x="{lx-wpx/2:.1f}" y="{ly-11:.1f}" width="{wpx:.1f}" height="17" rx="8" fill="white" stroke="{color}" stroke-width="1" opacity="0.97"/>'
              f'<text x="{lx:.1f}" y="{ly+1:.1f}" font-size="10.5" fill="{color}" text-anchor="middle" font-weight="600">{esc(label)}</text>')
         return p,lab
     VH=int(max(v[1] for v in NODES.values())+HH+40)
