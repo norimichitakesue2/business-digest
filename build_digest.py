@@ -550,6 +550,70 @@ def render_month(outdir, iso):
     open(os.path.join(outdir,f"month-{ym}.html"),"w",encoding="utf-8").write(body)
     return ym
 
+def merge_sectors_delta(data, outdir):
+    """day_data.json の任意フィールド sectors_delta を sectors.json に加算マージ（増える方向のみ）。
+    形式:
+      sectors_delta = {
+        "new_sectors":[ {key,name,color,lead,flow:{nodes,edges},meta} ],
+        "add_nodes":{ "<key>": {"<nid>":[col,y,sent,title,note]} },
+        "add_edges":{ "<key>": [[from,to,kind,label]] },
+        "add_meta": { "<key>": {"<nid>":{"companies":[[name,role]],"aliases":[..]}} }
+      }
+    既存ノード/エッジ/セクターは重複追加しない。meta の companies/aliases は和集合で拡張。
+    戻り値: (追加セクター数, 追加ノード数, 追加エッジ数)。sectors_delta 未指定なら (0,0,0)。"""
+    delta=data.get("sectors_delta")
+    if not delta: return (0,0,0)
+    sp=os.path.join(outdir,"sectors.json")
+    if not os.path.exists(sp): return (0,0,0)
+    doc=json.load(open(sp,encoding="utf-8"))
+    sectors=doc.setdefault("sectors",[])
+    bykey={s["key"]:s for s in sectors}
+    ns=nn=ne=0
+    # 1) 新規セクター
+    for ns_def in delta.get("new_sectors",[]):
+        k=ns_def.get("key")
+        if not k or k in bykey: continue
+        ns_def.setdefault("flow",{}).setdefault("nodes",{})
+        ns_def["flow"].setdefault("edges",[])
+        ns_def.setdefault("meta",{})
+        sectors.append(ns_def); bykey[k]=ns_def; ns+=1
+    # 2) 既存セクターへのノード追加
+    for k,nodes in delta.get("add_nodes",{}).items():
+        s=bykey.get(k)
+        if not s: continue
+        tgt=s.setdefault("flow",{}).setdefault("nodes",{})
+        for nid,v in nodes.items():
+            if nid not in tgt:
+                tgt[nid]=v; nn+=1
+    # 3) 既存セクターへのエッジ追加（重複はfrom/to/kindで判定）
+    for k,edges in delta.get("add_edges",{}).items():
+        s=bykey.get(k)
+        if not s: continue
+        tgt=s.setdefault("flow",{}).setdefault("edges",[])
+        have={(e[0],e[1],e[2] if len(e)>2 else "") for e in tgt}
+        for e in edges:
+            sig=(e[0],e[1],e[2] if len(e)>2 else "")
+            if sig not in have:
+                tgt.append(e); have.add(sig); ne+=1
+    # 4) meta（企業・別名）の拡張
+    for k,metas in delta.get("add_meta",{}).items():
+        s=bykey.get(k)
+        if not s: continue
+        tmeta=s.setdefault("meta",{})
+        for nid,m in metas.items():
+            cur=tmeta.setdefault(nid,{"companies":[],"aliases":[]})
+            cur.setdefault("companies",[]); cur.setdefault("aliases",[])
+            have_co={ (c[0] if isinstance(c,list) else c) for c in cur["companies"] }
+            for c in m.get("companies",[]):
+                nm=c[0] if isinstance(c,list) else c
+                if nm not in have_co:
+                    cur["companies"].append(c); have_co.add(nm)
+            for a in m.get("aliases",[]):
+                if a not in cur["aliases"]:
+                    cur["aliases"].append(a)
+    json.dump(doc,open(sp,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
+    return (ns,nn,ne)
+
 def render_sectors(outdir):
     """分野別ビジネス構造マップ（バリューチェーン＋企業＋関連ニュース）。sectors.jsonが無ければスキップ。"""
     sp=os.path.join(outdir,"sectors.json")
@@ -681,6 +745,8 @@ if __name__=="__main__":
     ncomp=render_companies(outdir)
     npred=render_predictions(outdir)
     ym=render_month(outdir, iso)
+    sadd=merge_sectors_delta(data, outdir)
     nsec=render_sectors(outdir)
     n,nd,nt=render_index(outdir)
-    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd}) | month {ym} | sectors {nsec}")
+    smsg=f"{nsec}" + (f" (+{sadd[0]}sec/+{sadd[1]}node/+{sadd[2]}edge)" if any(sadd) else "")
+    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd}) | month {ym} | sectors {smsg}")
