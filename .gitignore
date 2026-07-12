@@ -9,3 +9,5 @@ _chk_*.png
 _build_day.py
 _chk_*.png
 _add_delta.py
+_nodeinv.txt
+_merge_descwhy.py

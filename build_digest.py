@@ -133,8 +133,14 @@ def build_svg(flow, news=None, idbase=0, node_news=None, node_meta=None):
             if sl: o.append(f'<text x="{x+16}" y="{y+55}" font-size="10.5" fill="#64748b">{esc(sl)}</text>')
         extra=NODES[nid][5] if len(NODES[nid])>5 else None
         nw=node_news.get(nid) if (node_news and nid in node_news) else _bmatch(l1,l2,news)
-        comps=(node_meta.get(nid,{}).get("companies") if node_meta else None)
-        idx=idbase+len(pops); pops.append({"t":l1,"s":l2,"tag":s["tag"],"color":s["bar"],"news":nw,"extra":extra,"companies":comps})
+        mrec=(node_meta.get(nid,{}) if node_meta else {})
+        comps=mrec.get("companies")
+        desc=mrec.get("desc"); why=mrec.get("why")
+        # 関連性（つながり）をエッジから自動生成：入ってくる影響(上流)と出ていく影響(下流)
+        ins=[{"n":NODES[e[0]][3],"k":e[2],"l":(e[3] if len(e)>3 else "")} for e in EDGES if e[1]==nid and e[0] in NODES]
+        outs=[{"n":NODES[e[1]][3],"k":e[2],"l":(e[3] if len(e)>3 else "")} for e in EDGES if e[0]==nid and e[1] in NODES]
+        idx=idbase+len(pops); pops.append({"t":l1,"s":l2,"tag":s["tag"],"color":s["bar"],"sent":sent,
+            "news":nw,"extra":extra,"desc":desc,"why":why,"ins":ins,"outs":outs,"companies":comps})
         o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{HH}" rx="10" fill="transparent"/>')
         return f'<g class="fnode" style="cursor:pointer" onclick="bnShowPop({idx})">'+"\n".join(o)+'</g>'
     def _col(nid): return NODES[nid][0]
@@ -204,6 +210,16 @@ MODAL_CSS='''
 .bnnl{display:inline-block;margin-top:7px;font-size:12px;color:#2563eb;text-decoration:none}
 .bnempty{font-size:13px;color:#64748b;line-height:1.6}
 .bnextra{font-size:12.5px;color:#334155;line-height:1.6;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:8px;padding:9px 12px;margin:0 0 14px}
+.bnsec{margin:0 0 14px}
+.bndesc{font-size:13px;color:#0f172a;line-height:1.62;background:#f8fafc;border-left:3px solid #cbd5e1;border-radius:8px;padding:9px 12px}
+.bnwhy{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap}
+.bnsb{font-size:11px;font-weight:700;padding:2px 9px;border-radius:8px;border:1px solid;white-space:nowrap}
+.bnwt{font-size:12.5px;color:#334155;line-height:1.55;flex:1;min-width:60%}
+.bnrelh{font-size:11.5px;font-weight:700;color:#64748b;margin:9px 0 4px}
+.bnrel{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed #eef2f7}
+.bnkb{font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:7px;border:1px solid;white-space:nowrap}
+.bnrn{font-size:12.5px;font-weight:600;color:#0f172a}
+.bnrl{font-size:11.5px;color:#64748b;margin-left:auto;text-align:right;max-width:52%}
 .bncos{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .bnco{display:flex;align-items:baseline;gap:8px;border:1px solid #e8edf3;border-radius:9px;padding:7px 11px;background:#fcfdfe}
 .bncon{font-size:13px;font-weight:700;color:#0f172a;white-space:nowrap}
@@ -225,7 +241,23 @@ function bnShowPop(i){var p=window.__BNPOPS__[i];if(!p)return;
  var tag=document.getElementById('bntag');tag.textContent=p.tag;tag.style.color=p.color;tag.style.borderColor=p.color;tag.style.background=p.color+'1a';
  document.getElementById('bns').textContent=p.s||'';
  var b=document.getElementById('bnbody');var h='';
- if(p.extra){h+='<div class="bnextra">'+bnE(p.extra)+'</div>';}
+ var SENTM={pos:{t:'ポジ（追い風）',c:'#16a34a'},neg:{t:'ネガ（逆風）',c:'#dc2626'},mix:{t:'混在（両面）',c:'#d97706'},drv:{t:'起点（ドライバー）',c:'#475569'}};
+ var KINDM={pos:{t:'促進',c:'#16a34a'},neg:{t:'抑制',c:'#dc2626'},mix:{t:'中立',c:'#94a3b8'},ease:{t:'緩和',c:'#0891b2'}};
+ function kbadge(k){var m=KINDM[k]||{t:k,c:'#94a3b8'};return '<span class="bnkb" style="color:'+m.c+';border-color:'+m.c+';background:'+m.c+'22">'+m.t+'</span>';}
+ // 解説（何のノードか）
+ if(p.desc){h+='<div class="bnsec"><div class="bnnh">解説</div><div class="bndesc">'+bnE(p.desc)+'</div></div>';}
+ else if(p.extra){h+='<div class="bnextra">'+bnE(p.extra)+'</div>';}
+ // 位置づけ（ポジ／ネガの理由）
+ if(p.sent){var sm=SENTM[p.sent]||{t:p.sent,c:'#475569'};
+  h+='<div class="bnsec"><div class="bnnh">位置づけ（'+(p.sent==='drv'?'なぜ起点か':'ポジ／ネガの理由')+'）</div><div class="bnwhy"><span class="bnsb" style="color:'+sm.c+';border-color:'+sm.c+';background:'+sm.c+'1a">'+sm.t+'</span>'+(p.why?'<span class="bnwt">'+bnE(p.why)+'</span>':'')+'</div></div>';}
+ // つながり（関連ノードとの関係）
+ if((p.ins&&p.ins.length)||(p.outs&&p.outs.length)){
+  h+='<div class="bnsec"><div class="bnnh">このノードのつながり</div>';
+  if(p.ins&&p.ins.length){h+='<div class="bnrelh">← 上流から（このノードが受ける影響）</div>';
+   p.ins.forEach(function(r){h+='<div class="bnrel">'+kbadge(r.k)+'<span class="bnrn">'+bnE(r.n)+'</span>'+(r.l?'<span class="bnrl">'+bnE(r.l)+'</span>':'')+'</div>';});}
+  if(p.outs&&p.outs.length){h+='<div class="bnrelh">→ 下流へ（このノードが与える影響）</div>';
+   p.outs.forEach(function(r){h+='<div class="bnrel">'+kbadge(r.k)+'<span class="bnrn">'+bnE(r.n)+'</span>'+(r.l?'<span class="bnrl">'+bnE(r.l)+'</span>':'')+'</div>';});}
+  h+='</div>';}
  if(p.companies&&p.companies.length){h+='<div class="bnnh">関連企業（'+p.companies.length+'社）</div><div class="bncos">';
   p.companies.forEach(function(c){var nm=Array.isArray(c)?c[0]:c;var ro=Array.isArray(c)?(c[1]||''):'';
    h+='<div class="bnco"><span class="bncon">'+bnE(nm)+'</span>'+(ro?'<span class="bncor">'+bnE(ro)+'</span>':'')+'</div>';});
@@ -611,6 +643,9 @@ def merge_sectors_delta(data, outdir):
             for a in m.get("aliases",[]):
                 if a not in cur["aliases"]:
                     cur["aliases"].append(a)
+            # 解説(desc)・位置づけ理由(why) は上書き反映（新規ノードの解説を持たせる）
+            for fld in ("desc","why"):
+                if m.get(fld): cur[fld]=m[fld]
     json.dump(doc,open(sp,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
     return (ns,nn,ne)
 
