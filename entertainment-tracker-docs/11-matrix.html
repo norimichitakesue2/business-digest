@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">
+<title>業界マトリクス | ゲーム業界トラッカー</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --border:#30363d;
+  --text:#c9d1d9; --muted:#8b949e; --accent:#58a6ff; --accent-2:#79c0ff;
+  --header-bg:#1f3864; --header-text:#fff;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f6f8fa; --panel:#fff; --border:#d0d7de;
+         --text:#1f2328; --muted:#656d76; --accent:#0969da; --accent-2:#0550ae;
+         --header-bg:#1f3864; --header-text:#fff; }
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  margin:0; padding:24px; line-height:1.65;
+}
+.container{max-width:1400px; margin:0 auto}
+header{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:20px}
+h1{margin:0; font-size:22px}
+.subtle{color:var(--muted); font-size:13px}
+nav{margin:16px 0 24px; padding:12px 16px; background:var(--panel); border:1px solid var(--border); border-radius:8px}
+nav a{color:var(--accent); margin-right:14px; text-decoration:none; font-size:13px; white-space:nowrap}
+nav a:hover{text-decoration:underline}
+.search-wrap{margin:0 0 12px}
+input.search{width:100%; padding:10px 12px; background:var(--panel); color:var(--text);
+  border:1px solid var(--border); border-radius:6px; font-size:14px}
+.table-wrap{overflow-x:auto; background:var(--panel); border:1px solid var(--border); border-radius:8px}
+table{border-collapse:collapse; width:100%; font-size:13px}
+th,td{padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top; text-align:left}
+th{background:var(--header-bg); color:var(--header-text); position:sticky; top:0; font-weight:600; cursor:pointer; user-select:none}
+th:hover{background:#2a4f8c}
+td{white-space:pre-wrap; word-break:break-word; max-width:480px}
+tr:nth-child(even){background:rgba(127,127,127,0.04)}
+tr:hover{background:rgba(88,166,255,0.08)}
+a{color:var(--accent)}
+.section{background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:18px 22px; margin-bottom:14px}
+.section h2{margin:0 0 8px; font-size:17px}
+.section .meta{color:var(--muted); font-size:12px; margin-bottom:10px}
+.section dl{margin:0; display:grid; grid-template-columns:max-content 1fr; gap:6px 16px; font-size:13px}
+.section dt{color:var(--muted); white-space:nowrap}
+.section dd{margin:0; white-space:pre-wrap}
+.empty{color:var(--muted); font-style:italic; padding:30px; text-align:center}
+footer{margin-top:30px; color:var(--muted); font-size:12px; text-align:center}
+.tag{display:inline-block; background:rgba(88,166,255,0.15); color:var(--accent-2);
+  padding:2px 8px; border-radius:10px; font-size:11px; margin-right:4px; margin-bottom:3px}
+.chips{margin:2px 0 6px}
+.tagbar{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 14px; align-items:center}
+.tagbar .tb-label{color:var(--muted); font-size:12px; margin-right:2px}
+.tagfilter{background:var(--panel); color:var(--muted); border:1px solid var(--border);
+  border-radius:14px; padding:4px 12px; font-size:12px; cursor:pointer; line-height:1.2}
+.tagfilter:hover{border-color:var(--accent); color:var(--accent)}
+.tagfilter.active{background:var(--accent); color:#fff; border-color:var(--accent)}
+
+nav.grouped{margin:16px 0 24px; padding:6px 14px; background:var(--panel);
+  border:1px solid var(--border); border-radius:8px}
+nav.grouped .navrow{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  padding:7px 0; border-bottom:1px solid var(--border)}
+nav.grouped .navrow:last-child{border-bottom:none}
+nav.grouped .navlabel{flex:0 0 62px; color:var(--muted); font-size:11px; font-weight:700;
+  letter-spacing:.04em}
+nav.grouped a{color:var(--accent); text-decoration:none; font-size:12.5px; white-space:nowrap}
+nav.grouped a:hover{text-decoration:underline}
+nav.grouped a.active{color:var(--text); font-weight:700}
+.genre-h{margin:22px 0 6px; font-size:13px; color:var(--muted); font-weight:700;
+  letter-spacing:.04em; border-bottom:1px solid var(--border); padding-bottom:5px}
+</style>
+</head><body><div class="container">
+<header><h1>業界マトリクス</h1><span class="subtle">最終更新: 2026-07-29 09:56</span></header>
+<nav class="grouped"><div class="navrow"><span class="navlabel">TOP</span><a href="index.html">ダッシュボード</a><a href="design-map.html">デザイン連動マップ</a><a href="industry-map.html">全体連動マップ</a></div><div class="navrow"><span class="navlabel">共通</span><a href="01-daily-news.html">日次ニュース</a><a href="12-cross-questions.html">横断的問い</a><a href="10-deep-dive.html">掘り下げ・分析</a><a href="09-future.html">今後起きそうなこと</a><a href="11-matrix.html" class="active">業界マトリクス</a><a href="17-media-mix.html">メディアミックス追跡</a><a href="14-events.html">イベントカレンダー</a></div><div class="navrow"><span class="navlabel">ゲーム</span><a href="02-releases.html">新作リリースログ</a><a href="03-ip-watch.html">IP・タイトルウォッチ</a><a href="04-companies-jp.html">企業分析（国内）</a><a href="05-companies-overseas.html">企業分析（海外大手）</a><a href="06-earnings.html">四半期決算サマリ</a><a href="07-trends.html">業界トレンド・技術</a><a href="08-indie.html">インディー注目</a><a href="13-rankings.html">週間ランキング</a><a href="15-game-design.html">ゲームデザイン・トレンド</a><a href="16-design-lineage.html">デザイン派生系統</a></div><div class="navrow"><span class="navlabel">映画</span><a href="20-movie-works.html">作品ウォッチ</a><a href="21-movie-companies.html">企業・スタジオ</a><a href="22-movie-releases.html">公開・興行</a><a href="23-movie-trends.html">トレンド</a></div><div class="navrow"><span class="navlabel">アニメ</span><a href="30-anime-works.html">作品ウォッチ</a><a href="31-anime-companies.html">企業・制作</a><a href="32-anime-releases.html">放送・配信ログ</a><a href="33-anime-trends.html">トレンド</a></div><div class="navrow"><span class="navlabel">漫画</span><a href="40-manga-works.html">作品ウォッチ</a><a href="41-manga-companies.html">出版社・PF</a><a href="42-manga-releases.html">新刊・話題作</a><a href="43-manga-trends.html">トレンド</a></div><div class="navrow"><span class="navlabel">小説</span><a href="50-novel-works.html">作品ウォッチ</a><a href="51-novel-companies.html">出版社・レーベル</a><a href="52-novel-releases.html">新刊・受賞</a><a href="53-novel-trends.html">トレンド</a></div><div class="navrow"><span class="navlabel">音楽</span><a href="60-music-works.html">アーティストウォッチ</a><a href="61-music-companies.html">企業・レーベル</a><a href="62-music-releases.html">リリース・チャート</a><a href="63-music-trends.html">トレンド</a></div></nav><div class="search-wrap"><input class="search" id="search" placeholder="全列を絞り込み検索…"></div><div class="table-wrap"><table><thead><tr><th>年</th><th>月</th><th>コンソール</th><th>PC/Steam</th><th>モバイル</th><th>クラウド/サブスク</th><th>eSports</th><th>M&amp;A/出資</th><th>規制</th><th>技術(AI/XR)</th><th>海外大手</th><th>映画</th><th>アニメ</th><th>漫画</th><th>小説</th><th>音楽</th></tr></thead><tbody><tr class="searchable"><td>2,024</td><td>1月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>2月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>3月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>4月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>5月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>6月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>7月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>8月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>9月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>10月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>11月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>12月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td>2,025</td><td>1月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>2月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>3月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>4月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>5月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>6月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>7月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>8月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>9月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>10月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>11月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>12月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td>2,026</td><td>1月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>2月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>3月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>4月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>5月</td><td>・任天堂Switch 2を日本で¥49,980→¥59,980（+20%、5/25）に値上げ、購入「50時間」条件も撤廃
+・任天堂FY26決算 売上+98.6%／営業益+27.5%、Switch 2効果で大幅増益
+・GTA6を11/19、CoD:MW4を10/23と発売日確定し年末商戦に大型作集中
+・新作『007 First Light』Metacritic88点、スクエニDQXII開発リスタート発表</td><td>・Valve、Steam Deck OLEDを$649→$949（+46%）に大幅値上げ、メモリ高騰・物流逼迫が背景
+・『Path of Exile 2』5/30よりSteamフリーウィークエンド＋EA版50%OFF</td><td>・サイバーエージェント中間決算 ゲーム営業益+106%、ウマ娘英語版で海外売上3.6倍
+・Kuro Games『鳴潮』×ZOZOTOWNコラボ受注開始、ゲームIPのアパレルEC連携進む
+・NetEase Q1ゲーム部門RMB257億（+6.9%）で安定成長</td><td>・Bungie『Destiny 2』ライブ運営を6/9で終了、9年に幕（サーバは継続）
+・CoD:MW4はGame Pass初日除外（約1年後追加）、MSのサブスク戦略見直しが鮮明</td><td>・EVO Japan 2026閉幕、『スト6』ヤマグチ・『鉄拳8』iKARiが新王者、Riot『2XKO』初開催
+・Esports World Cup 2026、賞金総額7500万ドルでパリ開催決定（中東情勢でリヤドから移転）</td><td>・Q1ゲームM&amp;A総額77億ドル、Savvy(PIF)のMoonton 60億ドル買収が牽引
+・EmbracerがLotR/Tomb Raider等をFellowshipに分離、2027年Nasdaq上場へ
+・eBayのGameStop買収提案(560億ドル)拒絶、IMCがPlaystack(Balatro)を約1.5億ドルで取得
+・Griffin Gamingがインディー向け1億ドルファンド始動</td><td>・Microsoft、Activision買収巡る株主訴訟を2.5億ドルで和解（自社負担40%）
+・欧州BEUCが各国にルートボックス規制を要請、PEGIは6月から年齢制限引き上げ</td><td>・Morgan Stanley、生成AIでゲーム業界に220億ドルの利益機会と試算（工期短縮・費用削減）
+・Google CloudがCapcomのエンタープライズAgentic AI導入事例を公開（内製パイプライン統合）
+・Steamforged、R6ボードゲーム宣材のAI生成発覚で炎上、制作の透明性問題が再燃</td><td>・NetEase Q1売上RMB306億（+6.1%）、Marvel Rivalsが寄与
+・ソニーがBungie関連で5.65億ドル減損（累計7.65億ドル）
+・Take-Two、GTA6を11/19と再確認「これ以上の延期なし」</td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>6月</td><td>・任天堂Switch 2が累計1,700万台超〜2,000万台目前、自社史上最速。通期目標を1,900万台へ上方修正
+・ソニーがPS5/PS5 Pro/Portalを世界的に追加値上げ
+・Microsoftは8/1にXboxを最大150ドル値上げ（Series X $799.99）、AI起因のメモリ高騰が要因
+・PS6の発売時期・価格は「現時点で未定」</td><td>・Valve『Steam Machine』が日本・台湾・香港で販売開始（512GB 18万9,980円）、予約抽選は6月末で締切
+・Steam Next Fest 6月版が約5,000本のデモで過去最大規模、6/25にサマーセール開幕（〜7/9）
+・PC Gaming Show 2026で50本超・20本以上の世界初公開（Control続編ほか）</td><td>・スマホ新法施行半年、iPhone外部アプリストアへのゲーム主要30社の出店はゼロ
+・PEGI新区分で有料ルートボックスが最低16歳指定、モバイル課金設計に影響
+・『Pokémon Champions』スマホ版を6/17配信
+・『FGO』が6/22にUnity 6へエンジン移行（約16GBの再DL）</td><td>・NVIDIA「GeForce Now」がQuest 3/S・Vision Pro・Picoに対応、XRでのクラウドゲーミングが本格化
+・Xbox幹部がGame Pass値上げで「数百万人」の解約を認め$22.99へ値下げ
+・Bungie『Destiny 2』が6/9の最終アップデート「Monument of Triumph」で開発終了、12年のGaaSに区切り</td><td>・世界eスポーツ視聴が月33億時間で記録更新、モバイルが牽引
+・CS2『IEM Cologne Major 2026』ピーク約70万人・賞金125万ドル、LoL『LCK Road to MSI』T1優勝はピーク218万人
+・VALORANT Masters LondonはLeviatánが初優勝（賞金100万ドル）
+・EvoがVisaと複数年契約、EWC『Level Up』はPrime Videoで配信</td><td>・EAの約550億ドルLBO非公開化が6/30期限へ大詰め（サウジPIF・Silver Lake・Affinity）、EU審査は反トラスト7/22・外国補助金7/30
+・Netflix×Warner Bros.（$82.7B）が全額現金取引へ修正、WB Gamesも統合対象
+・ByteDanceがMoontonをSavvyへ60〜70億ドルで売却交渉
+・業界M&amp;AはQ1に77億ドル到達</td><td>・PEGIが有料ルートボックスを最低16歳指定とする新「インタラクティブ・リスク区分」を6月適用開始
+・EU AI Actが8/2全面適用へ透明性Code of Practice最終化、中国は対話型AI暫定規則を7/15施行
+・米加州「ゲーム保護法案」AB1921が下院通過（終了時の返金義務化）
+・英政府が16歳未満のオンライン利用制限を公表
+・任天堂が仏当局とJoy-Conドリフトで約35M€の制裁金に合意</td><td>・NVIDIAが「ACE Game Agent SDK」ベータとUE5プラグインを公開、KraftonはPUBGにAI僚機『Ella』を実装
+・Google Cloudがゲーム開発向け自律型AIエージェント群を本格投入、DLSS 5も発表
+・一方で開発者の52%が生成AIを「業界に悪影響」と回答
+・カプコン・ポケットペアが本編への生成AI素材不採用を表明</td><td>・MicrosoftがFY末（6/30）前後からXbox部門で大規模削減に着手、Ninja Theory閉鎖通告・Double Fine/Compulsionは独立化（買い戻し）を交渉
+・ソニーがBungieで292名以上をレイオフ、スタジオ代表も退任
+・Ubisoftは2026年6度目の再編で2スタジオ閉鎖・約380人削減、SF拠点でも93人削減
+・Tencent/NetEaseが評価額低迷下で海外買収を加速</td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>7月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>8月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>9月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>10月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>11月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class="searchable"><td></td><td>12月</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<footer>ゲーム業界・時事情報収集 · 自動生成</footer>
+</div>
+<script>
+(function(){
+  const inp=document.getElementById('search');
+  const bar=document.getElementById('tagbar');
+  const active=new Set();
+  function apply(){
+    const q=(inp?inp.value.toLowerCase():'');
+    document.querySelectorAll('.searchable').forEach(el=>{
+      const textOk = !q || el.textContent.toLowerCase().includes(q);
+      let tagOk = true;
+      if(active.size>0){
+        const tags=(el.dataset.tags||'').split('|').filter(Boolean);
+        tagOk = tags.some(t=>active.has(t));
+      }
+      el.style.display=(textOk&&tagOk)?'':'none';
+    });
+  }
+  if(inp) inp.addEventListener('input', apply);
+  if(bar){
+    const allBtn=bar.querySelector('.tagfilter[data-tag="__all__"]');
+    bar.querySelectorAll('.tagfilter').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const t=btn.dataset.tag;
+        if(t==='__all__'){
+          active.clear();
+          bar.querySelectorAll('.tagfilter').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+        } else {
+          if(active.has(t)){active.delete(t); btn.classList.remove('active');}
+          else{active.add(t); btn.classList.add('active');}
+          if(active.size===0){allBtn.classList.add('active');} else {allBtn.classList.remove('active');}
+        }
+        apply();
+      });
+    });
+  }
+  // sort
+  document.querySelectorAll('table').forEach(table=>{
+    table.querySelectorAll('th').forEach((th,idx)=>{
+      let asc=true;
+      th.addEventListener('click',()=>{
+        const tbody=table.tBodies[0];
+        const rows=Array.from(tbody.rows);
+        rows.sort((a,b)=>{
+          const av=(a.cells[idx]?.innerText||'').trim();
+          const bv=(b.cells[idx]?.innerText||'').trim();
+          const an=parseFloat(av.replace(/,/g,''));
+          const bn=parseFloat(bv.replace(/,/g,''));
+          if(!isNaN(an)&&!isNaN(bn)) return (an-bn)*(asc?1:-1);
+          return av.localeCompare(bv,'ja')*(asc?1:-1);
+        });
+        rows.forEach(r=>tbody.appendChild(r));
+        asc=!asc;
+      });
+    });
+  });
+})();
+</script>
+</body></html>
