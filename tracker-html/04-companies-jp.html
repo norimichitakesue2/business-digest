@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">
+<title>企業分析（国内） | ゲーム業界トラッカー</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --border:#30363d;
+  --text:#c9d1d9; --muted:#8b949e; --accent:#58a6ff; --accent-2:#79c0ff;
+  --header-bg:#1f3864; --header-text:#fff;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f6f8fa; --panel:#fff; --border:#d0d7de;
+         --text:#1f2328; --muted:#656d76; --accent:#0969da; --accent-2:#0550ae;
+         --header-bg:#1f3864; --header-text:#fff; }
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  margin:0; padding:24px; line-height:1.65;
+}
+.container{max-width:1400px; margin:0 auto}
+header{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:20px}
+h1{margin:0; font-size:22px}
+.subtle{color:var(--muted); font-size:13px}
+nav{margin:16px 0 24px; padding:12px 16px; background:var(--panel); border:1px solid var(--border); border-radius:8px}
+nav a{color:var(--accent); margin-right:14px; text-decoration:none; font-size:13px; white-space:nowrap}
+nav a:hover{text-decoration:underline}
+.search-wrap{margin:0 0 12px}
+input.search{width:100%; padding:10px 12px; background:var(--panel); color:var(--text);
+  border:1px solid var(--border); border-radius:6px; font-size:14px}
+.table-wrap{overflow-x:auto; background:var(--panel); border:1px solid var(--border); border-radius:8px}
+table{border-collapse:collapse; width:100%; font-size:13px}
+th,td{padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top; text-align:left}
+th{background:var(--header-bg); color:var(--header-text); position:sticky; top:0; font-weight:600; cursor:pointer; user-select:none}
+th:hover{background:#2a4f8c}
+td{white-space:pre-wrap; word-break:break-word; max-width:480px}
+tr:nth-child(even){background:rgba(127,127,127,0.04)}
+tr:hover{background:rgba(88,166,255,0.08)}
+a{color:var(--accent)}
+.section{background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:18px 22px; margin-bottom:14px}
+.section h2{margin:0 0 8px; font-size:17px}
+.section .meta{color:var(--muted); font-size:12px; margin-bottom:10px}
+.section dl{margin:0; display:grid; grid-template-columns:max-content 1fr; gap:6px 16px; font-size:13px}
+.section dt{color:var(--muted); white-space:nowrap}
+.section dd{margin:0; white-space:pre-wrap}
+.empty{color:var(--muted); font-style:italic; padding:30px; text-align:center}
+footer{margin-top:30px; color:var(--muted); font-size:12px; text-align:center}
+.tag{display:inline-block; background:rgba(88,166,255,0.15); color:var(--accent-2);
+  padding:2px 8px; border-radius:10px; font-size:11px; margin-right:4px; margin-bottom:3px}
+.chips{margin:2px 0 6px}
+.tagbar{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 14px; align-items:center}
+.tagbar .tb-label{color:var(--muted); font-size:12px; margin-right:2px}
+.tagfilter{background:var(--panel); color:var(--muted); border:1px solid var(--border);
+  border-radius:14px; padding:4px 12px; font-size:12px; cursor:pointer; line-height:1.2}
+.tagfilter:hover{border-color:var(--accent); color:var(--accent)}
+.tagfilter.active{background:var(--accent); color:#fff; border-color:var(--accent)}
+
+nav.grouped{margin:16px 0 24px; padding:6px 14px; background:var(--panel);
+  border:1px solid var(--border); border-radius:8px}
+nav.grouped .navrow{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  padding:7px 0; border-bottom:1px solid var(--border)}
+nav.grouped .navrow:last-child{border-bottom:none}
+nav.grouped .navlabel{flex:0 0 62px; color:var(--muted); font-size:11px; font-weight:700;
+  letter-spacing:.04em}
+nav.grouped a{color:var(--accent); text-decoration:none; font-size:12.5px; white-space:nowrap}
+nav.grouped a:hover{text-decoration:underline}
+nav.grouped a.active{color:var(--text); font-weight:700}
+.genre-h{margin:22px 0 6px; font-size:13px; color:var(--muted); font-weight:700;
+  letter-spacing:.04em; border-bottom:1px solid var(--border); padding-bottom:5px}
+</style>
+</head><body><div class="container">
+<header><h1>企業分析（国内）</h1><span class="subtle">最終更新: 2026-08-02 11:57</span></header>
+<nav class="grouped"><div class="navrow"><span class="navlabel">TOP</span><a href="index.html">ダッシュボード</a><a href="design-map.html">デザイン連動マップ</a><a href="industry-map.html">全体連動マップ</a></div><div class="navrow"><span class="navlabel">共通</span><a href="01-daily-news.html">日次ニュース</a><a href="12-cross-questions.html">横断的問い</a><a href="10-deep-dive.html">掘り下げ・分析</a><a href="09-future.html">今後起きそうなこと</a><a href="11-matrix.html">業界マトリクス</a><a href="17-media-mix.html">メディアミックス追跡</a><a href="14-events.html">イベントカレンダー</a></div><div class="navrow"><span class="navlabel">ゲーム</span><a href="02-releases.html">新作リリースログ</a><a href="03-ip-watch.html">IP・タイトルウォッチ</a><a href="04-companies-jp.html" class="active">企業分析（国内）</a><a href="05-companies-overseas.html">企業分析（海外大手）</a><a href="06-earnings.html">四半期決算サマリ</a><a href="07-trends.html">業界トレンド・技術</a><a href="08-indie.html">インディー注目</a><a href="13-rankings.html">週間ランキング</a><a href="15-game-design.html">ゲームデザイン・トレンド</a><a href="16-design-lineage.html">デザイン派生系統</a></div><div class="navrow"><span class="navlabel">映画</span><a href="20-movie-works.html">作品ウォッチ</a><a href="21-movie-companies.html">企業・スタジオ</a><a href="22-movie-releases.html">公開・興行</a><a href="23-movie-trends.html">トレンド</a></div><div class="navrow"><span class="navlabel">アニメ</span><a href="30-anime-works.html">作品ウォッチ</a><a href="31-anime-companies.html">企業・制作</a><a href="32-anime-releases.html">放送・配信ログ</a><a href="33-anime-trends.html">トレンド</a></div><div class="navrow"><span class="navlabel">漫画</span><a href="40-manga-works.html">作品ウォッチ</a><a href="41-manga-companies.html">出版社・PF</a><a href="42-manga-releases.html">新刊・話題作</a><a href="43-manga-trends.html">トレンド</a></div><div class="navrow"><span class="navlabel">小説</span><a href="50-novel-works.html">作品ウォッチ</a><a href="51-novel-companies.html">出版社・レーベル</a><a href="52-novel-releases.html">新刊・受賞</a><a href="53-novel-trends.html">トレンド</a></div><div class="navrow"><span class="navlabel">音楽</span><a href="60-music-works.html">アーティストウォッチ</a><a href="61-music-companies.html">企業・レーベル</a><a href="62-music-releases.html">リリース・チャート</a><a href="63-music-trends.html">トレンド</a></div></nav><div class="search-wrap"><input class="search" id="search" placeholder="全列を絞り込み検索…"></div><div class="table-wrap"><table><thead><tr><th>企業名</th><th>証券コード</th><th>区分</th><th>時価総額(兆円)</th><th>売上高(直近通期)</th><th>営業利益</th><th>純利益</th><th>PER</th><th>PBR</th><th>ROE(%)</th><th>配当利回り(%)</th><th>主力IP/事業</th><th>直近ニュース要約</th><th>ポジ要素</th><th>ネガ要素</th><th>今後の鍵</th><th>最終更新日</th></tr></thead><tbody><tr class="searchable"><td>任天堂</td><td>7974</td><td>コンソール/IP</td><td>9.1</td><td></td><td></td><td></td><td>27.9（予想）</td><td>2.76</td><td>10.5</td><td>2.15（予想）</td><td>Switch/マリオ/ゼルダ/ポケモン</td><td>【7/27週】Switch2は6月の米市場でハード数量・金額とも首位を維持、国内も累計602万台超。世界累計は3/31時点で1,986万台とPS5同期を上回る立ち上がり。東証終値は7月下旬に6,969〜7,033円圏。第1四半期決算は8/6発表予定で、次期減収減益予想に対する進捗が焦点。出典: PUNCH JUMP/Yahoo Finance 2026/7
+---（前回までの記載）---
+【7/17】終値7,294円(前日比+214円,+3.02%)と逆行高。7/17の東京市場は日経平均が前日比2,694.42円安の64,141.12円と大幅続落し、3連休前にAI・半導体関連の利益確定売りが先行。一方で半導体・メモリー市況の落ち着き期待から「非AI」の内需・バリューへ循環物色が向かい、家庭用ゲーム大手が逆行高。gamebiz集計ではゲーム・エンタメ96銘柄中、上昇26(27%)・下落64(67%)と全体は軟調な中での選別買い。出典: gamebiz 2026/7/17
+---（前回までの記載）---
+株価は6/26の6,589円を安値に7/2に7,137円へ反発、その後7,120円前後で横ばい推移し材料出尽くし後の水準確認局面。Switch 2値上げ(国内5.998万円)による普及ペース鈍化懸念は根強いが、FY26は売上2.31兆円(+98.6%)営業益3,601億円(+27.5%)と急回復済。次期は減収減益予想で新作ソフト継続投入が焦点。
+なお、サウジPIF傘下Savvy Games Groupが当社を含む任天堂/バンダイナムコ/Nexon/コーエーテクモ/スクウェア・エニックスの約10%少数持分を約120億ドル規模でSavvyへ移管・集約済み（出典: Reuters/TechTimes 2026/7/17引用のPocketGamer.biz報）。</td><td>Switch 2立ち上がり期の強力IP群、ソフト牽引力</td><td>Switch 2値上げによる普及ペース鈍化懸念、部材コスト増、次期減収減益予想</td><td>Switch 2普及ペースと年末商戦、ファーストパーティ大型タイトル供給、部材コスト管理</td><td>2026-07-27</td></tr><tr class="searchable"><td>ソニーグループ(G&amp;NS)</td><td>6758</td><td>コンソール/PF</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>PlayStation/PS+/Bungie</td><td>【7/27週】PlayStationを2028年1月から新作フルデジタル配信に一本化し、物理ディスク新作を段階終了、PS3/PS Vitaオンラインストアも順次閉鎖と発表。高マージンのデジタル/継続課金シフトを好感し株価は週間+6.77%、約1,275億円の自社株買いも完了。一方でファンは反発（署名10万筆・€4億訴訟報道）、総会長・十時CEOら経営陣が7/3に保有株を大量売却（十時氏は保有の約56.5%）した点は懸念。出典: Simply Wall St/Yahoo Finance 2026/7
+---（前回までの記載）---
+『GTAⅥ』が11/19にPS5/Xbox向けで発売(標準$79.99/アルティメット$99.99)と価格が確定し、PS5エンゲージメント/ネットワーク収入拡大への期待が改めて意識される。FY25は全社売上・営業益とも過去最高を更新済で、大型新規開示は乏しく好業績持続力を見極める局面。</td><td>デジタル一本化で高マージン化、全社最高業績、GTAⅥ商戦でのPS5牽引期待、自社株買い</td><td>物理販売終了へのファン反発（訴訟・署名）、経営陣の大量株式売却、ハード成熟</td><td>デジタル移行の収益寄与とユーザー離反リスクの見極め、GTAⅥ商戦、ネットワークサービス拡大</td><td>2026-07-27</td></tr><tr class="searchable"><td>カプコン</td><td>9697</td><td>ソフト/IP</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>モンハン/バイオ/ストリートファイター</td><td>【7/17】カプコンも大きく水準を切り上げ、任天堂とともに買われた。7/17の東京市場は日経平均が前日比2,694.42円安の64,141.12円と大幅続落し、3連休前にAI・半導体関連の利益確定売りが先行。一方で半導体・メモリー市況の落ち着き期待から「非AI」の内需・バリューへ循環物色が向かい、家庭用ゲーム大手が逆行高。gamebiz集計ではゲーム・エンタメ96銘柄中、上昇26(27%)・下落64(67%)と全体は軟調な中での選別買い。出典: gamebiz 2026/7/17
+---（前回までの記載）---
+『鬼武者 Way of the Sword』発売日9/4前倒し発表(7/2)を受け株価は一時+8.4%高の3,272円まで上昇。13期連続営業増益・売上/営業益とも過去最高で好調継続。強力IPのリピート販売とデジタル比率上昇が寄与し、年内の新作寄与への期待が高まる。</td><td>『鬼武者』新作前倒しで年内販売寄与、13期連続営業増益の収益体質</td><td>大型新作端境期の反動、為替感応度</td><td>『鬼武者 Way of the Sword』(9/4)の初動、主力IPの継続的なリピート販売とデジタル化進展</td><td>2026-07-20</td></tr><tr class="searchable"><td>スクウェア・エニックスHD</td><td>9684</td><td>ソフト/IP</td><td></td><td>2,976.61億（FY26/3）</td><td>547.36億（FY26/3）</td><td>296.16億（FY26/3）</td><td></td><td></td><td></td><td></td><td>FF/ドラクエ/キングダムハーツ</td><td>【7/17】スクウェア・エニックスHDも堅調に推移。7/17の東京市場は日経平均が前日比2,694.42円安の64,141.12円と大幅続落し、3連休前にAI・半導体関連の利益確定売りが先行。一方で半導体・メモリー市況の落ち着き期待から「非AI」の内需・バリューへ循環物色が向かい、家庭用ゲーム大手が逆行高。gamebiz集計ではゲーム・エンタメ96銘柄中、上昇26(27%)・下落64(67%)と全体は軟調な中での選別買い。出典: gamebiz 2026/7/17
+---（前回までの記載）---
+株価は2,601円(7/7 +1.8%)で推移。FY26は減収増益(売上-8.3%、営業益+34.9%)を達成しデジタル/ライツ事業が収益性改善に寄与。次回決算は8/10予定。『FFVIIリメイク』第2弾のマルチ展開拡大と2027年3月以降の大型タイトル定期供給方針を継続表明。
+なお、サウジPIF傘下Savvy Games Groupが当社を含む任天堂/バンダイナムコ/Nexon/コーエーテクモ/スクウェア・エニックスの約10%少数持分を約120億ドル規模でSavvyへ移管・集約済み（出典: Reuters/TechTimes 2026/7/17引用のPocketGamer.biz報）。</td><td>マルチプラットフォーム展開の拡大、大型IPの定期供給方針</td><td>新作本数減で売上トップライン縮小、ヒット依存</td><td>FFVIIリメイク第2弾のマルチ展開、DQ新作など大型タイトルの発売時期</td><td>2026-07-20</td></tr><tr class="searchable"><td>KONAMI</td><td>9766</td><td>ソフト/IP/アミューズメント</td><td></td><td>4,936億（FY26/3）</td><td>1,358億（FY26/3）</td><td>1,000.1億（FY26/3）</td><td></td><td></td><td></td><td></td><td>eFootball/パワプロ/遊戯王</td><td>【7/17】KONAMI Gも大手ゲーム軒並み高の流れで上昇。7/17の東京市場は日経平均が前日比2,694.42円安の64,141.12円と大幅続落し、3連休前にAI・半導体関連の利益確定売りが先行。一方で半導体・メモリー市況の落ち着き期待から「非AI」の内需・バリューへ循環物色が向かい、家庭用ゲーム大手が逆行高。gamebiz集計ではゲーム・エンタメ96銘柄中、上昇26(27%)・下落64(67%)と全体は軟調な中での選別買い。出典: gamebiz 2026/7/17
+---（前回までの記載）---
+Steamサマーセール(6/26〜7/10)で『MGSΔ SNAKE EATER』を40%オフ販売し話題化。8月に『METAL GEAR SOLID: MASTER COLLECTION Vol.2』のグローバル発売を予定。過去人気IP復活とSwitch 2向け展開を積極化し、デジタル・スポーツIPが業績を下支え。</td><td>パワプロ/MGS等の強力IPパイプライン、Switch 2向け積極展開</td><td>アミューズメント/遊技機の構造的逆風</td><td>MGS Master Collection Vol.2(8月)の反応、Switch 2向け新作の立ち上がり</td><td>2026-07-20</td></tr><tr class="searchable"><td>バンダイナムコHD</td><td>7832</td><td>ソフト/IP</td><td></td><td>1兆3,482億（FY26/3）</td><td>1,895億（FY26/3）</td><td>1,406億（FY26/3）</td><td></td><td></td><td></td><td></td><td>アイマス/鉄拳/ガンダム/ドラゴンボール</td><td>【7/17】バンダイナムコHDも大手ゲーム軒並み高の流れで上昇。7/17の東京市場は日経平均が前日比2,694.42円安の64,141.12円と大幅続落し、3連休前にAI・半導体関連の利益確定売りが先行。一方で半導体・メモリー市況の落ち着き期待から「非AI」の内需・バリューへ循環物色が向かい、家庭用ゲーム大手が逆行高。gamebiz集計ではゲーム・エンタメ96銘柄中、上昇26(27%)・下落64(67%)と全体は軟調な中での選別買い。出典: gamebiz 2026/7/17
+---（前回までの記載）---
+株価は4,074円前後(7/7)で推移、アナリスト平均目標株価は4,817円。FY26はガンダム牽引で売上1.348兆円(+8.6%)営業益1,895億円(+5.2%)と過去最高を更新済。IP軸のグローバル展開とトイホビー好調が継続し、大きな新規開示は乏しく好業績の持続力を見極める局面。
+なお、サウジPIF傘下Savvy Games Groupが当社を含む任天堂/バンダイナムコ/Nexon/コーエーテクモ/スクウェア・エニックスの約10%少数持分を約120億ドル規模でSavvyへ移管・集約済み（出典: Reuters/TechTimes 2026/7/17引用のPocketGamer.biz報）。</td><td>ガンダム等主力IPの世界的伸長、全利益項目で過去最高更新</td><td>目標株価引き下げ、ゲーム大型新作の端境期</td><td>IP軸戦略の持続力、家庭用新作とトイホビーの両輪</td><td>2026-07-20</td></tr><tr class="searchable"><td>コーエーテクモHD</td><td>3635</td><td>ソフト/IP</td><td></td><td>883.93億（FY26/3）</td><td>371.68億（FY26/3）</td><td></td><td></td><td></td><td></td><td>—</td><td>信長の野望/三國志/仁王</td><td>株価は1,593.5円(7/10)で推移、次回決算は7/27予定。鯉沼社長が『2035年までに営業利益で世界トップ10』を掲げ開発ライン増設・5,000人規模組織を目指す長期戦略を表明。『仁王3』はシリーズ最速で全世界100万本突破。足元はモバイル減速と先行投資で減収減益。
+なお、サウジPIF傘下Savvy Games Groupが当社を含む任天堂/バンダイナムコ/Nexon/コーエーテクモ/スクウェア・エニックスの約10%少数持分を約120億ドル規模でSavvyへ移管・集約済み（出典: Reuters/TechTimes 2026/7/17引用のPocketGamer.biz報）。</td><td>『仁王3』ヒットとアクションIPの海外評価、コンソール新作好調</td><td>モバイル事業の減速、先行投資による利益圧迫</td><td>『仁王3』の販売継続と大型コンソール新作、開発ライン増設に伴う中長期の成長投資</td><td>2026-07-20</td></tr><tr class="searchable"><td>セガサミーHD</td><td>6460</td><td>ソフト/IP/パチ</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>ペルソナ/龍が如く/ソニック/アトラス</td><td>FY26は売上4,875.42億円(+13.7%)も営業益471.28億円(-2.1%)、Rovio等の減損で純損失を計上。遊技機は好調もエンタメコンテンツが低調。次回決算8/7予定。『ペルソナ5X』は今夏展開、『ペルソナ4 リバイバル』は2027/2/18発売決定と、2027年3月期の大型新作4本計画に期待。</td><td>『ペルソナ』『龍が如く』等の強力IP、2027年3月期の大型新作4本計画、遊技機好調</td><td>Rovio等の減損による純損失、エンタメコンテンツ事業の低調、新作リリース遅延リスク</td><td>『STRANGER THAN HEAVEN』『ペルソナ4リバイバル』(2027/2/18)等の投入と初動</td><td>2026-07-13</td></tr><tr class="searchable"><td>mixi</td><td>2121</td><td>モバイル</td><td></td><td>1,713.69億（FY26/3）</td><td>222.56億（FY26/3）</td><td></td><td></td><td></td><td></td><td></td><td>モンスト</td><td>米Runwayと提携し動画AIで『モンスト』広告制作時間を半減(6/30発表)。FY26Q3は売上1,164.25億円(+5.5%)も営業益131.68億円(-22.7%)と増収減益で、主力デジタルエンタメの減収が重し。スポーツ事業は伸長。『モンスト』MAU底打ちと多角化事業の収益貢献が焦点。</td><td>スポーツ/ベッティング事業の成長、みてね等の多角化</td><td>『モンスト』MAU減少による中核収益の鈍化、広告宣伝費増</td><td>『モンスト』の底打ち、スポーツ・投資事業の収益貢献拡大</td><td>2026-07-13</td></tr><tr class="searchable"><td>グリー</td><td>3632</td><td>モバイル/Web3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>釣りスタ/モバイルゲーム</td><td>FY26Q3(5/13発表)は売上384.44億円(-10.9%)営業益24.2億円(-34.7%)と減収減益も、為替差益で純利益は+112.4%と大幅増益。次回決算は8月上旬予定。既存タイトル運営とメタバース『REALITY』、投資事業を軸に事業構造転換を継続。</td><td>為替効果で増益、VTuber/IP等多角化</td><td>中核ゲーム事業の減収トレンド</td><td>新規タイトル/新規事業の育成、コスト構造の最適化</td><td>2026-07-13</td></tr><tr class="searchable"><td>DeNA</td><td>2432</td><td>モバイル/事業多角</td><td></td><td>1,477億（FY26/3 売上収益）</td><td>186.94億（FY26/3）</td><td></td><td></td><td></td><td></td><td></td><td>Pokémon Sleep/モバイル</td><td>『ポケポケ(Pokémon TCG Pocket)』で初のテーマ拡張パック『幻のいる島』を追加し好材料視。ゲーム事業に加えヘルスケア・スポーツ(横浜DeNAベイスターズ)を展開。大型の新規開示は乏しく、ポケポケの収益持続性が業績のカギ。</td><td>『ポケポケ』の高収益、球団など多角的な事業ポートフォリオ</td><td>ポケポケ初速の反動減、ゲーム収益のヒット依存</td><td>『ポケポケ』の収益持続、ライブサービス運営の安定化</td><td>2026-07-13</td></tr><tr class="searchable"><td>サイバーエージェント(Cygames含む)</td><td>4751</td><td>モバイル</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>ウマ娘/グランブルー/シャドバ</td><td>7/7に9日続伸で年初来高値を更新。FY9/26上期は売上4,785.84億円(+13.6%)営業益524.59億円(+79.8%)、ゲーム事業は売上1,322.27億円(+47.4%)営業益385.96億円(+106.3%)と急伸。7/9に『グラブル リリンク：エンドレスラグナロク』を発売、『ホロドリ』事前登録150万人突破。</td><td>英語版『ウマ娘』の海外ヒットとゲーム事業の急伸、グラブル新作など自社IP強化、AI広告成長</td><td>通期は減益予想、ゲーム収益のタイトル偏重</td><td>『ウマ娘』海外定着とグラブル リリンク新作の初動、AI広告事業の成長</td><td>2026-07-13</td></tr></tbody></table></div>
+<footer>ゲーム業界・時事情報収集 · 自動生成</footer>
+</div>
+<script>
+(function(){
+  const inp=document.getElementById('search');
+  const bar=document.getElementById('tagbar');
+  const active=new Set();
+  function apply(){
+    const q=(inp?inp.value.toLowerCase():'');
+    document.querySelectorAll('.searchable').forEach(el=>{
+      const textOk = !q || el.textContent.toLowerCase().includes(q);
+      let tagOk = true;
+      if(active.size>0){
+        const tags=(el.dataset.tags||'').split('|').filter(Boolean);
+        tagOk = tags.some(t=>active.has(t));
+      }
+      el.style.display=(textOk&&tagOk)?'':'none';
+    });
+  }
+  if(inp) inp.addEventListener('input', apply);
+  if(bar){
+    const allBtn=bar.querySelector('.tagfilter[data-tag="__all__"]');
+    bar.querySelectorAll('.tagfilter').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const t=btn.dataset.tag;
+        if(t==='__all__'){
+          active.clear();
+          bar.querySelectorAll('.tagfilter').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+        } else {
+          if(active.has(t)){active.delete(t); btn.classList.remove('active');}
+          else{active.add(t); btn.classList.add('active');}
+          if(active.size===0){allBtn.classList.add('active');} else {allBtn.classList.remove('active');}
+        }
+        apply();
+      });
+    });
+  }
+  // sort
+  document.querySelectorAll('table').forEach(table=>{
+    table.querySelectorAll('th').forEach((th,idx)=>{
+      let asc=true;
+      th.addEventListener('click',()=>{
+        const tbody=table.tBodies[0];
+        const rows=Array.from(tbody.rows);
+        rows.sort((a,b)=>{
+          const av=(a.cells[idx]?.innerText||'').trim();
+          const bv=(b.cells[idx]?.innerText||'').trim();
+          const an=parseFloat(av.replace(/,/g,''));
+          const bn=parseFloat(bv.replace(/,/g,''));
+          if(!isNaN(an)&&!isNaN(bn)) return (an-bn)*(asc?1:-1);
+          return av.localeCompare(bv,'ja')*(asc?1:-1);
+        });
+        rows.forEach(r=>tbody.appendChild(r));
+        asc=!asc;
+      });
+    });
+  });
+})();
+</script>
+</body></html>
