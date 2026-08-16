@@ -317,8 +317,14 @@ def render_daily(d):
         secs.append(f'''<section id="company"><h2><span class="num">{num}</span>企業分析（本日動いた企業）</h2><p class="lead">その日の主役企業の財務スナップショット＋ポジ/ネガ＋直近の動き。</p><div class="cgrid">{"".join(ccards)}</div></section>'''); num+=1
     if preds:
         cc={"高":"#dc2626","中":"#d97706","低":"#64748b"}
-        prows="".join(f'''<div class="pred"><span class="conf" style="background:{cc.get(cf.strip(),"#64748b")}1a;color:{cc.get(cf.strip(),"#64748b")};border:1px solid {cc.get(cf.strip(),"#64748b")}66">確度 {esc(cf)}</span>
-  <div class="pwhat">{esc(w)}</div><div class="pcomp">関連: {esc(cm)}</div></div>''' for w,cf,cm in preds)
+        def _prow(p):
+            w=p[0]; cf=p[1] if len(p)>1 else "中"; cm=p[2] if len(p)>2 else ""
+            hz=p[3] if len(p)>3 and p[3] else pred_horizon(w)
+            col=cc.get(cf.strip(),"#64748b")
+            hzt=f'・{esc(hz)}' if hz else ''
+            return f'''<div class="pred"><span class="conf" style="background:{col}1a;color:{col};border:1px solid {col}66">確度 {esc(cf)}{hzt}</span>
+  <div class="pwhat">{esc(w)}</div><div class="pcomp">関連: {esc(cm)}</div></div>'''
+        prows="".join(_prow(p) for p in preds)
         toc.append('<a href="#pred">今後起きそうなこと</a>')
         secs.append(f'''<section id="pred"><h2><span class="num">{num}</span>今後起きそうなこと</h2><p class="lead">その日のニュースから論理的に予測できる中短期の展開（確度つき）。</p>{prows}</section>'''); num+=1
     cnt=f'全{len(news)}トピック'+(f'・企業{len(comps)}社' if comps else '')+(f'・予測{len(preds)}件' if preds else '')
@@ -429,6 +435,13 @@ CSS_EXTRA='''
  .cell{min-height:74px;border:1px solid #eef2f7;border-radius:10px;padding:8px;background:#fcfdfe;display:flex;flex-direction:column;gap:6px}
  .pchip{font-size:11.5px;line-height:1.4;border-left:4px solid;border-radius:8px;padding:6px 9px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}
  .pchip .pc2{display:block;font-size:10.5px;color:#94a3b8;margin-top:3px}
+ .parch{border:1px solid #e8edf3;border-radius:10px;margin-bottom:8px;background:#fff;overflow:hidden}
+ .parch>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:11px 14px;font-weight:800;color:#1e293b;user-select:none}
+ .parch>summary::-webkit-details-marker{display:none}
+ .parch>summary::after{content:"▸";margin-left:auto;color:#94a3b8;font-size:13px}
+ .parch[open]>summary::after{content:"▾"}
+ .parch .pth{font-size:13.5px} .parch .pcnt{font-size:11.5px;color:#64748b;background:#f1f5f9;border-radius:20px;padding:2px 10px;font-weight:700}
+ .parch .pbody{padding:4px 14px 12px}
  .navcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
  a.navcard{display:block;background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none}
  a.navcard:hover{box-shadow:0 6px 18px rgba(15,23,42,.18)} a.navcard .nt{font-weight:800;font-size:15px} a.navcard .nd{font-size:12px;color:#cbd5e1;margin-top:4px} a.navcard .na{font-size:12px;color:#93c5fd;margin-top:8px}
@@ -483,12 +496,44 @@ function csort(i){{var tb=document.querySelector('#ct tbody');var rs=[].slice.ca
     open(os.path.join(outdir,"companies.html"),"w",encoding="utf-8").write(body)
     return len(comps)
 
+# テーマ別アーカイブの分類定義（優先順。上から順に最初に当たったテーマへ割当）
+PRED_THEMES=[
+ ("AI・半導体・データセンター","#7c3aed",["AI","半導体","データセンター","ＤＣ","GPU","NVIDIA","エヌビディア","TSMC","メモリ","DRAM","基板","光ファイバ","クラウド","Compute","計算資源","キオクシア","Arm","OpenAI"]),
+ ("金融・金利・為替","#2563eb",["日銀","利上げ","利下げ","金利","為替","円安","円高","ドル円","FRB","銀行","利ざや","国債","TOPIX","メガバンク","住宅ローン","地銀"]),
+ ("消費・小売・食品","#ea580c",["値上げ","消費","小売","食品","家計","実質賃金","インバウンド","観光","ビール","PB","販促","スーパー"]),
+ ("自動車・製造","#dc2626",["自動車","ＥＶ","EV","HEV","トヨタ","ホンダ","日産","スバル","車載","電池"]),
+ ("エネルギー・資源・商社","#b45309",["原油","エネルギー","電力","再エネ","資源","商社","銅","鉄鉱石","LNG","洋上風力","石油"]),
+ ("通信・エンタメ","#db2777",["通信","携帯","料金","ARPU","楽天","ドコモ","KDDI","ソフトバンク","エンタメ","ゲーム","任天堂","ソニー","IP","映画","コンテンツ"]),
+ ("防衛・宇宙・重工","#475569",["防衛","宇宙","ロケット","衛星","重工","H3","みちびき","測位"]),
+ ("製薬・ヘルスケア","#059669",["製薬","医薬","創薬","がん","ヘルスケア","バイオ","エンハーツ","治験","ADC"]),
+ ("人材・労働","#4f46e5",["雇用","賃金","人材","労働","求人","採用","ベア","春闘","人手不足"]),
+ ("海外・地政学","#334155",["中国","米国","欧州","地政学","関税","輸出管理","台湾","新興国","ECB"]),
+]
+def _pred_theme(p):
+    hay=(p.get("what","")+" "+p.get("comp","")).lower()
+    for name,col,kws in PRED_THEMES:
+        for kw in kws:
+            if kw.lower() in hay: return name,col
+    return "その他","#64748b"
+
 def render_predictions(outdir):
+    import datetime
     pp=os.path.join(outdir,"predictions.json")
     preds=json.load(open(pp,encoding="utf-8")) if os.path.exists(pp) else []
     cc={"高":"#dc2626","中":"#d97706","低":"#64748b"}
     HZ=["短期","中期","長期"]; CF=["高","中","低"]
     HZLAB={"短期":"短期（〜3カ月）","中期":"中期（〜1年）","長期":"長期（1年〜）"}
+    # ---- 直近7日を判定 ----
+    dates=[p.get("date","") for p in preds if p.get("date")]
+    recent=[]; RWIN=7; CELLCAP=6
+    if dates:
+        try:
+            newest=max(datetime.date.fromisoformat(x) for x in dates)
+            thr=newest-datetime.timedelta(days=RWIN)
+            recent=[p for p in preds if p.get("date") and datetime.date.fromisoformat(p["date"])>=thr]
+        except Exception:
+            recent=preds[:24]
+    if len(recent)<6: recent=preds[:min(len(preds),18)]  # 日付が薄い場合は直近順で確保
     def chip(p):
         col=cc.get(p.get("conf","中"),"#64748b")
         cm=f'<span class="pc2">関連: {esc(p["comp"])}</span>' if p.get("comp") else ''
@@ -499,27 +544,39 @@ def render_predictions(outdir):
     for cf in CF:
         grid.append(f'<div class="hc rl" style="color:{cc[cf]}">確度 {esc(cf)}</div>')
         for h in HZ:
-            cell=[p for p in preds if p.get("conf")==cf and p.get("horizon",pred_horizon(p["what"]))==h]
-            grid.append('<div class="cell">'+("".join(chip(p) for p in cell) if cell else '<span style="color:#cbd5e1;font-size:11px;margin:auto">—</span>')+'</div>')
+            cell=[p for p in recent if p.get("conf")==cf and p.get("horizon",pred_horizon(p["what"]))==h]
+            shown=cell[:CELLCAP]
+            more=f'<span style="font-size:10.5px;color:#94a3b8;text-align:center">＋他{len(cell)-CELLCAP}件（アーカイブ参照）</span>' if len(cell)>CELLCAP else ''
+            grid.append('<div class="cell">'+(("".join(chip(p) for p in shown)+more) if cell else '<span style="color:#cbd5e1;font-size:11px;margin:auto">—</span>')+'</div>')
     grid.append('</div>')
-    # full list newest first
-    lst=[]
+    # ---- テーマ別アーカイブ（折りたたみ・累積） ----
+    buckets={}
     for p in preds:
-        col=cc.get(p.get("conf","中"),"#64748b")
-        lst.append(f'''<div class="pred" style="border-left-color:{col}">
-   <span class="conf" style="background:{col}1a;color:{col};border:1px solid {col}66">確度 {esc(p.get("conf","中"))}・{esc(p.get("horizon",pred_horizon(p["what"])))}</span>
+        name,col=_pred_theme(p)
+        buckets.setdefault(name,{"col":col,"items":[]})["items"].append(p)
+    order=[t[0] for t in PRED_THEMES]+["その他"]
+    themed=sorted(buckets.items(), key=lambda kv:(-len(kv[1]["items"]), order.index(kv[0]) if kv[0] in order else 99))
+    arch=[]
+    for name,info in themed:
+        col=info["col"]; items=info["items"]
+        rows=[]
+        for p in items:
+            pcol=cc.get(p.get("conf","中"),"#64748b")
+            rows.append(f'''<div class="pred" style="border-left-color:{pcol}">
+   <span class="conf" style="background:{pcol}1a;color:{pcol};border:1px solid {pcol}66">確度 {esc(p.get("conf","中"))}・{esc(p.get("horizon",pred_horizon(p["what"])))}</span>
    <div class="pwhat">{esc(p["what"])}</div><div class="pcomp">関連: {esc(p.get("comp","—"))}　<span style="color:#cbd5e1">{esc(p.get("date",""))}</span></div></div>''')
+        arch.append(f'''<details class="parch"><summary style="border-left:5px solid {col}"><span class="pth">{esc(name)}</span><span class="pcnt">{len(items)}件</span></summary><div class="pbody">{"".join(rows)}</div></details>''')
     body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>今後の予測マップ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}</style></head><body><div class="wrap">
- <header><div class="eyebrow">BUSINESS NEWS — OUTLOOK MAP</div><h1>今後の予測マップ（累積）</h1>
-   <div class="sub">日次ダイジェストの「今後起きそうなこと」を集約。確度×時間軸でマッピング。全{len(preds)}件</div>
+ <header><div class="eyebrow">BUSINESS NEWS — OUTLOOK MAP</div><h1>今後の予測マップ</h1>
+   <div class="sub">日次ダイジェストの「今後起きそうなこと」を集約。直近は確度×時間軸マトリクス、過去はテーマ別に集約（累積{len(preds)}件）</div>
    <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div></header>
- <section><h2><span class="num">◇</span>確度 × 時間軸マトリクス</h2>
-   <p class="lead">縦＝確度（高/中/低）、横＝時間軸（短期〜長期）。右上（高確度×短期）ほど注視度が高い予測です。</p>
+ <section><h2><span class="num">◇</span>直近1週間の予測（確度 × 時間軸）</h2>
+   <p class="lead">縦＝確度（高/中/低）、横＝時間軸（短期〜長期）。右上（高確度×短期）ほど注視度が高い予測です。表示は直近1週間の{len(recent)}件（各セル最大{CELLCAP}件、超過分はテーマ別アーカイブへ）。</p>
    {"".join(grid)}
    <div class="legend"><span class="lg"><span class="dot" style="background:#dc2626"></span>高</span><span class="lg"><span class="dot" style="background:#d97706"></span>中</span><span class="lg"><span class="dot" style="background:#64748b"></span>低</span></div>
  </section>
- <section><h2><span class="num">≡</span>予測一覧（{len(preds)}件）</h2><p class="lead">これまでの予測を集約。</p>{"".join(lst)}</section>
+ <section><h2><span class="num">≡</span>テーマ別アーカイブ（累積{len(preds)}件）</h2><p class="lead">過去の予測をテーマごとに集約しました。見出しをクリックすると展開します。</p>{"".join(arch)}</section>
  <footer>Cowork ビジネスニュース・ダッシュボード ／ 今後の予測マップ</footer></div></body></html>'''
     open(os.path.join(outdir,"predictions.html"),"w",encoding="utf-8").write(body)
     return len(preds)
