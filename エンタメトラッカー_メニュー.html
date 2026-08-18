@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>エンタメ業界トラッカー — メニュー</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --border:#30363d;
+  --text:#c9d1d9; --muted:#8b949e; --accent:#58a6ff; --accent-2:#79c0ff;
+  --header-bg:#1f3864; --header-text:#fff; --dot:#e8583a;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f6f8fa; --panel:#fff; --panel2:#f0f3f7; --border:#d0d7de;
+         --text:#1f2328; --muted:#656d76; --accent:#0969da; --accent-2:#0550ae;
+         --header-bg:#1f3864; --header-text:#fff; --dot:#d1361c; }
+}
+*{box-sizing:border-box}
+body{background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+  margin:0; padding:28px 20px 60px; line-height:1.6;}
+.container{max-width:1100px; margin:0 auto}
+header{margin-bottom:8px}
+h1{margin:0 0 4px; font-size:24px}
+.subtle{color:var(--muted); font-size:13px}
+.legend{color:var(--muted); font-size:12px; margin:10px 0 22px}
+.legend .dot{color:var(--dot); font-weight:700}
+.group{margin:0 0 26px}
+.group-h{display:flex; align-items:center; gap:10px; margin:0 0 12px;
+  font-size:13px; font-weight:700; letter-spacing:.06em; color:var(--muted);
+  text-transform:uppercase; border-bottom:1px solid var(--border); padding-bottom:7px}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px}
+a.card{display:flex; flex-direction:column; justify-content:center; gap:3px;
+  background:var(--panel); border:1px solid var(--border); border-radius:10px;
+  padding:13px 15px; text-decoration:none; color:var(--text);
+  transition:border-color .12s, transform .12s, background .12s}
+a.card:hover{border-color:var(--accent); background:var(--panel2); transform:translateY(-2px)}
+a.card .t{font-size:14.5px; font-weight:600; color:var(--accent)}
+a.card .d{font-size:11.5px; color:var(--muted)}
+a.card .dot{color:var(--dot); font-size:10px; vertical-align:super; margin-left:3px}
+.top .grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.top a.card{background:linear-gradient(135deg,var(--header-bg),#2a4f8c); border-color:transparent}
+.top a.card .t,.top a.card .d{color:#fff}
+.top a.card .d{opacity:.8}
+footer{margin-top:34px; color:var(--muted); font-size:12px; text-align:center}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>エンタメ業界・時事情報収集 — メニュー</h1>
+  <div class="subtle">ゲーム / 映画 / アニメ / 漫画 / 小説 / 音楽 の6ジャンル横断トラッカー</div>
+</header>
+<div class="legend"><span class="dot">●</span> = 直近更新（2026-08-17）／ 各ボタンから公開ページへ遷移します</div>
+
+<div class="group top">
+  <div class="group-h">トップ / マップ</div>
+  <div class="grid">
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/index.html"><span class="t">ダッシュボード</span><span class="d">全シート一覧・更新状況</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/industry-map.html"><span class="t">全体連動マップ</span><span class="d">業界横断のつながり</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/design-map.html"><span class="t">デザイン連動マップ</span><span class="d">ゲームデザインの系統</span></a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-h">共通</div>
+  <div class="grid">
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/01-daily-news.html"><span class="t">日次ニュース<span class="dot">●</span></span><span class="d">6ジャンルの毎朝ニュース</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/12-cross-questions.html"><span class="t">横断的問い<span class="dot">●</span></span><span class="d">ジャンル横断・他業界波及</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/17-media-mix.html"><span class="t">メディアミックス追跡<span class="dot">●</span></span><span class="d">原作→別ジャンル展開</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/14-events.html"><span class="t">イベントカレンダー<span class="dot">●</span></span><span class="d">展示会・フェス・賞</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/10-deep-dive.html"><span class="t">掘り下げ・分析</span><span class="d">構造・示唆の深掘り</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/09-future.html"><span class="t">今後起きそうなこと</span><span class="d">近未来予測</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/11-matrix.html"><span class="t">業界マトリクス</span><span class="d">月次の全体俯瞰</span></a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-h">ゲーム</div>
+  <div class="grid">
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/02-releases.html"><span class="t">新作リリースログ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/03-ip-watch.html"><span class="t">IP・タイトルウォッチ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/04-companies-jp.html"><span class="t">企業分析（国内）</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/05-companies-overseas.html"><span class="t">企業分析（海外大手）</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/06-earnings.html"><span class="t">四半期決算サマリ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/07-trends.html"><span class="t">業界トレンド・技術</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/08-indie.html"><span class="t">インディー注目</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/13-rankings.html"><span class="t">週間ランキング</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/15-game-design.html"><span class="t">ゲームデザイン・トレンド</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/16-design-lineage.html"><span class="t">デザイン派生系統</span></a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-h">映画</div>
+  <div class="grid">
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/20-movie-works.html"><span class="t">作品ウォッチ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/21-movie-companies.html"><span class="t">企業・スタジオ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/22-movie-releases.html"><span class="t">公開・興行</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/23-movie-trends.html"><span class="t">トレンド</span></a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-h">アニメ</div>
+  <div class="grid">
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/30-anime-works.html"><span class="t">作品ウォッチ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/31-anime-companies.html"><span class="t">企業・制作</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/32-anime-releases.html"><span class="t">放送・配信ログ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/33-anime-trends.html"><span class="t">トレンド</span></a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-h">漫画</div>
+  <div class="grid">
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/40-manga-works.html"><span class="t">作品ウォッチ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/41-manga-companies.html"><span class="t">出版社・PF</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/42-manga-releases.html"><span class="t">新刊・話題作</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/43-manga-trends.html"><span class="t">トレンド</span></a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-h">小説</div>
+  <div class="grid">
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/50-novel-works.html"><span class="t">作品ウォッチ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/51-novel-companies.html"><span class="t">出版社・レーベル</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/52-novel-releases.html"><span class="t">新刊・受賞</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/53-novel-trends.html"><span class="t">トレンド</span></a>
+  </div>
+</div>
+
+<div class="group">
+  <div class="group-h">音楽</div>
+  <div class="grid">
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/60-music-works.html"><span class="t">アーティストウォッチ</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/61-music-companies.html"><span class="t">企業・レーベル</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/62-music-releases.html"><span class="t">リリース・チャート</span></a>
+    <a class="card" href="https://norimichitakesue2.github.io/game-industry-tracker/63-music-trends.html"><span class="t">トレンド</span></a>
+  </div>
+</div>
+
+<footer>
+  エンタメ業界・時事情報収集トラッカー ·
+  <a href="https://norimichitakesue2.github.io/game-industry-tracker/">GitHub Pages を開く</a>
+</footer>
+</div>
+</body>
+</html>

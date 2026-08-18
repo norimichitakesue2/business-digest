@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>エンタメ業界トラッカー ナビ</title>
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2333; --border:#30363d;
+  --text:#c9d1d9; --muted:#8b949e; --accent:#58a6ff; --accent2:#79c0ff;
+  --head:#1f3864;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f6f8fa; --panel:#fff; --panel2:#f0f4fa; --border:#d0d7de;
+         --text:#1f2328; --muted:#59636e; --accent:#0969da; --accent2:#0550ae; --head:#1f3864;}
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--text); line-height:1.6;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;}
+.wrap{max-width:1180px; margin:0 auto; padding:28px 20px 60px}
+header{margin-bottom:8px}
+h1{margin:0 0 4px; font-size:23px}
+.sub{color:var(--muted); font-size:13px}
+.bar{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:18px 0 22px}
+.bar a.dash{background:var(--accent); color:#fff; text-decoration:none; padding:9px 16px;
+  border-radius:8px; font-size:13px; font-weight:600}
+.bar a.dash:hover{opacity:.9}
+input.q{flex:1; min-width:200px; padding:10px 13px; background:var(--panel); color:var(--text);
+  border:1px solid var(--border); border-radius:8px; font-size:14px}
+.group{margin:26px 0 6px; display:flex; align-items:center; gap:10px}
+.group h2{margin:0; font-size:16px}
+.group .line{flex:1; height:1px; background:var(--border)}
+.group .cnt{color:var(--muted); font-size:12px}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px}
+a.card{display:block; text-decoration:none; color:var(--text); background:var(--panel);
+  border:1px solid var(--border); border-radius:10px; padding:14px 15px; transition:.12s}
+a.card:hover{border-color:var(--accent); background:var(--panel2); transform:translateY(-2px)}
+a.card .ic{font-size:18px}
+a.card .t{font-weight:600; font-size:14px; margin:6px 0 3px}
+a.card .d{color:var(--muted); font-size:12px}
+.new{display:inline-block; background:#d29922; color:#000; font-size:10px; font-weight:700;
+  border-radius:6px; padding:1px 6px; margin-left:6px; vertical-align:middle}
+footer{margin-top:40px; color:var(--muted); font-size:12px; text-align:center}
+footer a{color:var(--accent)}
+.hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>🎮🎬 エンタメ業界・時事情報トラッカー</h1>
+  <div class="sub">6ジャンル（ゲーム／映画／アニメ／漫画／小説／音楽）横断ダッシュボード・全40ページへのナビ　—　最終更新 2026-08-18</div>
+</header>
+
+<div class="bar">
+  <a class="dash" href="./index.html" target="_blank" rel="noopener">📊 ダッシュボード（トップ）</a>
+  <input class="q" id="q" type="text" placeholder="ページ名で絞り込み（例：ニュース／興行／決算／メディアミックス）">
+</div>
+
+<div class="group"><h2>⭐ 総合・横断（毎日更新の中核）</h2><span class="line"></span></div>
+<div class="grid" data-g>
+  <a class="card" data-k="日次ニュース 6ジャンル 毎日" href="./01-daily-news.html" target="_blank" rel="noopener"><div class="ic">📰</div><div class="t">日次ニュース<span class="new">本日+22</span></div><div class="d">6ジャンルの重要ニュースを毎日集約</div></a>
+  <a class="card" data-k="横断的問い クロス" href="./12-cross-questions.html" target="_blank" rel="noopener"><div class="ic">🔀</div><div class="t">横断的問い<span class="new">+3</span></div><div class="d">ジャンル横断・他業界波及の問い</div></a>
+  <a class="card" data-k="メディアミックス 映像化 ゲーム化" href="./17-media-mix.html" target="_blank" rel="noopener"><div class="ic">🔗</div><div class="t">メディアミックス追跡<span class="new">+3</span></div><div class="d">原作→別ジャンル展開の追跡</div></a>
+  <a class="card" data-k="今後起きそうなこと 予測" href="./09-future.html" target="_blank" rel="noopener"><div class="ic">🔮</div><div class="t">今後起きそうなこと<span class="new">+1</span></div><div class="d">ニュース起点の近未来予測</div></a>
+  <a class="card" data-k="イベントカレンダー 展示会 ショーケース" href="./14-events.html" target="_blank" rel="noopener"><div class="ic">📅</div><div class="t">イベントカレンダー<span class="new">+2</span></div><div class="d">gamescom・TGS・映画祭・フェス等</div></a>
+  <a class="card" data-k="掘り下げ 分析 ディープダイブ" href="./10-deep-dive.html" target="_blank" rel="noopener"><div class="ic">🔬</div><div class="t">掘り下げ・分析</div><div class="d">テーマ別の構造解説・示唆</div></a>
+  <a class="card" data-k="業界マトリクス 月次" href="./11-matrix.html" target="_blank" rel="noopener"><div class="ic">🧮</div><div class="t">業界マトリクス</div><div class="d">月次×領域の一覧マトリクス</div></a>
+</div>
+
+<div class="group"><h2>🎮 ゲーム</h2><span class="line"></span></div>
+<div class="grid" data-g>
+  <a class="card" data-k="新作リリースログ ゲーム" href="./02-releases.html" target="_blank" rel="noopener"><div class="ic">🕹️</div><div class="t">新作リリースログ</div><div class="d">発売作・スコア・同接ピーク</div></a>
+  <a class="card" data-k="IP タイトルウォッチ ゲーム" href="./03-ip-watch.html" target="_blank" rel="noopener"><div class="ic">👑</div><div class="t">IP・タイトルウォッチ</div><div class="d">主要シリーズの動向・次回作</div></a>
+  <a class="card" data-k="企業分析 国内 ゲーム" href="./04-companies-jp.html" target="_blank" rel="noopener"><div class="ic">🏢</div><div class="t">企業分析（国内）</div><div class="d">国内ゲーム上場企業の指標</div></a>
+  <a class="card" data-k="企業分析 海外 ゲーム" href="./05-companies-overseas.html" target="_blank" rel="noopener"><div class="ic">🌐</div><div class="t">企業分析（海外大手）</div><div class="d">海外大手の指標・主力IP</div></a>
+  <a class="card" data-k="四半期決算 サマリ ゲーム" href="./06-earnings.html" target="_blank" rel="noopener"><div class="ic">📈</div><div class="t">四半期決算サマリ</div><div class="d">決算ハイライト・市場反応</div></a>
+  <a class="card" data-k="業界トレンド 技術 AI ゲーム" href="./07-trends.html" target="_blank" rel="noopener"><div class="ic">⚙️</div><div class="t">業界トレンド・技術</div><div class="d">AI・配信・XR等の技術動向</div></a>
+  <a class="card" data-k="インディー 注目 ゲーム" href="./08-indie.html" target="_blank" rel="noopener"><div class="ic">💡</div><div class="t">インディー注目</div><div class="d">注目インディー作の実績</div></a>
+  <a class="card" data-k="週間ランキング ゲーム" href="./13-rankings.html" target="_blank" rel="noopener"><div class="ic">🏆</div><div class="t">週間ランキング</div><div class="d">週販・同接の推移</div></a>
+  <a class="card" data-k="ゲームデザイン トレンド 型" href="./15-game-design.html" target="_blank" rel="noopener"><div class="ic">🎯</div><div class="t">ゲームデザイン・トレンド</div><div class="d">設計・マネタイズの型の潮流</div></a>
+  <a class="card" data-k="デザイン派生系統 ゲーム" href="./16-design-lineage.html" target="_blank" rel="noopener"><div class="ic">🌳</div><div class="t">デザイン派生系統</div><div class="d">デザインの系統・派生の樹形</div></a>
+</div>
+
+<div class="group"><h2>🎬 映画</h2><span class="line"></span></div>
+<div class="grid" data-g>
+  <a class="card" data-k="映画 作品ウォッチ" href="./20-movie-works.html" target="_blank" rel="noopener"><div class="ic">🎞️</div><div class="t">作品ウォッチ</div><div class="d">注目作・シリーズの動向</div></a>
+  <a class="card" data-k="映画 企業 スタジオ" href="./21-movie-companies.html" target="_blank" rel="noopener"><div class="ic">🏛️</div><div class="t">企業・スタジオ</div><div class="d">配給・スタジオの指標</div></a>
+  <a class="card" data-k="映画 公開 興行 興収" href="./22-movie-releases.html" target="_blank" rel="noopener"><div class="ic">🎫</div><div class="t">公開・興行</div><div class="d">興収・評価・話題度</div></a>
+  <a class="card" data-k="映画 トレンド" href="./23-movie-trends.html" target="_blank" rel="noopener"><div class="ic">📽️</div><div class="t">トレンド</div><div class="d">興行構造・配信・PLF等</div></a>
+</div>
+
+<div class="group"><h2>📺 アニメ</h2><span class="line"></span></div>
+<div class="grid" data-g>
+  <a class="card" data-k="アニメ 作品ウォッチ" href="./30-anime-works.html" target="_blank" rel="noopener"><div class="ic">✨</div><div class="t">作品ウォッチ</div><div class="d">放送・配信作の動向</div></a>
+  <a class="card" data-k="アニメ 企業 制作" href="./31-anime-companies.html" target="_blank" rel="noopener"><div class="ic">🎨</div><div class="t">企業・制作</div><div class="d">制作会社・出資の指標</div></a>
+  <a class="card" data-k="アニメ 放送 配信ログ" href="./32-anime-releases.html" target="_blank" rel="noopener"><div class="ic">📡</div><div class="t">放送・配信ログ</div><div class="d">放送開始・評価・話題度</div></a>
+  <a class="card" data-k="アニメ トレンド" href="./33-anime-trends.html" target="_blank" rel="noopener"><div class="ic">🌀</div><div class="t">トレンド</div><div class="d">制作・配信・権利の潮流</div></a>
+</div>
+
+<div class="group"><h2>📚 漫画</h2><span class="line"></span></div>
+<div class="grid" data-g>
+  <a class="card" data-k="漫画 作品ウォッチ" href="./40-manga-works.html" target="_blank" rel="noopener"><div class="ic">📖</div><div class="t">作品ウォッチ</div><div class="d">連載・完結・発行部数</div></a>
+  <a class="card" data-k="漫画 出版社 PF プラットフォーム" href="./41-manga-companies.html" target="_blank" rel="noopener"><div class="ic">🏤</div><div class="t">出版社・PF</div><div class="d">出版社・アプリの指標</div></a>
+  <a class="card" data-k="漫画 新刊 話題作" href="./42-manga-releases.html" target="_blank" rel="noopener"><div class="ic">🆕</div><div class="t">新刊・話題作</div><div class="d">新刊・初版・ランキング</div></a>
+  <a class="card" data-k="漫画 トレンド 縦読み webtoon" href="./43-manga-trends.html" target="_blank" rel="noopener"><div class="ic">📱</div><div class="t">トレンド</div><div class="d">縦読み・電子・出版市場</div></a>
+</div>
+
+<div class="group"><h2>📕 小説</h2><span class="line"></span></div>
+<div class="grid" data-g>
+  <a class="card" data-k="小説 作品ウォッチ" href="./50-novel-works.html" target="_blank" rel="noopener"><div class="ic">📗</div><div class="t">作品ウォッチ</div><div class="d">話題作・シリーズの動向</div></a>
+  <a class="card" data-k="小説 出版社 レーベル" href="./51-novel-companies.html" target="_blank" rel="noopener"><div class="ic">🏬</div><div class="t">出版社・レーベル</div><div class="d">出版社・レーベルの指標</div></a>
+  <a class="card" data-k="小説 新刊 受賞 文学賞" href="./52-novel-releases.html" target="_blank" rel="noopener"><div class="ic">🏅</div><div class="t">新刊・受賞</div><div class="d">新刊・文学賞・ランキング</div></a>
+  <a class="card" data-k="小説 トレンド web小説 なろう" href="./53-novel-trends.html" target="_blank" rel="noopener"><div class="ic">🌾</div><div class="t">トレンド</div><div class="d">Web小説・ライト文芸の潮流</div></a>
+</div>
+
+<div class="group"><h2>🎵 音楽</h2><span class="line"></span></div>
+<div class="grid" data-g>
+  <a class="card" data-k="音楽 アーティストウォッチ" href="./60-music-works.html" target="_blank" rel="noopener"><div class="ic">🎤</div><div class="t">アーティストウォッチ</div><div class="d">アーティストの動向</div></a>
+  <a class="card" data-k="音楽 企業 レーベル" href="./61-music-companies.html" target="_blank" rel="noopener"><div class="ic">💿</div><div class="t">企業・レーベル</div><div class="d">レーベル・DSPの指標</div></a>
+  <a class="card" data-k="音楽 リリース チャート ストリーミング" href="./62-music-releases.html" target="_blank" rel="noopener"><div class="ic">📊</div><div class="t">リリース・チャート</div><div class="d">新譜・チャート・再生数</div></a>
+  <a class="card" data-k="音楽 トレンド サブスク AI" href="./63-music-trends.html" target="_blank" rel="noopener"><div class="ic">🎶</div><div class="t">トレンド</div><div class="d">サブスク・AI・ライブの潮流</div></a>
+</div>
+
+<div class="group"><h2>🗺️ マップ</h2><span class="line"></span></div>
+<div class="grid" data-g>
+  <a class="card" data-k="デザインマップ 系統" href="./design-map.html" target="_blank" rel="noopener"><div class="ic">🧭</div><div class="t">デザインマップ</div><div class="d">ゲームデザインの系統図</div></a>
+  <a class="card" data-k="業界マップ" href="./industry-map.html" target="_blank" rel="noopener"><div class="ic">🗺️</div><div class="t">業界マップ</div><div class="d">業界構造のマップ</div></a>
+</div>
+
+<footer>
+  リンクは公開ダッシュボード（GitHub Pages）へ遷移します　—
+  <a href="./index.html" target="_blank" rel="noopener">norimichitakesue2.github.io/game-industry-tracker</a>
+</footer>
+</div>
+
+<script>
+const q=document.getElementById('q');
+q.addEventListener('input',()=>{
+  const v=q.value.trim().toLowerCase();
+  document.querySelectorAll('a.card').forEach(c=>{
+    const k=(c.dataset.k+' '+c.textContent).toLowerCase();
+    c.classList.toggle('hidden', v && !k.includes(v));
+  });
+  document.querySelectorAll('[data-g]').forEach(g=>{
+    const any=[...g.querySelectorAll('a.card')].some(c=>!c.classList.contains('hidden'));
+    g.previousElementSibling.classList.toggle('hidden',!any);
+    g.classList.toggle('hidden',!any);
+  });
+});
+</script>
+</body>
+</html>
