@@ -684,6 +684,11 @@ def merge_sectors_delta(data, outdir):
             sig=(e[0],e[1],e[2] if len(e)>2 else "")
             if sig not in have:
                 tgt.append(e); have.add(sig); ne+=1
+    # 3.5) 業界サマリ(総評)の上書き: summaries={"<key>":"総評1-2文"}
+    for k,txt in delta.get("summaries",{}).items():
+        s=bykey.get(k)
+        if s and txt:
+            s["summary"]=txt; s["summary_date"]=data.get("date_iso","")
     # 4) meta（企業・別名）の拡張
     for k,metas in delta.get("add_meta",{}).items():
         s=bykey.get(k)
@@ -706,6 +711,69 @@ def merge_sectors_delta(data, outdir):
     json.dump(doc,open(sp,"w",encoding="utf-8"),ensure_ascii=False,indent=1)
     return (ns,nn,ne)
 
+def _sector_summary(s):
+    """業界ごとのポジ/ネガ サマリを作る。直近(ID末尾MMDD)のノードを2倍の重みで集計。"""
+    nodes=s["flow"]["nodes"]; meta=s.get("meta",{})
+    def recent(nid):
+        m=re.search(r"(\d{4})$",nid); return m.group(1) if m else ""
+    items=[]
+    for nid,v in nodes.items():
+        if v[2] not in ("pos","neg","mix"): continue
+        m=meta.get(nid,{})
+        items.append({"nid":nid,"sent":v[2],"title":v[3],"note":v[4] if len(v)>4 else "",
+                      "why":m.get("why","") or (v[4] if len(v)>4 else ""),"rec":recent(nid)})
+    w=lambda it: 2 if it["rec"] else 1
+    P=sum(w(i) for i in items if i["sent"]=="pos"); N=sum(w(i) for i in items if i["sent"]=="neg")
+    M=sum(w(i) for i in items if i["sent"]=="mix"); T=max(1,P+N+M)
+    score=(P-N)/T
+    if score>=0.35: stance=("追い風","#16a34a","#dcfce7")
+    elif score>=0.1: stance=("やや追い風","#65a30d","#ecfccb")
+    elif score>-0.1: stance=("強弱まちまち","#64748b","#f1f5f9")
+    elif score>-0.35: stance=("やや逆風","#ea580c","#ffedd5")
+    else: stance=("逆風","#dc2626","#fee2e2")
+    order=lambda L: sorted(L,key=lambda i:(i["rec"]!="", i["rec"]),reverse=True)
+    pos=order([i for i in items if i["sent"]=="pos"])[:4]
+    neg=order([i for i in items if i["sent"]=="neg"])[:4]
+    mix=order([i for i in items if i["sent"]=="mix"])[:3]
+    latest=sorted([i for i in items if i["rec"]],key=lambda i:i["rec"],reverse=True)[:3]
+    return {"stance":stance,"P":P,"N":N,"M":M,"T":T,"pos":pos,"neg":neg,"mix":mix,"latest":latest,
+            "summary":s.get("summary",""),"summary_date":s.get("summary_date","")}
+
+def _sumcard(sm):
+    lab,fg,bg=sm["stance"]; T=sm["T"]
+    bar=(f'<div class="sbar"><span style="width:{sm["P"]*100/T:.0f}%;background:#16a34a"></span>'
+         f'<span style="width:{sm["M"]*100/T:.0f}%;background:#94a3b8"></span>'
+         f'<span style="width:{sm["N"]*100/T:.0f}%;background:#dc2626"></span></div>')
+    def li(it):
+        d=f'<span class="sdt">{it["rec"][:2]}/{it["rec"][2:]}</span>' if it["rec"] else ''
+        return f'<li><b>{esc(it["title"])}</b>{d}<div class="swhy">{esc(it["why"])}</div></li>'
+    def col(cls,title,L,empty):
+        return f'<div class="scol {cls}"><div class="sct">{title}</div><ul>{"".join(li(i) for i in L) or f"<li class=sempty>{empty}</li>"}</ul></div>'
+    verdict=(f'<p class="sverdict"><span class="svl">総評</span>{esc(sm["summary"])}</p>') if sm["summary"] else ''
+    return (f'<div class="ssum"><div class="shead"><span class="sbadge" style="color:{fg};background:{bg}">{lab}</span>'
+            f'{bar}<span class="slegend">ポジ{sm["P"]}・中立{sm["M"]}・ネガ{sm["N"]}（直近の要素は2倍で集計）</span></div>{verdict}'
+            f'<div class="scols">{col("spos","▲ 追い風（ポジ）",sm["pos"],"該当なし")}{col("sneg","▼ 逆風（ネガ）",sm["neg"],"目立った逆風なし")}'
+            f'{col("smix","◆ 見極めポイント（中立）",sm["mix"],"—")}</div></div>')
+
+SUM_CSS='''
+ .ssum{border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin:4px 0 14px;background:#fbfcfe}
+ .shead{display:flex;flex-wrap:wrap;align-items:center;gap:10px} .sbadge{font-weight:800;font-size:13px;padding:4px 12px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+ .sbar{display:flex;width:180px;height:9px;border-radius:5px;overflow:hidden;background:#e2e8f0} .sbar span{display:block;height:100%}
+ .slegend{font-size:11.5px;color:#64748b}
+ .sverdict{margin:10px 0 2px;font-size:13.5px;color:#0f172a;line-height:1.7} .svl{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:#0f172a;border-radius:5px;padding:1px 7px;margin-right:8px}
+ .scols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:10px}
+ .scol{border-radius:10px;padding:10px 12px} .scol ul{margin:6px 0 0;padding-left:16px} .scol li{font-size:12.5px;margin-bottom:6px}
+ .spos{background:#f0fdf4;border:1px solid #bbf7d0} .sneg{background:#fef2f2;border:1px solid #fecaca} .smix{background:#f8fafc;border:1px solid #e2e8f0}
+ .sct{font-size:12.5px;font-weight:800} .spos .sct{color:#15803d} .sneg .sct{color:#b91c1c} .smix .sct{color:#475569}
+ .swhy{color:#475569;font-size:12px} .sdt{font-size:10.5px;color:#fff;background:#94a3b8;border-radius:4px;padding:0 5px;margin-left:6px}
+ .sempty{color:#94a3b8;list-style:none;margin-left:-16px}
+ .ovgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+ .ovc{display:block;text-decoration:none;color:#0f172a;border:1px solid #e2e8f0;border-radius:11px;padding:11px 13px;background:#fff}
+ .ovc:hover{border-color:#94a3b8} .ovn{font-weight:800;font-size:13.5px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+ .ovc .sbar{width:100%;margin:7px 0 6px} .ovs{font-size:11.5px;color:#475569;line-height:1.55}
+ .ovs b{font-weight:700} .ovp{color:#15803d} .ovneg{color:#b91c1c}
+'''
+
 def render_sectors(outdir):
     """分野別ビジネス構造マップ（バリューチェーン＋企業＋関連ニュース）。sectors.jsonが無ければスキップ。"""
     sp=os.path.join(outdir,"sectors.json")
@@ -714,7 +782,7 @@ def render_sectors(outdir):
     sectors=secdef.get("sectors",[])
     npath=os.path.join(outdir,"news.json")
     news=json.load(open(npath,encoding="utf-8")) if os.path.exists(npath) else []
-    all_pops=[]; blocks=[]; toc=[]
+    all_pops=[]; blocks=[]; toc=[]; sums=[]
     for s in sectors:
         key=s["key"]; name=s["name"]; col=s.get("color","#475569")
         flow=s["flow"]; nodes=flow["nodes"]; meta=s.get("meta",{})
@@ -733,17 +801,28 @@ def render_sectors(outdir):
         # 登場企業（重複排除・順序保持）
         seen=set(); uniq=[c for c in allcos if not (c in seen or seen.add(c))]
         clist="".join(f'<span class="chip">{esc(c)}</span>' for c in uniq)
+        sm=_sector_summary(s); sums.append((s,sm))
         toc.append(f'<a href="#sec-{key}">{esc(name)}</a>')
         blocks.append(f'''<section id="sec-{key}"><h2><span class="num" style="background:{col}">◆</span>{esc(name)}</h2>
    <p class="lead">{esc(s.get("lead",""))} 図のノードは<b>バリューチェーンの機能・工程（要素）</b>です。<b>各要素をタップ</b>すると、その工程に位置する<b>関連企業</b>と<b>関連ニュース</b>を表示します。</p>
+   {_sumcard(sm)}
    <div class="diagram">{svg}</div>{LEGEND}
    {f'<div class="secchips"><span class="secl">登場企業（{len(uniq)}社）:</span>{clist}</div>' if clist else ''}</section>''')
+    def _ovc(s,sm):
+        lab,fg,bg=sm["stance"]; T=sm["T"]
+        p=sm["pos"][0]["title"] if sm["pos"] else "—"; n=sm["neg"][0]["title"] if sm["neg"] else "目立った逆風なし"
+        return (f'<a class="ovc" href="#sec-{s["key"]}"><div class="ovn">{esc(s["name"])}<span class="sbadge" style="color:{fg};background:{bg};font-size:11px;padding:2px 8px">{lab}</span></div>'
+                f'<div class="sbar"><span style="width:{sm["P"]*100/T:.0f}%;background:#16a34a"></span><span style="width:{sm["M"]*100/T:.0f}%;background:#94a3b8"></span><span style="width:{sm["N"]*100/T:.0f}%;background:#dc2626"></span></div>'
+                f'<div class="ovs"><span class="ovp">▲</span> {esc(p)}<br><span class="ovneg">▼</span> {esc(n)}</div></a>')
+    overview=(f'<section id="overview"><h2><span class="num">◎</span>業界別サマリ（ポジ／ネガ）</h2><p class="lead">各業界の要素を「追い風（ポジ）」「逆風（ネガ）」「中立」に分けて集計し、直近のニュースで加わった要素を重く数えて判定しています。カードをタップすると各業界の詳細へ移動します。</p>'
+              f'<div class="ovgrid">{"".join(_ovc(s,sm) for s,sm in sums)}</div></section>')
     body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>業界構造マップ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}{MODAL_CSS}{SECTOR_CSS}</style></head><body><div class="wrap">
+<title>業界構造マップ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}{MODAL_CSS}{SECTOR_CSS}{SUM_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — SECTOR MAP</div><h1>業界構造マップ（バリューチェーン）</h1>
    <div class="sub">分野ごとの「ビジネスの流れ」と主要プレイヤーの結びつき。上流→中流→下流→市場の順に、企業がどこで価値を生むかを俯瞰。全{len(sectors)}分野</div>
    <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div>
-   <nav class="toc">{"".join(toc)}</nav></header>
+   <nav class="toc"><a href="#overview"><b>業界別サマリ</b></a>{"".join(toc)}</nav></header>
+ {overview}
  {"".join(blocks)}
  <footer>Cowork ビジネスニュース・ダッシュボード ／ 業界構造マップ</footer></div>{BN_MODAL}{bn_script(all_pops)}</body></html>'''
     open(os.path.join(outdir,"sectors.html"),"w",encoding="utf-8").write(body)
