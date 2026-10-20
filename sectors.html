@@ -6,7 +6,8 @@
  .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px} .toc a{font-size:12.5px;text-decoration:none;color:#334155;background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:5px 13px}
  .toc a:hover{border-color:#94a3b8} section{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:22px;margin-top:22px;box-shadow:0 1px 2px rgba(15,23,42,.04);scroll-margin-top:14px}
  h2{font-size:18px;margin:0 0 4px;display:flex;align-items:center;gap:9px} h2 .num{display:inline-flex;width:24px;height:24px;border-radius:7px;background:#0f172a;color:#fff;font-size:13px;align-items:center;justify-content:center}
- .lead{color:#64748b;font-size:13.5px;margin:0 0 16px} .diagram{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px;background:#fcfdfe;padding:10px}
+ .lead{color:#64748b;font-size:13.5px;margin:0 0 16px} .diagram{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px;background:#fcfdfe;padding:10px;-webkit-overflow-scrolling:touch}
+ @media (max-width:700px){.diagram::before{content:"← 図は横にスクロールできます →";display:block;position:sticky;left:0;font-size:11px;color:#94a3b8;text-align:center;margin-bottom:6px}}
  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:12.5px;color:#475569} .lg{display:inline-flex;align-items:center;gap:6px}
  .sw{width:22px;border-top:3px solid;display:inline-block;border-radius:2px} .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
  .note{margin-top:14px;font-size:12.5px;color:#475569;background:#f8fafc;border-left:3px solid #cbd5e1;padding:10px 12px;border-radius:8px}
@@ -50,7 +51,8 @@
  .neg{color:#dc2626} .pos{color:#16a34a}
  .pmx{display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:8px;margin-top:6px}
  .pmx .hc{font-size:11.5px;font-weight:800;color:#475569;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:8px;padding:6px;text-align:center}
- .pmx .rl{writing-mode:vertical-rl;text-orientation:mixed} .pmx .corner{background:transparent}
+ .pmx .rl{font-size:13px;line-height:1.4} .pmx .corner{background:transparent}
+ @media (max-width:700px){.pmx{grid-template-columns:52px repeat(3,minmax(230px,1fr));overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch} .pmx .rl{font-size:12px} .pmx .rl{position:sticky;left:0;z-index:1}}
  .cell{min-height:74px;border:1px solid #eef2f7;border-radius:10px;padding:8px;background:#fcfdfe;display:flex;flex-direction:column;gap:6px}
  .pchip{font-size:11.5px;line-height:1.4;border-left:4px solid;border-radius:8px;padding:6px 9px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}
  .pchip .pc2{display:block;font-size:10.5px;color:#94a3b8;margin-top:3px}

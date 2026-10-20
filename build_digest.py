@@ -52,7 +52,8 @@ CSS = '''
  .toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px} .toc a{font-size:12.5px;text-decoration:none;color:#334155;background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:5px 13px}
  .toc a:hover{border-color:#94a3b8} section{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:22px;margin-top:22px;box-shadow:0 1px 2px rgba(15,23,42,.04);scroll-margin-top:14px}
  h2{font-size:18px;margin:0 0 4px;display:flex;align-items:center;gap:9px} h2 .num{display:inline-flex;width:24px;height:24px;border-radius:7px;background:#0f172a;color:#fff;font-size:13px;align-items:center;justify-content:center}
- .lead{color:#64748b;font-size:13.5px;margin:0 0 16px} .diagram{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px;background:#fcfdfe;padding:10px}
+ .lead{color:#64748b;font-size:13.5px;margin:0 0 16px} .diagram{overflow-x:auto;border:1px solid #eef2f7;border-radius:12px;background:#fcfdfe;padding:10px;-webkit-overflow-scrolling:touch}
+ @media (max-width:700px){.diagram::before{content:"← 図は横にスクロールできます →";display:block;position:sticky;left:0;font-size:11px;color:#94a3b8;text-align:center;margin-bottom:6px}}
  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:12.5px;color:#475569} .lg{display:inline-flex;align-items:center;gap:6px}
  .sw{width:22px;border-top:3px solid;display:inline-block;border-radius:2px} .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
  .note{margin-top:14px;font-size:12.5px;color:#475569;background:#f8fafc;border-left:3px solid #cbd5e1;padding:10px 12px;border-radius:8px}
@@ -371,10 +372,26 @@ def render_index(outdir):
     <h4>キーワード・構造解説</h4><ul class="terms">{deep_terms_html(terms)}</ul></div></details>''')
     files=sorted(glob.glob(os.path.join(outdir,"digest_*.html")), reverse=True)
     items=[]
+    # 各日のトップ見出し・件数（news.jsonは日内が逆順で積まれるため、最後に出現したものがその日の先頭記事）
+    _np=os.path.join(outdir,"news.json")
+    _nl=json.load(open(_np,encoding="utf-8")) if os.path.exists(_np) else []
+    _top={}; _cnt={}
+    for n in _nl:
+        dt=n.get("date","")
+        if dt: _top[dt]=n.get("head",""); _cnt[dt]=_cnt.get(dt,0)+1
+    _wd="月火水木金土日"
+    import datetime as _dtm
+    bymonth={}
     for f in files:
         b=os.path.basename(f); m=re.search(r'digest_(\d{4}-\d{2}-\d{2})\.html',b)
         if not m: continue
-        items.append(f'<a class="item" href="./{b}"><span class="d">{m.group(1)}</span><span class="arw">日次ダイジェストを開く →</span></a>')
+        iso=m.group(1)
+        try: w="（"+_wd[_dtm.date.fromisoformat(iso).weekday()]+"）"
+        except Exception: w=""
+        hd=_top.get(iso,""); c=_cnt.get(iso,0)
+        items.append(iso)
+        bymonth.setdefault(iso[:7],[]).append(f'<a class="ditem" href="./{b}"><span class="dd">{int(iso[5:7])}/{int(iso[8:])}<small>{w}</small></span><span class="dh">{esc(hd) if hd else "日次ダイジェスト"}</span><span class="dn">{str(c)+"本" if c else ""}</span><span class="arw">→</span></a>')
+    dlist="".join(f'<details class="dmonth"{" open" if i==0 else ""}><summary>{ym[:4]}年{int(ym[5:])}月<span class="dmc">{len(v)}日分</span></summary>{"".join(v)}</details>' for i,(ym,v) in enumerate(bymonth.items()))
     latest=f'<div class="home"><a href="./{os.path.basename(files[0])}">→ 最新の日次ダイジェストを開く</a></div>' if files else ''
     # 月次まとめ
     mfiles=sorted(glob.glob(os.path.join(outdir,"month-*.html")), reverse=True)
@@ -385,7 +402,7 @@ def render_index(outdir):
         mitems.append(f'<a class="item" href="./{b}"><span class="d">{mm.group(1)}年{int(mm.group(2))}月まとめ</span><span class="arw">月次まとめを開く →</span></a>')
     month_block=(f'<section id="month"><h2><span class="num">C</span>月次まとめ</h2><p class="lead">その月の主要ストーリーを集約。</p>{"".join(mitems)}</section>') if mitems else ''
     body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}{MODAL_CSS}</style></head><body><div class="wrap">
+<title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}{MODAL_CSS}{NAV_CSS}{DLIST_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DASHBOARD</div><h1>ビジネスニュース・ダッシュボード</h1>
    <div class="sub">業界の動き（2026年）・掘り下げライブラリ（累積）・日次ダイジェスト一覧</div>{latest}
    <nav class="toc"><a href="#master">全体連動マップ</a><a href="./sectors.html">業界構造マップ</a><a href="#lib">ライブラリ</a><a href="./companies.html">企業分析</a><a href="./predictions.html">今後の予測</a><a href="#trend">業界の動き(2026)</a><a href="#deep">掘り下げライブラリ</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
@@ -394,7 +411,7 @@ def render_index(outdir):
  <section id="trend"><h2><span class="num">A</span>業界の動き（2026年）</h2><p class="lead">日次ニュースを読むための、業界別マクロ文脈（随時更新）。</p><div class="tgrid">{tcards}</div></section>
  <section id="deep"><h2><span class="num">B</span>掘り下げ・分析ライブラリ（累積 {len(deeps)}件）</h2><p class="lead">業界構造・投資テーマ・用語の解説を日々蓄積。新しい順。</p>{"".join(dcards)}</section>
  {month_block}
- <section id="list"><h2><span class="num">D</span>日次ダイジェスト一覧（全{len(items)}日）</h2><p class="lead">毎晩自動生成。新しい順。</p>{"".join(items)}</section>
+ <section id="list"><h2><span class="num">D</span>日次ダイジェスト一覧（全{len(items)}日）</h2><p class="lead">毎晩自動生成。新しい順。各日のトップ記事の見出しを表示しています。月をクリックすると開閉します。</p>{dlist}</section>
  <footer>Cowork ビジネスニュース・ダッシュボード</footer></div>{BN_MODAL}{bn_script(master_pops)}</body></html>'''
     open(os.path.join(outdir,"index.html"),"w",encoding="utf-8").write(body)
     return len(items),len(deeps),len(trends)
@@ -431,7 +448,8 @@ CSS_EXTRA='''
  .neg{color:#dc2626} .pos{color:#16a34a}
  .pmx{display:grid;grid-template-columns:70px 1fr 1fr 1fr;gap:8px;margin-top:6px}
  .pmx .hc{font-size:11.5px;font-weight:800;color:#475569;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-radius:8px;padding:6px;text-align:center}
- .pmx .rl{writing-mode:vertical-rl;text-orientation:mixed} .pmx .corner{background:transparent}
+ .pmx .rl{font-size:13px;line-height:1.4} .pmx .corner{background:transparent}
+ @media (max-width:700px){.pmx{grid-template-columns:52px repeat(3,minmax(230px,1fr));overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch} .pmx .rl{font-size:12px} .pmx .rl{position:sticky;left:0;z-index:1}}
  .cell{min-height:74px;border:1px solid #eef2f7;border-radius:10px;padding:8px;background:#fcfdfe;display:flex;flex-direction:column;gap:6px}
  .pchip{font-size:11.5px;line-height:1.4;border-left:4px solid;border-radius:8px;padding:6px 9px;background:#fff;box-shadow:0 1px 2px rgba(15,23,42,.04)}
  .pchip .pc2{display:block;font-size:10.5px;color:#94a3b8;margin-top:3px}
@@ -445,6 +463,22 @@ CSS_EXTRA='''
  .navcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
  a.navcard{display:block;background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none}
  a.navcard:hover{box-shadow:0 6px 18px rgba(15,23,42,.18)} a.navcard .nt{font-weight:800;font-size:15px} a.navcard .nd{font-size:12px;color:#cbd5e1;margin-top:4px} a.navcard .na{font-size:12px;color:#93c5fd;margin-top:8px}
+'''
+
+NAV_CSS='''
+ .navcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:13px}
+ a.navcard{display:block;background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;border-radius:14px;padding:18px 20px;text-decoration:none}
+ a.navcard:hover{box-shadow:0 6px 18px rgba(15,23,42,.18)} a.navcard .nt{font-weight:800;font-size:15px} a.navcard .nd{font-size:12px;color:#cbd5e1;margin-top:4px} a.navcard .na{font-size:12px;color:#93c5fd;margin-top:8px}
+'''
+DLIST_CSS='''
+ .dmonth{border:1px solid #e2e8f0;border-radius:12px;margin-bottom:10px;background:#fff;overflow:hidden}
+ .dmonth>summary{list-style:none;cursor:pointer;padding:12px 16px;font-weight:800;display:flex;align-items:center;gap:10px}
+ .dmonth>summary::-webkit-details-marker{display:none} .dmonth>summary::after{content:"▸";margin-left:auto;color:#94a3b8} .dmonth[open]>summary::after{content:"▾"}
+ .dmc{font-size:11.5px;color:#64748b;background:#f1f5f9;border-radius:20px;padding:2px 10px;font-weight:700}
+ a.ditem{display:flex;align-items:center;gap:12px;padding:10px 16px;border-top:1px solid #eef2f7;text-decoration:none;color:#0f172a}
+ a.ditem:hover{background:#f8fafc} .dd{font-weight:800;min-width:62px;font-size:14px} .dd small{font-weight:600;color:#94a3b8;font-size:11px;margin-left:2px}
+ .dh{flex:1;font-size:13px;color:#334155;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .dn{font-size:11.5px;color:#94a3b8;white-space:nowrap} a.ditem .arw{color:#2563eb}
+ @media (max-width:640px){.dh{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical} .dn{display:none}}
 '''
 
 def render_companies(outdir):
@@ -624,7 +658,10 @@ def render_month(outdir, iso):
         bars+=f'<div class="mbar"><span class="mbl">{esc(ind)}</span><span class="mbt"><span class="mbf" style="width:{w}%;background:{col}"></span></span><span class="mbn">{c}</span></div>'
     # 主要トピック（各日の先頭ニュース＝その日のトップ）
     byday=OrderedDict()
-    for n in mnews: byday.setdefault(n.get("date",""),n)
+    for n in mnews:
+        dt=n.get("date","")
+        if dt not in byday: byday[dt]=None
+        byday[dt]=n  # 日内は逆順に積まれるため最後の出現がその日の先頭記事
     tops="".join(f'<div class="mtop"><span class="mtd">{esc(dt)}</span><a href="{esc(t.get("url","#"))}" target="_blank" rel="noopener" class="mth">{esc(t.get("head",""))}</a></div>' for dt,t in list(byday.items())[:16])
     body=f'''<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{y}年{int(m)}月まとめ｜ビジネスニュース・ダッシュボード</title><style>{CSS}{CSS_EXTRA}{MONTH_CSS}</style></head><body><div class="wrap">
