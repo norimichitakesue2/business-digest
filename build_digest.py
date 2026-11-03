@@ -273,6 +273,16 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')bnClose();})
     return js % json.dumps(pops,ensure_ascii=False)
 
 # ---------- daily ----------
+def _wflags(n):
+    w=n.get("world") or {}
+    if not w.get("c") or WB is None: return ""
+    return WB.flags_html(w["c"][:3],13)+" "
+def _wtag(n):
+    w=n.get("world") or {}
+    if not w.get("s") or WB is None: return ""
+    s=_WSM.get(w["s"]) if '_WSM' in globals() else None
+    if not s: return ""
+    return f' <a href="./world.html#s-{s["id"]}" style="font-size:11px;padding:0 7px;border-radius:9px;background:{s["color"]};color:#fff;text-decoration:none;white-space:nowrap;vertical-align:1px">{esc(s["name"])}</a>'
 def render_daily(d):
     news=d.get("news",[]); comps=d.get("companies",[]); preds=d.get("preds",[]); DL=d["date_label"]
     has_flow=bool(d.get("flow") and d["flow"].get("nodes"))
@@ -292,7 +302,7 @@ def render_daily(d):
         src=f'<a class="src" href="{esc(n["url"])}" target="_blank" rel="noopener">出典リンク ↗</a>' if n.get("url") else ''
         nitems.append(f'''<details class="news"><summary>
    <span class="ind" style="background:{c}1a;color:{c};border:1px solid {c}55">{esc(n["ind"])}</span>
-   <span class="nhead">{esc(n["head"])}</span>{pn}</summary>
+   <span class="nhead">{_wflags(n)}{esc(n["head"])}{_wtag(n)}</span>{pn}</summary>
  <div class="ndetail">{blocks}{src}</div></details>''')
     # optional sections
     secs=[]; toc=[]; num=1; flow_pops=[]
@@ -351,6 +361,7 @@ def render_index(outdir):
     _sg_cards,_sg_n,_sg_d=_story_cards_html(outdir)
     navcards=f'''<section id="lib"><h2><span class="num">◎</span>ライブラリ</h2><p class="lead">詳しい分析は別ページに集約しています。</p>
    <div class="navcards">
+     <a class="navcard" href="./world.html"><div class="nt">🌐 世界の流れ</div><div class="nd">7本の潮流で世界地図を色分け。国どうし・企業どうしの出資・受注・提携のつながりと、企業ごとの動きのタイムライン。</div><div class="na">世界地図を見る →</div></a>
      <a class="navcard" href="./sectors.html"><div class="nt">🗺 業界構造マップ</div><div class="nd">分野別のバリューチェーン（上流→下流）と主要企業の結びつき。ノードから関連ニュースへ。</div><div class="na">構造マップを見る →</div></a>
      <a class="navcard" href="./companies.html"><div class="nt">🏢 企業分析ライブラリ</div><div class="nd">登場企業を集約。売上高・PER・PBR・ROE・時価総額＋今後の期待。並べ替え可。</div><div class="na">全{ncomp}社を見る →</div></a>
      <a class="navcard" href="./predictions.html"><div class="nt">🔮 今後の予測マップ</div><div class="nd">「今後起きそうなこと」を確度×時間軸でマッピング。累積一覧つき。</div><div class="na">全{npred}件を見る →</div></a>
@@ -413,8 +424,9 @@ def render_index(outdir):
 <title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}{MODAL_CSS}{NAV_CSS}{DLIST_CSS}{SUM_CSS}{OV_CSS}{STORY_CSS}{UPD_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DASHBOARD</div><h1>ビジネスニュース・ダッシュボード</h1>
    <div class="sub">今日の変化・いまの全体像（2026年）・問いで追う掘り下げ・日次ダイジェスト一覧</div>{latest}
-   <nav class="toc"><a href="#today">今日の変化</a><a href="#master">いまの全体像</a><a href="./sectors.html">業界構造マップ</a><a href="#deep">掘り下げ（問い）</a><a href="./updates.html">更新ログ</a><a href="./companies.html">企業分析</a><a href="./predictions.html">今後の予測</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
+   <nav class="toc"><a href="#today">今日の変化</a><a href="./world.html">🌐 世界の流れ</a><a href="#master">いまの全体像</a><a href="./sectors.html">業界構造マップ</a><a href="#deep">掘り下げ（問い）</a><a href="./updates.html">更新ログ</a><a href="./companies.html">企業分析</a><a href="./predictions.html">今後の予測</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
  {_today_box(outdir)}
+ {WB.index_teaser(outdir) if WB else ""}
  {master_section}
  <section id="deep"><h2><span class="num">2</span>掘り下げ：問いで追う論点（{_sg_n}本・累積{len(deeps)}件）</h2><p class="lead">日々の掘り下げを「問い」ごとに束ねています。最近更新された問いが先頭です。カードをタップすると、いまの見立てと論点の推移を表示します。</p><div class="stgrid">{_sg_cards}</div><div class="home" style="margin-top:12px"><a href="./deepdives.html">→ 検索・全件はこちら</a></div></section>
  {navcards}
@@ -1296,11 +1308,19 @@ def _overview_cards(outdir, trends):
     return "".join(cards)
 
 
+try:
+    import world_build as WB
+except Exception as _e:
+    WB=None
+
 if __name__=="__main__":
     data=json.load(open(sys.argv[1],encoding="utf-8"))
     outdir=sys.argv[2] if len(sys.argv)>2 else "."
     iso=data["date_iso"]
     out=os.path.join(outdir,f"digest_{iso}.html")
+    wadd=(0,0)
+    if WB:
+        wadd=WB.merge_world(data,outdir); _WSM=WB.stream_meta(outdir)
     open(out,"w",encoding="utf-8").write(render_daily(data))
     nmf=track_masterflow(data,outdir)
     added,cadd,padd=update_stores(data,outdir)
@@ -1313,5 +1333,6 @@ if __name__=="__main__":
     nst=render_deepdives(outdir)
     nup=render_updates(outdir)
     n,nd,nt=render_index(outdir)
+    nmv=WB.render_world(outdir) if WB else 0
     smsg=f"{nsec}" + (f" (+{sadd[0]}sec/+{sadd[1]}node/+{sadd[2]}edge)" if any(sadd) else "")
-    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd}) | month {ym} | sectors {smsg} | stories {nst} (+{st_new}new/{st_as}assigned) | masterflow changes {nmf} | updates {nup}days")
+    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd}) | month {ym} | sectors {smsg} | stories {nst} (+{st_new}new/{st_as}assigned) | masterflow changes {nmf} | updates {nup}days | world news +{wadd[0]} moves {nmv} (+{wadd[1]})")
