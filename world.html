@@ -67,7 +67,8 @@ const dd=s=>{const t=new Date(D.today),x=new Date(s);return Math.round((t-x)/864
 const inWin=x=>dd(x.date)<win;const md=s=>{const p=s.split("-");return (+p[1])+"/"+(+p[2])};
 function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e}
 function base(){svg.innerHTML="";const z=ZM[zoom];svg.setAttribute('viewBox',z.join(" "));el('path',{d:M.sphere,class:'sea'});el('path',{d:M.grat,class:'grat'});return M.W/z[2]}
-function curve(A,B){const mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2-Math.max(14,Math.hypot(B[0]-A[0],B[1]-A[1])*.18);return [`M${A[0]},${A[1]} Q${mx},${my} ${B[0]},${B[1]}`,mx,my]}
+function curve(A,B,i){i=i||0;const L=Math.hypot(B[0]-A[0],B[1]-A[1]);const mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2-Math.max(14+i*10,L*(.18+i*.09));return [`M${A[0]},${A[1]} Q${mx},${my} ${B[0]},${B[1]}`,(A[0]+2*mx+B[0])/4,(A[1]+2*my+B[1])/4,mx,my]}
+function placeLbl(t,placed,zf){let b=t.getBBox();const pad=2/zf;const hit=r=>placed.some(q=>r.x<q.x+q.width+pad&&r.x+r.width+pad>q.x&&r.y<q.y+q.height+pad&&r.y+r.height+pad>q.y);const y0=+t.getAttribute('y');let k=0;while(hit(b)&&k<12){k++;const dy=Math.ceil(k/2)*(b.height+pad)*(k%2?1:-1);t.setAttribute('y',y0+dy);b=t.getBBox()}placed.push(b)}
 function newsWin(){return D.news.filter(inWin)}
 function cItems(c){return newsWin().filter(n=>n.c.includes(c)&&(cur==="all"||n.s===cur))}
 function tone(items){const n=k=>items.filter(x=>x.t===k).length;return n('pos')>n('neg')?'pos':n('neg')>n('pos')?'neg':'mix'}
@@ -75,8 +76,10 @@ function drawFlow(){const zf=base();const act={};for(const n of newsWin()){if(cu
  if(!selC||!act[selC])selC=act.jp?"jp":Object.keys(act)[0]||null;
  for(const c of M.countries){const p=el('path',{d:c.d,class:'ctry'});if(c.iso&&act[c.iso]){p.style.fill=col(tone(act[c.iso]));p.style.opacity=c.iso===selC?1:.7;p.classList.add('hit');p.onclick=()=>{selC=c.iso;render()}}const t=el('title',{},p);t.textContent=NM(c.iso)}
  const defs=el('defs',{});["pos","neg","mix"].forEach(k=>{const m=el('marker',{id:'h'+k,viewBox:'0 0 10 10',refX:8,refY:5,markerWidth:5,markerHeight:5,orient:'auto'},defs);el('path',{d:'M0,0L10,5L0,10z',fill:getComputedStyle(document.documentElement).getPropertyValue('--'+k)},m)});
- for(const a of D.arrows.filter(inWin)){if(cur!=="all"&&a.s!==cur)continue;const A=M.cent[a.f],B=M.cent[a.t];if(!A||!B||!S[a.s])continue;const [d,mx,my]=curve(A,B);
-  el('path',{d,class:'arc',stroke:S[a.s].color,'stroke-width':2.2,'marker-end':`url(#h${a.k})`});if(cur!=="all"&&a.l){const t=el('text',{x:mx,y:my,'text-anchor':'middle',class:'lbl','font-size':12/zf,'stroke-width':3/zf});t.textContent=a.l}}
+ const pc={},placed=[],lbls=[];for(const a of D.arrows.filter(inWin)){if(cur!=="all"&&a.s!==cur)continue;const A=M.cent[a.f],B=M.cent[a.t];if(!A||!B||!S[a.s])continue;const pkey=[a.f,a.t].sort().join('|');const pi=pc[pkey]=(pc[pkey]===undefined?0:pc[pkey]+1);const [d,mx,my,qx,qy]=curve(A,B,pi);
+  el('path',{d,class:'arc',stroke:S[a.s].color,'stroke-width':2.2,'marker-end':`url(#h${a.k})`});if(cur!=="all"&&a.l)lbls.push([a.l,A,B,qx,qy])}
+ const Z=ZM[zoom],mg=Z[2]*.06;const inV=(x,y)=>x>Z[0]+mg&&x<Z[0]+Z[2]-mg&&y>Z[1]+mg*.6&&y<Z[1]+Z[3]-mg*.6;
+ for(const [l,A,B,qx,qy] of lbls){let mx=null,my=null;for(const t0 of [.5,.45,.55,.4,.6,.35,.65,.3,.7,.25,.75,.2,.8,.15,.85,.1,.9]){const u=1-t0,x=u*u*A[0]+2*u*t0*qx+t0*t0*B[0],y=u*u*A[1]+2*u*t0*qy+t0*t0*B[1];if(inV(x,y)){mx=x;my=y;break}}if(mx===null)continue;const t=el('text',{x:mx,y:my,'text-anchor':'middle',class:'lbl','font-size':12/zf,'stroke-width':3/zf});t.textContent=l;{const b=t.getBBox(),r=Z[0]+Z[2]-4/zf,lf=Z[0]+4/zf;if(b.x+b.width>r)t.setAttribute('x',mx-(b.x+b.width-r));else if(b.x<lf)t.setAttribute('x',mx+(lf-b.x))}placeLbl(t,placed,zf)}
  for(const c in act){const C=M.cent[c];if(C)el('image',{href:`flags/${c}.svg`,x:C[0]-8/zf,y:C[1]-6/zf,width:16/zf,height:12/zf})}
  document.getElementById('legend').innerHTML='<span><i style="background:var(--pos)"></i>追い風</span><span><i style="background:var(--neg)"></i>逆風・緊張</span><span><i style="background:var(--mix)"></i>まちまち</span><span>矢印＝お金・モノ・リスクの流れ（流れを選ぶとラベル表示）</span>';
  document.getElementById('pairs').innerHTML="";
