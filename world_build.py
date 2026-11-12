@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""世界の流れ（7本のマクロ潮流）と企業のつながりの蓄積・描画。
+"""世界の流れ（マクロ潮流。本数は streams.json で可変）と企業のつながりの蓄積・描画。
 build_digest.py から呼ばれる:
   merge_world(day_data, outdir) -> streams.json / world_news.json / world_arrows.json / moves.json / world_cos.json を更新
   render_world(outdir)          -> world.html を生成
@@ -9,7 +9,10 @@ day_data.json の追加フィールド（すべて任意）:
   news[i].world = {"s":"<流れid>","c":["jp","us"],"t":"pos|neg|mix"}
   world_arrows  = [["jp","us","<流れid>","pos|neg|mix","ラベル"], ...]
   moves         = [{"k":"inv|ord|ally|fund|exp|conf","a":"主語企業","b":"相手","path":["jp","us"],"t":"内容","amt":"金額","s":"<流れid>|null","note":"任意","date":"任意YYYY-MM-DD"}]
-  streams_delta = {"<流れid>":{"phase":0-4,"why":"フェーズ判定の理由","ind":[["指標","値"]],"branch":"次の分岐点", ...}}
+  streams_delta = {"<流れid>":{"phase":0-4,"why":"フェーズ判定の理由","ind":[["指標","値"]],"branch":"次の分岐点", ...},
+                   "_new":[{"id","name","color","flags","one","mech","hist","qs","kws","phase","why"}],   # 流れの新設
+                   "_retire":{"<流れid>":"廃止・統合の理由"}}                                          # 流れの廃止（履歴は残す）
+  world_fix     = [["YYYY-MM-DD","見出しの先頭一致文字列","<新しい流れid|null>"], ...]               # 過去ニュースの振り分け修正
   co_meta       = {"企業名":{"c":"jp","ind":"業種","code":"証券コード","lens":"動きの見方1文"}}
 """
 import json, os, html, datetime
@@ -83,7 +86,19 @@ def merge_world(d, outdir):
         st = {"streams": json.loads(json.dumps(DEFAULT_STREAMS)), "links": DEFAULT_LINKS}
         for s in st["streams"]: s.update({"phase": 1, "phase_hist": [], "ind": [], "branch": ""})
     byid = {s["id"]: s for s in st["streams"]}
-    for sid, v in (d.get("streams_delta") or {}).items():
+    sd = dict(d.get("streams_delta") or {})
+    for ns in sd.pop("_new", []) or []:
+        if not ns.get("id"): continue
+        if ns["id"] in byid:
+            byid[ns["id"]].update({k: v for k, v in ns.items() if k not in ("phase", "why")}); byid[ns["id"]].pop("retired", None)
+            continue
+        e = {k: v for k, v in ns.items() if k not in ("phase", "why")}
+        e.setdefault("flags", []); e.setdefault("mech", []); e.setdefault("qs", []); e.setdefault("kws", []); e.setdefault("hist", "")
+        e.update({"phase": int(ns.get("phase", 1)), "phase_hist": [{"date": date, "phase": int(ns.get("phase", 1)), "why": ns.get("why", "新設")}], "ind": [], "branch": "", "born": date})
+        st["streams"].append(e); byid[e["id"]] = e
+    for rid, why in (sd.pop("_retire", {}) or {}).items():
+        if rid in byid: byid[rid]["retired"] = date; byid[rid]["retired_why"] = why
+    for sid, v in sd.items():
         s = byid.get(sid)
         if not s: continue
         for k in ("one", "mech", "ind", "branch", "hist", "qs", "flags", "name", "color", "kws"):
@@ -108,6 +123,10 @@ def merge_world(d, outdir):
         wn.append({"date": date, "rank": i, "head": n["head"], "ind": n.get("ind", ""), "s": w.get("s"),
                    "c": [c.lower() for c in w.get("c", [])], "t": w.get("t", "mix"), "summ": n.get("summ", "")[:160]})
         nadd += 1
+    for fx in d.get("world_fix", []) or []:
+        fdt, fh, fs = fx[0], fx[1], fx[2]
+        for x in wn:
+            if x["date"] == fdt and x["head"].startswith(fh): x["s"] = fs; x["fixed"] = date
     wn.sort(key=lambda x: (x["date"], -x.get("rank", 0)))
     _save(outdir, "world_news.json", wn)
 
@@ -150,7 +169,8 @@ def index_teaser(outdir):
     if not st: return ""
     wn = _load(outdir, "world_news.json", [])
     cards = []
-    for s in st["streams"]:
+    act = [s for s in st["streams"] if not s.get("retired")]
+    for s in act:
         ev = [x for x in wn if x.get("s") == s["id"]]
         last = ev[-1] if ev else None
         lt = f'<div class="wt-ev">{flags_html(last["c"][:2], 11)}{esc(last["head"][:40])}{"…" if len(last["head"]) > 40 else ""}</div>' if last else ""
@@ -159,8 +179,8 @@ def index_teaser(outdir):
     css = ('<style>.wt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}.wt-card{display:block;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;text-decoration:none;color:inherit}'
            '.wt-card:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}.wt-h{display:flex;justify-content:space-between;align-items:center;gap:6px;font-weight:700;font-size:14px}.wt-ph{color:#fff;font-size:11px;border-radius:8px;padding:0 7px;font-weight:600;white-space:nowrap}'
            '.wt-f{margin:5px 0}.wt-ev{font-size:12px;color:#475569;line-height:1.5}.wt-cta{display:inline-block;margin-top:12px;font-weight:700}</style>')
-    return f'''<section id="world">{css}<h2><span class="num">🌐</span>世界の流れ（7本の潮流）</h2>
-   <p class="lead">日々のニュースを7本の大きな流れに振り分け、世界地図で「どこで何が起き、どうつながっているか」を追います。企業どうしの出資・受注・提携も国をまたいで記録しています。</p>
+    return f'''<section id="world">{css}<h2><span class="num">🌐</span>世界の流れ（{len(act)}本の潮流）</h2>
+   <p class="lead">日々のニュースを{len(act)}本の大きな流れに振り分け、世界地図で「どこで何が起き、どうつながっているか」を追います。企業どうしの出資・受注・提携も国をまたいで記録しています。</p>
    <div class="wt-grid">{"".join(cards)}</div><a class="wt-cta" href="./world.html">→ 世界地図で見る（流れ／企業のつながり）</a></section>'''
 
 
@@ -197,7 +217,7 @@ def render_world(outdir):
             "arrows": _recent(wa, 30, today) if wa else [], "moves": mv, "cos": cos, "today": today,
             "phases": PHASES, "kinds": KINDS, "stories": stories}
     js = json.dumps(data, ensure_ascii=False)
-    body = WORLD_HTML.replace("/*DATA*/", "window.WD=" + js + ";").replace("{{TODAY}}", esc(today))
+    body = WORLD_HTML.replace("/*DATA*/", "window.WD=" + js + ";").replace("{{TODAY}}", esc(today)).replace("{{NS}}", str(sum(1 for s in st["streams"] if not s.get("retired"))))
     with open(_p(outdir, "world.html"), "w", encoding="utf-8") as f: f.write(body)
     return len(mv)
 
@@ -247,7 +267,7 @@ h2{font-size:17px;margin:28px 0 10px}
 </style></head><body><div class="wrap">
 <div class="home"><a href="./index.html">← ダッシュボードへ戻る</a></div>
 <h1>🌐 世界の流れ</h1>
-<p class="lead">日々のニュースを7本の大きな流れに振り分け、世界のどこで何が起き、どうつながっているかを地図で見ます。最新：{{TODAY}}</p>
+<p class="lead">日々のニュースを{{NS}}本の大きな流れに振り分け、世界のどこで何が起き、どうつながっているかを地図で見ます。最新：{{TODAY}}</p>
 <div class="bar"><div class="seg" id="mode"><button data-m="flow">🌐 流れで見る</button><button data-m="co">🏢 企業のつながりで見る</button></div>
 <div class="seg" id="win"><button data-w="1">きょう</button><button data-w="7">7日</button><button data-w="30">30日</button></div>
 <div class="seg" id="zoom"><button data-z="world">世界</button><button data-z="asia">東アジア</button><button data-z="eu">欧州・中東</button><button data-z="am">米州</button></div></div>
@@ -255,7 +275,7 @@ h2{font-size:17px;margin:28px 0 10px}
 <div class="grid"><div class="card"><svg id="map"></svg><div class="legend" id="legend"></div><div class="pairs" id="pairs"></div></div><div class="card panel" id="panel"></div></div>
 <h2 id="coh">🏢 企業の動き</h2><div class="bar"><input class="search" id="cosearch" placeholder="企業名で絞り込み"></div><div class="chips" id="cochips"></div><div class="card" id="cocard"></div>
 <h2>流れどうしのつながり</h2><div class="links" id="links"></div>
-<h2>7つの流れ</h2><div class="streams" id="streams"></div>
+<h2>{{NS}}本の流れ</h2><div class="streams" id="streams"></div>
 <h2>きょうのニュース</h2><div class="card"><ul class="news" id="news"></ul></div>
 <p class="note">流れ・国・企業の動きは各日のニュース記事に書かれた事実から振り分けています。フェーズは日々の判定で、変化した日と理由を履歴に残します。</p>
 </div>
@@ -343,7 +363,7 @@ function coSection(){const names=Object.keys(D.cos).filter(n=>!coq||n.includes(c
  <div class="cogrid"><div><div class="sec">動きのタイムライン（新しい順）</div><ul class="tl">${tl.map(x=>`<li style="--c:${KK[x.k][1]}"><span class="dt">${md(x.d)}</span><span class="kd" style="background:${KK[x.k][1]}">${KK[x.k][0]}</span>${x.t}</li>`).join("")}</ul></div>
  <div><div class="sec">つながり（線の色＝動きの種類）</div>${cps.length?ego:'<div class="dt">まだ企業どうしの動きの記録がありません</div>'}</div></div>`;bindCo()}
 function chips(){const e=document.getElementById('chips');e.style.display='flex';document.getElementById('kinds').style.display=mode==='co'?'flex':'none';
- e.innerHTML=[`<button class="chip ${cur==='all'?'on':''}" style="${cur==='all'?'background:#334155':''}" data-id="all">すべて</button>`].concat(D.streams.map(s=>`<button class="chip ${cur===s.id?'on':''}" style="${cur===s.id?'background:'+s.color:''}" data-id="${s.id}"><span class="dot" style="background:${cur===s.id?'#fff':s.color}"></span>${s.name}</button>`)).join("");
+ e.innerHTML=[`<button class="chip ${cur==='all'?'on':''}" style="${cur==='all'?'background:#334155':''}" data-id="all">すべて</button>`].concat(D.streams.filter(s=>!s.retired).map(s=>`<button class="chip ${cur===s.id?'on':''}" style="${cur===s.id?'background:'+s.color:''}" data-id="${s.id}"><span class="dot" style="background:${cur===s.id?'#fff':s.color}"></span>${s.name}</button>`)).join("");
  e.querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=b.dataset.id;selC=null;selPair=null;render()});
  document.getElementById('kinds').innerHTML=Object.values(D.kinds).map(k=>`<span class="chip static"><span class="dot" style="background:${k[1]}"></span>${k[0]}</span>`).join("")}
 function segs(){[["mode","m",mode],["win","w",String(win)],["zoom","z",zoom]].forEach(([id,a,v])=>document.querySelectorAll('#'+id+' button').forEach(b=>b.classList.toggle('on',b.dataset[a]===v)))}
@@ -353,7 +373,7 @@ document.querySelectorAll('#win button').forEach(b=>b.onclick=()=>{win=+b.datase
 document.querySelectorAll('#zoom button').forEach(b=>b.onclick=()=>{zoom=b.dataset.z;render()});
 document.getElementById('cosearch').oninput=e=>{coq=e.target.value.trim();coSection()};
 document.getElementById('links').innerHTML=D.links.filter(l=>S[l[0]]&&S[l[1]]).map(l=>`<span class="link"><b style="color:${S[l[0]].color}">${S[l[0]].name}</b> → <b style="color:${S[l[1]].color}">${S[l[1]].name}</b><br><span style="color:var(--sub)">${l[2]}</span></span>`).join("");
-document.getElementById('streams').innerHTML=D.streams.map(s=>{const ev=D.news.filter(n=>n.s===s.id).slice(-5).reverse();const ph=s.phase_hist||[];
+document.getElementById('streams').innerHTML=D.streams.filter(s=>!s.retired).map(s=>{const ev=D.news.filter(n=>n.s===s.id).slice(-5).reverse();const ph=s.phase_hist||[];
  return `<div class="card st" id="s-${s.id}" style="border-top-color:${s.color}"><h3>${s.name}<span>${(s.flags||[]).map(c=>F(c)).join(" ")}</span></h3><p class="one">${s.one}</p>
 <div class="sec">いまのフェーズ</div><div class="phase">${D.phases.map((p,i)=>`<span class="${i===s.phase?'cur':''}" style="${i===s.phase?'background:'+s.color:''}">${p}</span>`).join("")}</div>
 <div class="phh">${ph.length?ph.slice(-3).reverse().map(h=>`${md(h.date)}：${D.phases[h.phase]}${h.why?"（"+h.why+"）":""}`).join("<br>"):""}</div>

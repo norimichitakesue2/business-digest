@@ -361,7 +361,8 @@ def render_index(outdir):
     _sg_cards,_sg_n,_sg_d=_story_cards_html(outdir)
     navcards=f'''<section id="lib"><h2><span class="num">◎</span>ライブラリ</h2><p class="lead">詳しい分析は別ページに集約しています。</p>
    <div class="navcards">
-     <a class="navcard" href="./world.html"><div class="nt">🌐 世界の流れ</div><div class="nd">7本の潮流で世界地図を色分け。国どうし・企業どうしの出資・受注・提携のつながりと、企業ごとの動きのタイムライン。</div><div class="na">世界地図を見る →</div></a>
+     <a class="navcard" href="./world.html"><div class="nt">🌐 世界の流れ</div><div class="nd">マクロの潮流で世界地図を色分け。国どうし・企業どうしの出資・受注・提携のつながりと、企業ごとの動きのタイムライン。</div><div class="na">世界地図を見る →</div></a>
+     <a class="navcard" href="./stocks.html"><div class="nt">📈 株価×ニュース</div><div class="nd">ニュースが出た日の株価の反応（対日経の超過分）と、その後の値動き。銘柄ごとの上振れ・下振れシナリオ。</div><div class="na">株価の動きを見る →</div></a>
      <a class="navcard" href="./sectors.html"><div class="nt">🗺 業界構造マップ</div><div class="nd">分野別のバリューチェーン（上流→下流）と主要企業の結びつき。ノードから関連ニュースへ。</div><div class="na">構造マップを見る →</div></a>
      <a class="navcard" href="./companies.html"><div class="nt">🏢 企業分析ライブラリ</div><div class="nd">登場企業を集約。売上高・PER・PBR・ROE・時価総額＋今後の期待。並べ替え可。</div><div class="na">全{ncomp}社を見る →</div></a>
      <a class="navcard" href="./predictions.html"><div class="nt">🔮 今後の予測マップ</div><div class="nd">「今後起きそうなこと」を確度×時間軸でマッピング。累積一覧つき。</div><div class="na">全{npred}件を見る →</div></a>
@@ -424,9 +425,10 @@ def render_index(outdir):
 <title>ビジネスニュース・ダイジェスト ダッシュボード</title><style>{CSS}{MODAL_CSS}{NAV_CSS}{DLIST_CSS}{SUM_CSS}{OV_CSS}{STORY_CSS}{UPD_CSS}</style></head><body><div class="wrap">
  <header><div class="eyebrow">BUSINESS NEWS — DASHBOARD</div><h1>ビジネスニュース・ダッシュボード</h1>
    <div class="sub">今日の変化・いまの全体像（2026年）・問いで追う掘り下げ・日次ダイジェスト一覧</div>{latest}
-   <nav class="toc"><a href="#today">今日の変化</a><a href="./world.html">🌐 世界の流れ</a><a href="#master">いまの全体像</a><a href="./sectors.html">業界構造マップ</a><a href="#deep">掘り下げ（問い）</a><a href="./updates.html">更新ログ</a><a href="./companies.html">企業分析</a><a href="./predictions.html">今後の予測</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
+   <nav class="toc"><a href="#today">今日の変化</a><a href="./world.html">🌐 世界の流れ</a><a href="./stocks.html">📈 株価×ニュース</a><a href="#master">いまの全体像</a><a href="./sectors.html">業界構造マップ</a><a href="#deep">掘り下げ（問い）</a><a href="./updates.html">更新ログ</a><a href="./companies.html">企業分析</a><a href="./predictions.html">今後の予測</a>{'<a href="#month">月次まとめ</a>' if month_block else ''}<a href="#list">日次一覧</a></nav></header>
  {_today_box(outdir)}
  {WB.index_teaser(outdir) if WB else ""}
+ {SB.index_teaser(outdir) if SB else ""}
  {master_section}
  <section id="deep"><h2><span class="num">2</span>掘り下げ：問いで追う論点（{_sg_n}本・累積{len(deeps)}件）</h2><p class="lead">日々の掘り下げを「問い」ごとに束ねています。最近更新された問いが先頭です。カードをタップすると、いまの見立てと論点の推移を表示します。</p><div class="stgrid">{_sg_cards}</div><div class="home" style="margin-top:12px"><a href="./deepdives.html">→ 検索・全件はこちら</a></div></section>
  {navcards}
@@ -932,7 +934,7 @@ def update_stores(d,outdir):
     # companies.json: accumulate (dedupe by code/name), preserve financial fields
     cp=os.path.join(outdir,"companies.json")
     comps=json.load(open(cp,encoding="utf-8")) if os.path.exists(cp) else []
-    cidx={ (r.get("code") or r.get("name")): r for r in comps }
+    cidx={ (r.get("code") if r.get("code") and r.get("code")!="—" else r.get("name")): r for r in comps }
     cadd=0
     for c in d.get("companies",[]):
         name=canon(c[0]); code=(c[1] if len(c)>1 else "").strip()
@@ -1312,6 +1314,10 @@ try:
     import world_build as WB
 except Exception as _e:
     WB=None
+try:
+    import stocks_build as SB
+except Exception as _e:
+    SB=None
 
 if __name__=="__main__":
     data=json.load(open(sys.argv[1],encoding="utf-8"))
@@ -1321,7 +1327,15 @@ if __name__=="__main__":
     wadd=(0,0)
     if WB:
         wadd=WB.merge_world(data,outdir); _WSM=WB.stream_meta(outdir)
-    open(out,"w",encoding="utf-8").write(render_daily(data))
+    sadd_px=SB.merge_stocks(data,outdir) if SB else (0,0)
+    _html=render_daily(data)
+    if SB:
+        _blk=SB.digest_block(data,outdir)
+        if _blk:
+            if '<section id="company">' in _html: _html=_html.replace('<section id="company">',_blk+'<section id="company">',1)
+            elif '<section id="pred">' in _html: _html=_html.replace('<section id="pred">',_blk+'<section id="pred">',1)
+            _html=_html.replace('<a href="#company">企業分析</a>','<a href="#stock">株価の反応</a><a href="#company">企業分析</a>',1)
+    open(out,"w",encoding="utf-8").write(_html)
     nmf=track_masterflow(data,outdir)
     added,cadd,padd=update_stores(data,outdir)
     st_new,st_as=merge_stories(data,outdir)
@@ -1334,5 +1348,6 @@ if __name__=="__main__":
     nup=render_updates(outdir)
     n,nd,nt=render_index(outdir)
     nmv=WB.render_world(outdir) if WB else 0
+    nstk=SB.render_stocks(outdir) if SB else 0
     smsg=f"{nsec}" + (f" (+{sadd[0]}sec/+{sadd[1]}node/+{sadd[2]}edge)" if any(sadd) else "")
-    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd}) | month {ym} | sectors {smsg} | stories {nst} (+{st_new}new/{st_as}assigned) | masterflow changes {nmf} | updates {nup}days | world news +{wadd[0]} moves {nmv} (+{wadd[1]})")
+    print(f"wrote {out} | index: {n} digests, deepdive {nd} (+{added}), trends {nt} | companies {ncomp} (+{cadd}), predictions {npred} (+{padd}) | month {ym} | sectors {smsg} | stories {nst} (+{st_new}new/{st_as}assigned) | masterflow changes {nmf} | updates {nup}days | world news +{wadd[0]} moves {nmv} (+{wadd[1]}) | stocks {nstk} cards (+{sadd_px[0]}px/{sadd_px[1]}views)")
